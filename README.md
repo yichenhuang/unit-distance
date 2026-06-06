@@ -11,7 +11,7 @@ This repository contains the scripts and AI-generated transcripts/proofs that ac
   - `transcript i.html`: The complete conversation log, including all prompts and the model's autonomous problem-solving process.
   - `proof i.html`: The model's final response containing the proof in its finalized form.
   
-  *Note: These files are obtained by converting the raw model outputs into a more human-readable format. This conversion is purely formatting-based to make the math-heavy raw outputs easier to read, done via `md2html.py` and a fixed piece of code inside `run.py`.*
+  *Note: These files are obtained by converting the raw model outputs into a more human-readable format. This conversion is purely formatting-based to make the math-heavy raw outputs easier to read, done via `md2html.py` and a fixed piece of code inside `run.py`. Because GitHub displays HTML files as plain text by default, please download this repository ("Code" > "Download ZIP") and open the `.html` files in your local web browser to view the properly rendered math.*
 
 ## How to Run
 
