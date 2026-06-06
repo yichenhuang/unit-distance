@@ -1,0 +1,1931 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transcript</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Transcript</h1>
+<h2>System prompt</h2>
+<blockquote><p>The provided theorem was recently proved, and the result is now accepted by the mathematical community. Your task is to independently construct a proof.</p></blockquote>
+<hr>
+<h1>Round 1</h1>
+<h2>User</h2>
+<blockquote><p><strong>Theorem.</strong> There exist an absolute constant $\delta &gt; 0$ and an infinite sequence $\{P_i\}$ of finite point sets in $\mathbb{R}^2$ such that $|P_i| \to \infty$ and $u(P_i) \ge |P_i|^{1+\delta}$ for all $i$, where $u(P_i) = \frac{1}{2} | \{ (p,q) \in P_i \times P_i : \|p-q\|_2 = 1 \} |$ is the number of unit-distance pairs.</p>
+<p><strong>Remark.</strong> This result disproves the Erdős Unit Distance Conjecture.</p>
+<hr>
+<p>As a first step, brainstorm and propose three most promising approaches to prove this theorem. Explore each approach to sufficient depth, and then rank them from most to least promising.</p></blockquote>
+<h2>Assistant</h2>
+<p>Below is how I would organize the search for a proof.  I will use the following common reduction throughout.</p>
+<p>A very useful sufficient condition is:</p>
+<blockquote><p>Find finite \(P\subset \mathbb R^2\) and a large set \(V\subset S^1\) of unit vectors such that, for every \(v\in V\),</p>
+<div class="math-block">\[
+|P\cap (P-v)|\ge c|P|
+\]</div>
+<p>with \(c\) not too small.  Then</p>
+<div class="math-block">\[
+u(P)\ \ge\ \frac12\sum_{v\in V}|P\cap(P-v)|
+\ \ge\ \frac c2 |V||P|.
+\]</div>
+<p>Thus if \(|V|\ge |P|^\delta\), we are done.</p></blockquote>
+<p>So the problem is to build a finite planar set that is simultaneously almost invariant under polynomially many distinct unit translations.  The classical integer-lattice construction does this with \(|V|=|P|^{o(1)}\); to get a fixed power, we need a source of many more unit translations with controlled additive complexity.</p>
+<p>I would pursue the following three approaches.</p>
+<hr>
+<h1>Approach 1 — S-arithmetic / CM-field construction: many norm-one \(S\)-units and adelic Følner boxes</h1>
+<h2>Core idea</h2>
+<p>The usual lattice construction lives in the Gaussian rationals \(\mathbb Q(i)\).  Unit directions are obtained from Gaussian integers:</p>
+<div class="math-block">\[
+\alpha=\frac{z}{\overline z},\qquad |\alpha|=1.
+\]</div>
+<p>If \(z\) has many prime factors \(p_j\equiv 1\pmod 4\), then one gets many directions by choosing different exponent patterns.  The bottleneck is that the rational primes \(p_j\) grow, so the common denominator grows too fast, giving only \(n^{o(1)}\) directions.</p>
+<p>The key idea is to replace \(\mathbb Q(i)\) by a sequence of high-degree CM fields in which a fixed small rational prime \(p\) splits into many prime ideals.  Then one can get exponentially many norm-one \(S\)-units using only denominators above one fixed small prime.  This should give a fixed power gain.</p>
+<p>This is, in my view, the most promising route.</p>
+<hr>
+<h2>Step 1: Choose a CM tower with many small split primes</h2>
+<p>Let \(F_j\) be a sequence of totally real fields with \([F_j:\mathbb Q]=d_j\to\infty\), bounded root discriminant, and such that a fixed rational prime \(p\) splits completely in every \(F_j\).  One way to aim for this is to start with a totally real field with an infinite narrow Hilbert class field tower and with a principal degree-one prime above \(p\); then that prime splits completely throughout the tower.</p>
+<p>Now put</p>
+<div class="math-block">\[
+K_j=F_j(i),
+\]</div>
+<p>choosing \(p\equiv 1\pmod 4\), for instance \(p=5\), so that every prime of \(F_j\) above \(p\) splits further in \(K_j\).  Thus</p>
+<div class="math-block">\[
+p\mathcal O_{F_j}=\mathfrak q_{1}\cdots \mathfrak q_{d_j},
+\]</div>
+<p>and in \(K_j\),</p>
+<div class="math-block">\[
+\mathfrak q_\ell\mathcal O_{K_j}=\mathfrak p_\ell\overline{\mathfrak p}_\ell.
+\]</div>
+<p>The conjugation bar is the CM conjugation.</p>
+<hr>
+<h2>Step 2: Produce exponentially many norm-one \(S\)-units</h2>
+<p>Let \(S_j\) be the set of primes of \(K_j\) above \(p\).  For an exponent vector</p>
+<div class="math-block">\[
+e=(e_1,\dots,e_{d_j})\in [-E,E]^{d_j}\cap \mathbb Z^{d_j},
+\]</div>
+<p>consider the anti-invariant fractional ideal</p>
+<div class="math-block">\[
+\mathfrak a_e
+=
+\prod_{\ell=1}^{d_j}
+\left(\frac{\mathfrak p_\ell}{\overline{\mathfrak p}_\ell}\right)^{e_\ell}.
+\]</div>
+<p>If \(\mathfrak a_e\) is principal, say \(\mathfrak a_e=(\beta_e)\), then</p>
+<div class="math-block">\[
+\alpha_e:=\frac{\beta_e}{\overline{\beta_e}}
+\]</div>
+<p>satisfies</p>
+<div class="math-block">\[
+\alpha_e\overline{\alpha_e}=1.
+\]</div>
+<p>Therefore, under every complex embedding \(\tau:K_j\hookrightarrow \mathbb C\),</p>
+<div class="math-block">\[
+|\tau(\alpha_e)|=1.
+\]</div>
+<p>Even if not every \(\mathfrak a_e\) is principal, one can use a class-group pigeonhole argument.  Since the root discriminants are bounded, class numbers grow at most exponentially:</p>
+<div class="math-block">\[
+h(K_j)\le C^{d_j}
+\]</div>
+<p>for some absolute \(C\).  Choosing \(E\) fixed but large enough so that</p>
+<div class="math-block">\[
+2E+1&gt;C,
+\]</div>
+<p>the number of exponent vectors modulo the class group is still exponential in \(d_j\).  Taking quotients of vectors in the same class yields exponentially many principal anti-invariant ideals, hence exponentially many distinct norm-one \(S\)-units.</p>
+<p>So one expects a set</p>
+<div class="math-block">\[
+\mathcal U_j\subset K_j^\times
+\]</div>
+<p>with</p>
+<ol>
+<li>\(\alpha\overline{\alpha}=1\) for every \(\alpha\in\mathcal U_j\);</li>
+<li>\(\alpha\) is an \(S_j\)-unit with valuations bounded by a fixed constant depending only on \(E\);</li>
+<li><div class="math-block">\[
+|\mathcal U_j|\ge \rho^{d_j}
+\]</div>
+<p>for some fixed \(\rho&gt;1\).</p></li>
+</ol>
+<p>Because \(K_j=F_j(i)\), we can write</p>
+<div class="math-block">\[
+\alpha=x_\alpha+i y_\alpha
+\]</div>
+<p>with \(x_\alpha,y_\alpha\in F_j\).  The identity \(\alpha\overline{\alpha}=1\) becomes</p>
+<div class="math-block">\[
+x_\alpha^2+y_\alpha^2=1
+\]</div>
+<p>inside \(F_j\).  Under the distinguished real embedding \(\sigma:F_j\hookrightarrow \mathbb R\), this gives the Euclidean unit vector</p>
+<div class="math-block">\[
+v_\alpha=(\sigma(x_\alpha),\sigma(y_\alpha))\in S^1.
+\]</div>
+<p>Thus \(\mathcal U_j\) gives exponentially many unit directions in the real plane.</p>
+<hr>
+<h2>Step 3: Build large finite one-dimensional sets stable under all \(x_\alpha,y_\alpha\)</h2>
+<p>We need finite \(A_j\subset F_j\) such that for every \(\alpha\in \mathcal U_j\),</p>
+<div class="math-block">\[
+|A_j\cap(A_j-x_\alpha)|,\ |A_j\cap(A_j-y_\alpha)|
+\]</div>
+<p>are both large.</p>
+<p>A natural choice is an adelic box of \(S\)-integers.  Fix constants \(L,R\), with \(L\) larger than the denominator bound of all \(x_\alpha,y_\alpha\).  Define</p>
+<div class="math-block">\[
+A_j
+=
+\left\{
+a\in F_j:
+\begin{array}{l}
+v_{\mathfrak q}(a)\ge -L \text{ for every } \mathfrak q\mid p,\\
+v_{\mathfrak r}(a)\ge 0 \text{ for every finite } \mathfrak r\nmid p,\\
+|\tau(a)|\le R \text{ for every real embedding } \tau:F_j\hookrightarrow \mathbb R
+\end{array}
+\right\}.
+\]</div>
+<p>This is finite.  By geometry-of-numbers estimates for adelic boxes, because the root discriminants of \(F_j\) are bounded and \(p\) splits completely,</p>
+<div class="math-block">\[
+|A_j|\asymp B^{d_j}
+\]</div>
+<p>for some fixed \(B&gt;1\), depending on \(p,L,R\), but not on \(j\).</p>
+<p>Now, because \(x_\alpha,y_\alpha\) have bounded denominators at primes above \(p\) and are integral elsewhere, the \(p\)-adic conditions are stable under translation by \(x_\alpha,y_\alpha\).  Also, because</p>
+<div class="math-block">\[
+\tau(x_\alpha)^2+\tau(y_\alpha)^2=1
+\]</div>
+<p>for every real embedding \(\tau\), we have</p>
+<div class="math-block">\[
+|\tau(x_\alpha)|,\ |\tau(y_\alpha)|\le 1.
+\]</div>
+<p>Therefore, if \(a\in A_j\) lies away from the archimedean boundary, then \(a+x_\alpha\in A_j\), and similarly for \(y_\alpha\).</p>
+<p>Quantitatively, for \(R\) sufficiently large one should get</p>
+<div class="math-block">\[
+|A_j\cap(A_j-x_\alpha)|\ge \lambda^{d_j}|A_j|,
+\]</div>
+<p>and similarly for \(y_\alpha\), with \(\lambda\in(0,1)\) as close to \(1\) as desired by increasing \(R\).</p>
+<hr>
+<h2>Step 4: Form the planar point set and count unit distances</h2>
+<p>Let</p>
+<div class="math-block">\[
+P_j=\sigma(A_j)\times \sigma(A_j)\subset \mathbb R^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|P_j|=|A_j|^2\asymp B^{2d_j}.
+\]</div>
+<p>For each \(\alpha\in\mathcal U_j\), the vector</p>
+<div class="math-block">\[
+v_\alpha=(\sigma(x_\alpha),\sigma(y_\alpha))
+\]</div>
+<p>has length \(1\).  Moreover,</p>
+<div class="math-block">\[
+|P_j\cap(P_j-v_\alpha)|
+=
+|A_j\cap(A_j-x_\alpha)|\cdot |A_j\cap(A_j-y_\alpha)|
+\ge
+\lambda^{2d_j}|A_j|^2.
+\]</div>
+<p>Summing over \(\alpha\in\mathcal U_j\), and losing only a harmless factor to account for opposite directions, gives</p>
+<div class="math-block">\[
+u(P_j)
+\ge
+c\,|\mathcal U_j|\,\lambda^{2d_j}|A_j|^2
+\ge
+c\,(\rho\lambda^2)^{d_j}|P_j|.
+\]</div>
+<p>Choose \(R\) large enough so that \(\rho\lambda^2&gt;1\).  Since</p>
+<div class="math-block">\[
+|P_j|\asymp B^{2d_j},
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+(\rho\lambda^2)^{d_j}
+=
+|P_j|^\delta
+\]</div>
+<p>for</p>
+<div class="math-block">\[
+\delta
+=
+\frac{\log(\rho\lambda^2)}{2\log B}&gt;0.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+u(P_j)\ge c|P_j|^{1+\delta}.
+\]</div>
+<p>This is already essentially a proof blueprint.</p>
+<hr>
+<h2>Main technical tasks</h2>
+<p>The hard parts to make rigorous are:</p>
+<ol>
+<li><p><strong>Field tower selection.</strong> Need a sequence of totally real fields \(F_j\) with bounded root discriminant and a fixed prime \(p\) splitting completely.  Class field tower constructions should be the natural tool.</p></li>
+<li><p><strong>Counting norm-one \(S\)-units.</strong> One must prove that the anti-invariant \(S\)-unit group supplies at least \(\rho^{d_j}\) distinct elements with uniformly bounded \(p\)-adic denominator exponents.  The class-group pigeonhole argument should handle the non-principal ideal issue.</p></li>
+<li><p><strong>Uniform adelic box estimates.</strong> Need lower and upper bounds</p>
+<div class="math-block">\[
+|A_j|\asymp B^{d_j}
+\]</div>
+<p>and uniform overlap estimates under translations by \(x_\alpha,y_\alpha\).</p></li>
+<li><p><strong>Collision control.</strong> Distinct \(\alpha\)'s should yield distinct Euclidean unit directions except for the obvious \(\alpha\leftrightarrow \alpha^{-1}\) symmetry.  This is manageable because the distinguished embedding is injective on \(K_j\).</p></li>
+</ol>
+<hr>
+<h2>Why this is my top-ranked approach</h2>
+<p>This approach directly generalizes the classical Gaussian-integer construction, but it avoids the classical bottleneck by replacing many growing rational primes with many prime ideals of one fixed small norm.  It also naturally gives the exact unit equation \(x^2+y^2=1\), not merely an approximate one.</p>
+<p>The expected exponent \(\delta\) may be tiny, but it is absolute and positive, which is all the theorem requires.</p>
+<hr>
+<h1>Approach 2 — Finite-field unit graphs and S-arithmetic lifting</h1>
+<h2>Core idea</h2>
+<p>Over a finite field \(\mathbb F_q\), the unit-distance graph in \(\mathbb F_q^2\) is extremely dense.  Let</p>
+<div class="math-block">\[
+U_q=\{(a,b)\in\mathbb F_q^2:a^2+b^2=1\}.
+\]</div>
+<p>For odd \(q\), \(|U_q|=q+O(1)\).  The Cayley graph on \(\mathbb F_q^2\) with generating set \(U_q\) has</p>
+<div class="math-block">\[
+N=q^2
+\]</div>
+<p>vertices and roughly</p>
+<div class="math-block">\[
+\frac12 q^2|U_q|\sim \frac12 q^3
+=
+\frac12 N^{3/2}
+\]</div>
+<p>edges.</p>
+<p>This is far denser than what is possible in the real plane, where crossing-lemma arguments give \(O(n^{4/3})\).  So one cannot hope to lift the full finite-field graph.  But the finite-field graph can serve as a combinatorial template.  One can thin it to a crossing-compatible density and then try to lift the surviving structure to \(\mathbb R^2\).</p>
+<hr>
+<h2>A possible thinning regime</h2>
+<p>Take a random subset of vertices of density \(q^{-a}\).  Then the expected number of vertices is</p>
+<div class="math-block">\[
+n\sim q^{2-a},
+\]</div>
+<p>and the expected number of inherited unit edges is</p>
+<div class="math-block">\[
+m\sim q^{3-2a}.
+\]</div>
+<p>The resulting exponent is</p>
+<div class="math-block">\[
+\frac{\log m}{\log n}
+=
+\frac{3-2a}{2-a}.
+\]</div>
+<p>For example, taking \(a=3/4\) gives</p>
+<div class="math-block">\[
+n\sim q^{5/4},\qquad m\sim q^{3/2},
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+m\sim n^{6/5}.
+\]</div>
+<p>This would already give \(\delta=1/5\), safely below the \(4/3\) crossing-lemma barrier.</p>
+<p>Thus one can aim to lift not the full finite-field graph, but a structured subgraph with degree \(q^{\theta}\) for some \(\theta&gt;0\).</p>
+<hr>
+<h2>Lifting philosophy</h2>
+<p>The finite-field construction is additive: vertices are elements of \(\mathbb F_q^2\), and edges are translations by elements of \(U_q\).  To lift it to the real plane, we need a characteristic-zero model where many finite-field unit directions become genuine Euclidean unit vectors.</p>
+<p>A good way to do this is through norm-one tori.</p>
+<p>For example, identify \(\mathbb F_q^2\) with \(\mathbb F_{q^2}\).  The finite-field unit circle is essentially the norm-one group</p>
+<div class="math-block">\[
+T_q=\{z\in\mathbb F_{q^2}^\times:N_{\mathbb F_{q^2}/\mathbb F_q}(z)=1\},
+\]</div>
+<p>which has \(q+1\) elements.</p>
+<p>One then tries to lift \(T_q\) to a characteristic-zero norm-one torus in a CM field.  This is very close in spirit to Approach 1.  The elements of the finite-field norm-one torus should lift to norm-one \(S\)-units</p>
+<div class="math-block">\[
+\alpha\overline \alpha=1
+\]</div>
+<p>in a CM field, which then give genuine Euclidean unit vectors after taking real and imaginary parts.</p>
+<p>The vertices can be lifted to an adelic box or \(p\)-adic digit box, chosen so that translations by many lifted unit directions preserve a large fraction of the box.</p>
+<hr>
+<h2>More algebraic formulation</h2>
+<p>A finite-field unit graph can be written as a system of equations</p>
+<div class="math-block">\[
+p_v-p_w\in U_q.
+\]</div>
+<p>A lift would require assigning characteristic-zero points \(P_v\in \mathbb R^2\) and unit vectors \(u_e\in S^1\) such that</p>
+<div class="math-block">\[
+P_w-P_v=u_e
+\]</div>
+<p>for each edge \(e=(v,w)\), and all cycle sums vanish:</p>
+<div class="math-block">\[
+\sum_{e\in C}\pm u_e=0.
+\]</div>
+<p>The finite-field graph gives these equations modulo \(p\).  One wants a structured situation where these modular cycle identities lift to exact real identities.  There are several possible mechanisms:</p>
+<ol>
+<li><p><strong>Teichmüller / \(S\)-unit lifting.</strong> Lift finite-field norm-one elements to \(p\)-adic or \(S\)-unit norm-one elements in a CM field, then use a distinguished complex embedding.</p></li>
+<li><p><strong>Tropical / Puiseux lifting.</strong> Construct the configuration first over a real closed non-Archimedean field, using valuation data to mimic finite-field arithmetic.  Then apply Tarski transfer to obtain a real configuration.</p></li>
+<li><p><strong>Rigid algebraic lifting.</strong> Choose a carefully structured subgraph whose cycle equations are not independent but come from a low-rank algebraic group.  Then use an implicit-function or Hensel-type argument to lift the solution.</p></li>
+</ol>
+<hr>
+<h2>Expected edge count</h2>
+<p>Suppose one obtains a lifted real configuration with</p>
+<div class="math-block">\[
+n\asymp q^\beta
+\]</div>
+<p>vertices and average degree</p>
+<div class="math-block">\[
+d_{\mathrm{avg}}\asymp q^\gamma
+\]</div>
+<p>for some \(\gamma&gt;0\).  Then</p>
+<div class="math-block">\[
+u(P)\asymp n q^\gamma
+=
+n^{1+\gamma/\beta}.
+\]</div>
+<p>Thus any positive ratio \(\gamma/\beta\) gives the desired theorem.</p>
+<p>The finite-field graphs naturally have \(\gamma\) comparable to \(1\), so even after substantial thinning or loss during lifting, there should be room to keep a positive exponent.</p>
+<hr>
+<h2>Main technical tasks</h2>
+<ol>
+<li><p><strong>Avoid the real-solvability trap.</strong> A polynomial system having finite-field solutions does not automatically have real solutions.  The lifting must preserve the positive-definite Euclidean equation</p>
+<div class="math-block">\[
+x^2+y^2=1
+\]</div>
+<p>over an ordered field or through a CM embedding.</p></li>
+<li><p><strong>Control representatives.</strong> If vertices are lifted from a finite quotient, one must ensure that differences of chosen representatives are exactly the desired unit vectors, not merely congruent to them modulo a lattice.</p></li>
+<li><p><strong>Respect the crossing bound.</strong> The full finite-field unit graph is too dense for the real plane.  One must thin it or use a graph family whose density is at most \(n^{4/3}\).</p></li>
+<li><p><strong>Prevent collisions.</strong> Distinct lifted vertices must remain distinct in \(\mathbb R^2\).</p></li>
+</ol>
+<hr>
+<h2>Why this is promising but ranked second</h2>
+<p>Finite-field unit graphs provide the right combinatorial objects: they have many unit directions and the same “two unit circles meet in at most two points” flavor as the Euclidean plane.  However, the passage from finite-field incidence to exact real Euclidean distance is delicate.  The lifting issues are substantial.</p>
+<p>Still, this approach is useful because it can guide the S-arithmetic construction in Approach 1.  In fact, Approach 1 can be interpreted as a carefully controlled characteristic-zero lift of finite-field norm-one tori.</p>
+<hr>
+<h1>Approach 3 — Rotationally symmetric layered constructions using many compatible radii</h1>
+<h2>Core idea</h2>
+<p>Build \(P\) as a union of regular \(M\)-gons on many concentric circles.  Let</p>
+<div class="math-block">\[
+\Omega_M=\{e^{2\pi i k/M}:0\le k&lt;M\}.
+\]</div>
+<p>For a set of radii \(R\subset \mathbb R_{&gt;0}\), define</p>
+<div class="math-block">\[
+P=P(M,R):=\bigcup_{r\in R} r\Omega_M.
+\]</div>
+<p>If \(r,s\in R\), then a point on the circle of radius \(r\) and a point on the circle of radius \(s\) are at distance \(1\) exactly when the angle gap \(\theta\) satisfies</p>
+<div class="math-block">\[
+r^2+s^2-2rs\cos\theta=1.
+\]</div>
+<p>Thus the pair \((r,s)\) is compatible with the \(M\)-fold symmetry if</p>
+<div class="math-block">\[
+\frac{r^2+s^2-1}{2rs}
+\in
+\left\{
+\cos\frac{2\pi a}{M}:a\in\mathbb Z
+\right\}.
+\]</div>
+<p>Whenever \((r,s)\) is compatible, the two corresponding \(M\)-gons contribute \(\gg M\) unit distances.</p>
+<p>So the problem becomes:</p>
+<blockquote><p>Find \(M\) and a large radius set \(R\) such that the compatibility graph \(H\) on \(R\), where \(r\sim s\) if the above condition holds, has many edges.</p></blockquote>
+<p>If \(|R|=t\) and \(H\) has \(E(H)\) edges, then</p>
+<div class="math-block">\[
+|P|\asymp Mt,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P)\gg M E(H).
+\]</div>
+<p>Thus if \(E(H)\gg t^{1+\varepsilon}\) and \(t\) is a fixed power of \(M\), we get a power saving over linear.</p>
+<p>For example, if \(H\) is dense, \(E(H)\asymp t^2\), and \(t=M^\beta\), then</p>
+<div class="math-block">\[
+|P|\asymp M^{1+\beta},
+\]</div>
+<p>while</p>
+<div class="math-block">\[
+u(P)\gg M^{1+2\beta}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P)\gg |P|^{1+\delta}
+\]</div>
+<p>with</p>
+<div class="math-block">\[
+\delta=\frac{\beta}{1+\beta}.
+\]</div>
+<p>So even a moderately dense compatibility graph would prove the theorem.</p>
+<hr>
+<h2>How one might find many compatible radii</h2>
+<p>The compatibility condition is a law-of-cosines equation:</p>
+<div class="math-block">\[
+r^2+s^2-2rs c=1,
+\qquad
+c=\cos\frac{2\pi a}{M}.
+\]</div>
+<p>This suggests several possible algebraic parametrizations.</p>
+<h3>1. Chebyshev/cyclotomic identities</h3>
+<p>If radii are expressed using Chebyshev values, such as</p>
+<div class="math-block">\[
+r_m=\frac{\sin(m\theta)}{\sin\theta},
+\]</div>
+<p>then law-of-cosines identities become exact trigonometric identities.  For example,</p>
+<div class="math-block">\[
+r_m^2+r_{m+1}^2-2r_mr_{m+1}\cos\theta=1.
+\]</div>
+<p>This gives many compatible adjacent pairs.  The challenge is to make the compatibility graph genuinely superlinear, not merely a path-like graph.</p>
+<p>One would look for richer Chebyshev identities where many pairs \((m,n)\) yield distance \(1\) for allowed angle labels.</p>
+<h3>2. Norm-one torus parametrization</h3>
+<p>Let \(\alpha\) be a norm-one element in a CM field, so that \(|\sigma(\alpha)|=1\).  Its real part is a cosine:</p>
+<div class="math-block">\[
+\frac{\alpha+\alpha^{-1}}2=\cos\theta.
+\]</div>
+<p>The compatibility equation becomes algebraic in \(\alpha\).  One can attempt to choose radii \(r_\xi\) indexed by \(S\)-units \(\xi\), with edge labels also coming from norm-one \(S\)-units.  Then the law-of-cosines condition may reduce to multiplicative identities in an \(S\)-unit group.</p>
+<p>This is again related to Approach 1, but the geometric output would be more visually explicit: many concentric regular polygons with many cross-layer unit distances.</p>
+<h3>3. Finite-field label graphs</h3>
+<p>One can choose a dense graph \(G\) on labels and assign to each edge \(ij\) a residue \(a_{ij}\in\mathbb Z/M\).  The goal is to solve</p>
+<div class="math-block">\[
+r_i^2+r_j^2-2r_ir_j\cos\frac{2\pi a_{ij}}M=1
+\]</div>
+<p>for many vertices \(i\).</p>
+<p>If the labels \(a_{ij}\) come from an additive rule, such as</p>
+<div class="math-block">\[
+a_{ij}=b_i-b_j,
+\]</div>
+<p>then the system has extra structure and may become solvable through trigonometric parametrizations.</p>
+<hr>
+<h2>Why this is attractive</h2>
+<p>This approach has an extremely transparent edge count.  Once one has a radius set \(R\) with a dense compatibility graph, the construction of \(P\) and the unit-distance count are immediate.</p>
+<p>It also respects the crossing-lemma upper bound naturally: by tuning \(t\) relative to \(M\), one can aim for any exponent below \(4/3\).</p>
+<hr>
+<h2>Main technical obstacles</h2>
+<ol>
+<li><p><strong>Dense compatibility is overdetermined.</strong> Requiring a law-of-cosines identity for many pairs of radii imposes many equations on only \(t\) unknowns.</p></li>
+<li><p><strong>Cyclotomic constructions alone likely give too few identities.</strong> If \(R\) is built only from ordinary regular-polygon chord lengths, exact unit identities reduce to vanishing sums of roots of unity, which tend to be too sparse.  One needs a richer algebraic source, probably again involving \(S\)-units or high-degree fields.</p></li>
+<li><p><strong>Need to control duplicate points.</strong> Different radii should not collapse, and the \(M\)-gons should not overlap in unexpected ways.</p></li>
+</ol>
+<hr>
+<h2>Why ranked third</h2>
+<p>This is a very clean geometric route, but the hard algebraic part is hidden inside the construction of a dense compatibility graph on the radii.  It may ultimately be a good way to present a construction once the algebraic identities are known, but as a proof-discovery strategy it seems less direct than the S-arithmetic construction.</p>
+<hr>
+<h1>Ranking</h1>
+<h2>1. CM \(S\)-unit + adelic box construction</h2>
+<p>This is the most promising.  It directly targets the needed sufficient condition: many unit vectors under which a finite set is almost invariant.  The number-field mechanism plausibly gives exponentially many directions in degree \(d\), while the point set has size only exponentially large in \(d\), yielding a fixed power.</p>
+<p>The crucial conceptual gain is replacing the growing rational primes in the classical Gaussian construction by many prime ideals of one fixed small norm in high-degree fields.</p>
+<hr>
+<h2>2. Finite-field unit graphs plus real/S-arithmetic lifting</h2>
+<p>This is also promising, especially as a source of templates.  Finite-field unit graphs already have the right combinatorial density.  The main challenge is the lifting step: one must preserve the positive-definite real equation \(x^2+y^2=1\) exactly.  The best lifting mechanism likely collapses back into the CM \(S\)-unit framework of Approach 1.</p>
+<hr>
+<h2>3. Rotationally symmetric layered construction</h2>
+<p>This has the cleanest geometric edge count and may be useful for exposition or optimization.  However, finding a large radius set with a dense compatibility graph is a difficult algebraic constraint.  I would keep this as a secondary route or as a possible geometric reformulation of the \(S\)-unit construction.</p>
+<hr>
+<h1>Next step I would take</h1>
+<p>I would try to turn Approach 1 into two precise lemmas:</p>
+<ol>
+<li><p><strong>Norm-one \(S\)-unit lemma.</strong> There exist CM fields \(K_j=F_j(i)\) with \([F_j:\mathbb Q]\to\infty\) and sets \(\mathcal U_j\) of norm-one \(S\)-units such that</p>
+<div class="math-block">\[
+|\mathcal U_j|\ge \rho^{[F_j:\mathbb Q]}
+\]</div>
+<p>and all local denominators are uniformly bounded.</p></li>
+<li><p><strong>Adelic Følner box lemma.</strong> For each \(F_j\), there exists \(A_j\subset F_j\) with</p>
+<div class="math-block">\[
+|A_j|\asymp B^{[F_j:\mathbb Q]}
+\]</div>
+<p>and such that every coordinate \(x_\alpha,y_\alpha\) coming from \(\alpha\in\mathcal U_j\) satisfies</p>
+<div class="math-block">\[
+|A_j\cap(A_j-x_\alpha)|,\ |A_j\cap(A_j-y_\alpha)|
+\ge
+\lambda^{[F_j:\mathbb Q]}|A_j|.
+\]</div></li>
+</ol>
+<p>If these two lemmas are established with \(\rho\lambda^2&gt;1\), then the theorem follows immediately by taking</p>
+<div class="math-block">\[
+P_j=\sigma(A_j)\times\sigma(A_j)\subset \mathbb R^2.
+\]</div>
+<p>That is the route I would prioritize.</p>
+<hr>
+<h1>Round 2</h1>
+<h2>User</h2>
+<blockquote><p>Thoroughly develop your top-ranked approach to construct a complete and rigorous proof, adapting your strategy as needed.</p></blockquote>
+<h2>Assistant</h2>
+<p>Below is a complete development of the CM/\(S\)-unit strategy.  I will keep all constants explicit enough to see where the positive exponent comes from.  The proof is not optimized; the resulting \(\delta\) is extremely small, but it is absolute and positive.</p>
+<p>The proof has four main ingredients:</p>
+<ol>
+<li>a totally real class-field tower in which a fixed prime \(p\equiv 1 \pmod 4\) splits completely;</li>
+<li>a bounded-root-discriminant class-number bound;</li>
+<li>a construction of exponentially many norm-one \(S\)-units in \(F(i)\);</li>
+<li>a finite “adelic/archimedean box” \(A\subset F\) that is almost invariant under all the corresponding coordinate translations.</li>
+</ol>
+<p>Throughout, \(u(P)\) denotes the number of unordered unit-distance pairs, so \(2u(P)\) is the number of ordered unit-distance pairs.</p>
+<hr>
+<h1>1. A totally real tower with one fixed split prime</h1>
+<p>We first need the following standard consequence of the Golod–Shafarevich class-field-tower method.</p>
+<h2>Lemma 1 — Totally real tower with prescribed splitting</h2>
+<p>There exist a prime \(p\equiv 1 \pmod 4\), a constant \(\Delta&gt;0\), and an infinite sequence of totally real number fields</p>
+<div class="math-block">\[
+F_1,F_2,\dots
+\]</div>
+<p>such that, writing \(d_i=[F_i:\mathbb Q]\),</p>
+<ol>
+<li>\(d_i\to\infty\);</li>
+<li>\(p\) splits completely in every \(F_i\);</li>
+<li><p>\(\operatorname{rd}(F_i)\le \Delta\) for every \(i\), where</p>
+<div class="math-block">\[
+\operatorname{rd}(F)=|D_F|^{1/[F:\mathbb Q]}
+\]</div>
+<p>is the root discriminant.</p></li>
+</ol>
+<h3>Proof</h3>
+<p>We take \(p=5\).</p>
+<p>Choose \(t=20\) distinct rational primes</p>
+<div class="math-block">\[
+q_1,\dots,q_t\equiv 1 \pmod {20}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+m=q_1q_2\cdots q_t,
+\qquad
+F_0=\mathbb Q(\sqrt m).
+\]</div>
+<p>Since \(m\equiv 1\pmod 4\), the discriminant of \(F_0\) is \(m\).  The field \(F_0\) is real quadratic.  Also, because each \(q_j\equiv 1\pmod 5\), the integer \(m\) is a square modulo \(5\), so \(5\) splits in \(F_0\).  Let \(T\) be the set of the two primes of \(F_0\) above \(5\).</p>
+<p>Let \(F_0^{T,+}(2)\) denote the maximal pro-\(2\) extension of \(F_0\) that is unramified at all finite primes and in which every real place of \(F_0\), and also every prime in \(T\), splits completely.  Let</p>
+<div class="math-block">\[
+G=\operatorname{Gal}(F_0^{T,+}(2)/F_0).
+\]</div>
+<p>We use the standard marked Golod–Shafarevich criterion.  In the present setting it says:</p>
+<blockquote><p>Let \(K\) be a number field and \(T\) a finite set of finite primes.  Let \(G_T^+(K,2)\) be the Galois group of the maximal pro-\(2\) extension of \(K\) unramified at finite primes and split at the real places and at all primes in \(T\).  Let</p>
+<div class="math-block">\[
+d=\dim_{\mathbb F_2}\mathrm{Cl}_T^+(K)/2\mathrm{Cl}_T^+(K),
+\]</div>
+<p>where \(\mathrm{Cl}_T^+(K)\) is the narrow class group modulo the subgroup generated by the primes in \(T\).  Then \(G_T^+(K,2)\) has generator rank \(d\), and its relation rank \(r\) satisfies</p>
+<div class="math-block">\[
+r\le d+r_1(K)+r_2(K)+|T|+1.
+\]</div>
+<p>If \(G_T^+(K,2)\) is finite, the Golod–Shafarevich inequality gives</p>
+<div class="math-block">\[
+r&gt;\frac{d^2}{4}.
+\]</div></blockquote>
+<p>For our real quadratic field \(F_0\), we have \(r_1(F_0)=2\), \(r_2(F_0)=0\), and \(|T|=2\).  Hence the relation-rank bound is</p>
+<div class="math-block">\[
+r\le d+5.
+\]</div>
+<p>By genus theory for quadratic fields, since the discriminant of \(F_0\) is a product of \(t=20\) distinct positive prime discriminants, the narrow class group has \(2\)-rank</p>
+<div class="math-block">\[
+\dim_{\mathbb F_2}\mathrm{Cl}^+(F_0)/2\mathrm{Cl}^+(F_0)=t-1=19.
+\]</div>
+<p>Passing to the \(T\)-marked class group can reduce the \(2\)-rank by at most \(|T|=2\).  Therefore</p>
+<div class="math-block">\[
+d\ge 19-2=17.
+\]</div>
+<p>But for \(d\ge 17\),</p>
+<div class="math-block">\[
+d+5&lt;\frac{d^2}{4}.
+\]</div>
+<p>Thus \(G\) cannot be finite.  Therefore \(F_0^{T,+}(2)/F_0\) is infinite.</p>
+<p>Choose a sequence of finite subextensions</p>
+<div class="math-block">\[
+F_0\subset F_1\subset F_2\subset\cdots\subset F_0^{T,+}(2)
+\]</div>
+<p>with \([F_i:F_0]\to\infty\).</p>
+<p>Each \(F_i\) is totally real because the real places split completely.  Each \(F_i/F_0\) is unramified at finite primes, so the root discriminant is constant:</p>
+<div class="math-block">\[
+\operatorname{rd}(F_i)=\operatorname{rd}(F_0)=m^{1/2}.
+\]</div>
+<p>Finally, the two primes of \(F_0\) above \(5\) split completely in every \(F_i\).  Since \(5\) already splits in \(F_0\), it follows that \(5\) splits completely in every \(F_i\).</p>
+<p>Thus the lemma holds with</p>
+<div class="math-block">\[
+p=5,
+\qquad
+\Delta=\operatorname{rd}(F_0)=m^{1/2}.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h1>2. A uniform class-number bound</h1>
+<p>We will later apply this to \(K_i=F_i(i)\).</p>
+<h2>Lemma 2 — Class numbers in bounded-root-discriminant families</h2>
+<p>For every \(R&gt;0\), there exists a constant \(C_{\mathrm{cl}}(R)&gt;0\) such that every number field \(L\) with</p>
+<div class="math-block">\[
+\operatorname{rd}(L)\le R
+\]</div>
+<p>satisfies</p>
+<div class="math-block">\[
+h(L)\le C_{\mathrm{cl}}(R)^{[L:\mathbb Q]}.
+\]</div>
+<h3>Proof</h3>
+<p>Let \(n=[L:\mathbb Q]\).  By Minkowski’s ideal-class theorem, every ideal class contains an integral ideal \(\mathfrak a\) with</p>
+<div class="math-block">\[
+N\mathfrak a
+\le
+\left(\frac{4}{\pi}\right)^{r_2}
+\frac{n!}{n^n}
+\sqrt{|D_L|}.
+\]</div>
+<p>Since \(r_2\le n/2\), \(n!/n^n\le 1\), and \(|D_L|^{1/n}\le R\), this gives</p>
+<div class="math-block">\[
+N\mathfrak a
+\le
+\left(\left(\frac{4}{\pi}\right)^{1/2}R^{1/2}\right)^n.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+M_R=\max\left(2,\left(\frac{4}{\pi}\right)^{1/2}R^{1/2}\right).
+\]</div>
+<p>So every ideal class contains an integral ideal of norm at most \(M_R^n\).</p>
+<p>We next bound the number of ideals of norm at most \(M_R^n\).  For \(X\ge 1\),</p>
+<div class="math-block">\[
+\#\{\mathfrak a\subseteq \mathcal O_L:N\mathfrak a\le X\}
+\le
+X^2\zeta_L(2).
+\]</div>
+<p>Moreover,</p>
+<div class="math-block">\[
+\zeta_L(2)\le \zeta(2)^n.
+\]</div>
+<p>Indeed, at every rational prime \(\ell\), the Euler factor of \(\zeta_L(s)\) is at most \((1-\ell^{-s})^{-n}\).</p>
+<p>Taking \(X=M_R^n\), we get</p>
+<div class="math-block">\[
+h(L)
+\le
+M_R^{2n}\zeta(2)^n
+=
+\bigl(M_R^2\zeta(2)\bigr)^n.
+\]</div>
+<p>Thus one may take</p>
+<div class="math-block">\[
+C_{\mathrm{cl}}(R)=M_R^2\zeta(2).
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h1>3. A counting lemma for denominator boxes in totally real fields</h1>
+<p>Let \(F\) be totally real of degree \(d\).  For an integer \(Q\ge 1\) and \(R&gt;0\), define</p>
+<div class="math-block">\[
+A_F(R;Q)
+=
+\left\{
+a\in Q^{-1}\mathcal O_F:
+|\tau(a)|\le R
+\text{ for every real embedding }
+\tau:F\hookrightarrow \mathbb R
+\right\}.
+\]</div>
+<p>We will mostly use \(R=1,2\).</p>
+<h2>Lemma 3 — Box count and overlap supply</h2>
+<p>Suppose \(F\) is totally real of degree \(d\) and</p>
+<div class="math-block">\[
+\operatorname{rd}(F)\le \Delta.
+\]</div>
+<p>Then, for every integer \(Q\ge 1\) and every \(R&gt;0\),</p>
+<div class="math-block">\[
+|A_F(R;Q)|
+\ge
+\left(\frac{RQ}{\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+|A_F(2;Q)|
+\le
+(4Q+3)^d.
+\]</div>
+<p>Consequently,</p>
+<div class="math-block">\[
+\frac{|A_F(1;Q)|}{|A_F(2;Q)|}
+\ge
+\left(\frac{1}{7\sqrt{\Delta}}\right)^d.
+\]</div>
+<h3>Proof</h3>
+<p>Embed \(F\) into \(\mathbb R^d\) by the Minkowski embedding</p>
+<div class="math-block">\[
+\Phi:F\hookrightarrow \mathbb R^d,
+\qquad
+a\mapsto (\tau(a))_{\tau:F\hookrightarrow \mathbb R}.
+\]</div>
+<p>The image of \(Q^{-1}\mathcal O_F\) is a lattice of covolume</p>
+<div class="math-block">\[
+\operatorname{covol}\bigl(\Phi(Q^{-1}\mathcal O_F)\bigr)
+=
+Q^{-d}\sqrt{|D_F|}
+\le
+Q^{-d}\Delta^{d/2}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+B_R=[-R,R]^d.
+\]</div>
+<p>A standard van der Corput lattice-point lower bound says that for every symmetric convex body \(K\subset \mathbb R^d\) and every lattice \(\Lambda\),</p>
+<div class="math-block">\[
+|K\cap\Lambda|
+\ge
+\frac{\operatorname{vol}(K)}{2^d\operatorname{covol}(\Lambda)}.
+\]</div>
+<p>For completeness, here is the short proof: averaging over a fundamental domain shows that some translate of \(\frac12K\) contains at least \(\operatorname{vol}(K)/(2^d\operatorname{covol}(\Lambda))\) lattice points; subtracting one of them from all the others produces at least that many lattice points inside \(K\).</p>
+<p>Applying this with \(K=B_R\), whose volume is \((2R)^d\), gives</p>
+<div class="math-block">\[
+|A_F(R;Q)|
+=
+|B_R\cap \Phi(Q^{-1}\mathcal O_F)|
+\ge
+\frac{(2R)^d}{2^d Q^{-d}\sqrt{|D_F|}}
+=
+\frac{(RQ)^d}{\sqrt{|D_F|}}
+\ge
+\left(\frac{RQ}{\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>Now we prove the upper bound for \(A_F(2;Q)\).  Partition each interval \([-2,2]\) into at most \(4Q+3\) half-open intervals of length \(&lt;1/Q\).  This partitions \([-2,2]^d\) into at most \((4Q+3)^d\) boxes.</p>
+<p>We claim each such box contains at most one point of \(\Phi(Q^{-1}\mathcal O_F)\).  Indeed, suppose \(a,b\in Q^{-1}\mathcal O_F\) are distinct and lie in the same box.  Then for every embedding \(\tau\),</p>
+<div class="math-block">\[
+|\tau(a-b)|&lt;\frac1Q.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+|N_{F/\mathbb Q}(a-b)|
+=
+\prod_\tau |\tau(a-b)|
+&lt;
+Q^{-d}.
+\]</div>
+<p>But \(Q(a-b)\in \mathcal O_F\) is a nonzero algebraic integer, so</p>
+<div class="math-block">\[
+|N_{F/\mathbb Q}(Q(a-b))|
+=
+Q^d |N_{F/\mathbb Q}(a-b)|
+\]</div>
+<p>is a positive integer.  Therefore</p>
+<div class="math-block">\[
+|N_{F/\mathbb Q}(a-b)|\ge Q^{-d},
+\]</div>
+<p>a contradiction.  Thus each box contains at most one point, proving</p>
+<div class="math-block">\[
+|A_F(2;Q)|\le (4Q+3)^d.
+\]</div>
+<p>Finally,</p>
+<div class="math-block">\[
+|A_F(1;Q)|
+\ge
+\left(\frac{Q}{\sqrt{\Delta}}\right)^d,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A_F(2;Q)|\le (4Q+3)^d.
+\]</div>
+<p>Since \(4Q+3\le 7Q\) for \(Q\ge 1\),</p>
+<div class="math-block">\[
+\frac{|A_F(1;Q)|}{|A_F(2;Q)|}
+\ge
+\left(\frac{Q}{(4Q+3)\sqrt{\Delta}}\right)^d
+\ge
+\left(\frac{1}{7\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h1>4. Fixing global constants</h1>
+<p>Let \(F_i\) be the fields from Lemma 1, and put</p>
+<div class="math-block">\[
+d_i=[F_i:\mathbb Q].
+\]</div>
+<p>Thus \(d_i\to\infty\), \(F_i\) is totally real, \(5\) splits completely in \(F_i\), and</p>
+<div class="math-block">\[
+\operatorname{rd}(F_i)\le \Delta
+\]</div>
+<p>for a fixed absolute constant \(\Delta\).</p>
+<p>For each \(i\), set</p>
+<div class="math-block">\[
+K_i=F_i(i).
+\]</div>
+<p>Since \(F_i\) is totally real, \([K_i:F_i]=2\).  The relative discriminant of \(K_i/F_i\) divides \(4\mathcal O_{F_i}\), so</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)\le 2\operatorname{rd}(F_i)\le 2\Delta.
+\]</div>
+<p>By Lemma 2, there is a constant \(C=C_{\mathrm{cl}}(2\Delta)\) such that</p>
+<div class="math-block">\[
+h(K_i)\le C^{[K_i:\mathbb Q]}=C^{2d_i}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+H=C^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+h(K_i)\le H^{d_i}
+\]</div>
+<p>for all \(i\).</p>
+<p>We now choose an integer \(E\ge 1\) so large that, with</p>
+<div class="math-block">\[
+\rho=\frac{E+1}{H},
+\qquad
+\lambda=\frac{1}{7\sqrt{\Delta}},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\eta:=\rho\lambda^2&gt;1.
+\]</div>
+<p>This is possible because \(\rho=(E+1)/H\to\infty\) as \(E\to\infty\).</p>
+<p>Also increase \(E\), if necessary, so that</p>
+<div class="math-block">\[
+\frac{2Q}{\sqrt{\Delta}}&gt;1,
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+Q=2\cdot 5^{2E}.
+\]</div>
+<p>Finally define</p>
+<div class="math-block">\[
+B=4Q+3.
+\]</div>
+<p>All constants</p>
+<div class="math-block">\[
+\Delta,H,E,Q,\rho,\lambda,\eta,B
+\]</div>
+<p>are now fixed once and for all, independent of \(i\).</p>
+<hr>
+<h1>5. Many norm-one elements in \(K_i=F_i(i)\)</h1>
+<p>Fix one of the fields \(F=F_i\), and write</p>
+<div class="math-block">\[
+d=[F:\mathbb Q].
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+K=F(i).
+\]</div>
+<p>Because \(5\) splits completely in \(F\), we may write</p>
+<div class="math-block">\[
+5\mathcal O_F
+=
+\mathfrak q_1\mathfrak q_2\cdots \mathfrak q_d,
+\]</div>
+<p>with \(N\mathfrak q_j=5\).  Since \(5\equiv 1\pmod 4\), the polynomial \(X^2+1\) splits over \(\mathbb Q_5\).  Therefore each \(\mathfrak q_j\) splits in \(K=F(i)\):</p>
+<div class="math-block">\[
+\mathfrak q_j\mathcal O_K
+=
+\mathfrak P_j\overline{\mathfrak P}_j.
+\]</div>
+<p>Here the bar denotes the nontrivial automorphism of \(K/F\), i.e. complex conjugation \(i\mapsto -i\).</p>
+<p>For each exponent vector</p>
+<div class="math-block">\[
+e=(e_1,\dots,e_d)\in \{0,1,\dots,E\}^d,
+\]</div>
+<p>define the fractional ideal</p>
+<div class="math-block">\[
+\mathfrak a_e
+=
+\prod_{j=1}^d
+\mathfrak P_j^{e_j}\overline{\mathfrak P}_j^{-e_j}.
+\]</div>
+<p>Consider its ideal class \([\mathfrak a_e]\in \operatorname{Cl}(K)\).</p>
+<p>There are \((E+1)^d\) such exponent vectors, while</p>
+<div class="math-block">\[
+|\operatorname{Cl}(K)|=h(K)\le H^d.
+\]</div>
+<p>Thus, by pigeonholing, there is a subset</p>
+<div class="math-block">\[
+\mathcal E\subseteq \{0,1,\dots,E\}^d
+\]</div>
+<p>such that all \(\mathfrak a_e\), \(e\in \mathcal E\), have the same ideal class and</p>
+<div class="math-block">\[
+|\mathcal E|
+\ge
+\frac{(E+1)^d}{H^d}
+=
+\rho^d.
+\]</div>
+<p>Fix one element \(e^0\in\mathcal E\).  For every \(e\in\mathcal E\), put</p>
+<div class="math-block">\[
+f=e-e^0\in [-E,E]^d\cap \mathbb Z^d.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\mathfrak a_f
+:=
+\prod_{j=1}^d
+\mathfrak P_j^{f_j}\overline{\mathfrak P}_j^{-f_j}
+=
+\mathfrak a_e\mathfrak a_{e^0}^{-1}
+\]</div>
+<p>is principal.  Choose \(\beta_f\in K^\times\) such that</p>
+<div class="math-block">\[
+(\beta_f)=\mathfrak a_f.
+\]</div>
+<p>Now define</p>
+<div class="math-block">\[
+\alpha_f=\frac{\beta_f}{\overline{\beta_f}}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\alpha_f\overline{\alpha_f}=1.
+\]</div>
+<p>Moreover, the valuation of \(\alpha_f\) at \(\mathfrak P_j\) is \(2f_j\).  Therefore different vectors \(f\) give different elements \(\alpha_f\).  Hence we have constructed a set</p>
+<div class="math-block">\[
+\mathcal U_F:=\{\alpha_f:e\in\mathcal E\}\subset K^\times
+\]</div>
+<p>satisfying</p>
+<div class="math-block">\[
+|\mathcal U_F|\ge \rho^d.
+\]</div>
+<p>For every \(\alpha\in\mathcal U_F\), write uniquely</p>
+<div class="math-block">\[
+\alpha=x_\alpha+i y_\alpha
+\]</div>
+<p>with \(x_\alpha,y_\alpha\in F\).  Since</p>
+<div class="math-block">\[
+\alpha\overline{\alpha}=1,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+x_\alpha^2+y_\alpha^2=1
+\]</div>
+<p>inside \(F\).</p>
+<p>Also, since the valuations of \(\alpha\) and \(\alpha^{-1}=\overline{\alpha}\) at all primes above \(5\) are bounded below by \(-2E\), and there are no other finite-prime denominators, we have</p>
+<div class="math-block">\[
+5^{2E}\alpha,\;5^{2E}\alpha^{-1}\in \mathcal O_K.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+Qx_\alpha
+=
+2\cdot 5^{2E}\cdot \frac{\alpha+\alpha^{-1}}2
+=
+5^{2E}(\alpha+\alpha^{-1})
+\in \mathcal O_K\cap F
+=
+\mathcal O_F,
+\]</div>
+<p>and similarly</p>
+<div class="math-block">\[
+Qy_\alpha
+=
+2\cdot 5^{2E}\cdot \frac{\alpha-\alpha^{-1}}{2i}
+=
+5^{2E}\frac{\alpha-\alpha^{-1}}{i}
+\in \mathcal O_F.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+x_\alpha,y_\alpha\in Q^{-1}\mathcal O_F.
+\]</div>
+<p>Finally, for every real embedding \(\tau:F\hookrightarrow \mathbb R\), extending \(\tau\) to \(K=F(i)\) by \(i\mapsto i\), we get</p>
+<div class="math-block">\[
+|\tau(\alpha)|=1.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|\tau(x_\alpha)|\le 1,
+\qquad
+|\tau(y_\alpha)|\le 1.
+\]</div>
+<p>So for every \(\alpha\in\mathcal U_F\), we have</p>
+<div class="math-block">\[
+x_\alpha,y_\alpha\in Q^{-1}\mathcal O_F,
+\]</div>
+<div class="math-block">\[
+x_\alpha^2+y_\alpha^2=1,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|\tau(x_\alpha)|,|\tau(y_\alpha)|\le 1
+\]</div>
+<p>for every real embedding \(\tau:F\hookrightarrow \mathbb R\).</p>
+<hr>
+<h1>6. The finite point set</h1>
+<p>For the same field \(F\), define</p>
+<div class="math-block">\[
+A=A_F(2;Q)
+=
+\left\{
+a\in Q^{-1}\mathcal O_F:
+|\tau(a)|\le 2
+\text{ for all }
+\tau:F\hookrightarrow \mathbb R
+\right\}.
+\]</div>
+<p>Also define the smaller box</p>
+<div class="math-block">\[
+A^-:=A_F(1;Q).
+\]</div>
+<p>By Lemma 3,</p>
+<div class="math-block">\[
+|A|\le B^d
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\frac{|A^-|}{|A|}
+\ge
+\lambda^d.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+|A|\ge \left(\frac{2Q}{\sqrt{\Delta}}\right)^d,
+\]</div>
+<p>and by our choice of \(E\),</p>
+<div class="math-block">\[
+\frac{2Q}{\sqrt{\Delta}}&gt;1.
+\]</div>
+<p>Hence \(|A|\to\infty\) as \(d\to\infty\).</p>
+<p>Choose one real embedding</p>
+<div class="math-block">\[
+\sigma:F\hookrightarrow \mathbb R.
+\]</div>
+<p>Define a finite point set</p>
+<div class="math-block">\[
+P_F
+=
+\{(\sigma(a),\sigma(b)):a,b\in A\}
+\subset \mathbb R^2.
+\]</div>
+<p>Since \(\sigma\) is injective,</p>
+<div class="math-block">\[
+|P_F|=|A|^2.
+\]</div>
+<hr>
+<h1>7. Each norm-one element gives many unit distances</h1>
+<p>Fix \(\alpha\in\mathcal U_F\), and write</p>
+<div class="math-block">\[
+\alpha=x_\alpha+i y_\alpha.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+v_\alpha=(\sigma(x_\alpha),\sigma(y_\alpha))\in\mathbb R^2.
+\]</div>
+<p>Because</p>
+<div class="math-block">\[
+x_\alpha^2+y_\alpha^2=1
+\]</div>
+<p>inside \(F\), applying \(\sigma\) gives</p>
+<div class="math-block">\[
+\|v_\alpha\|_2^2
+=
+\sigma(x_\alpha)^2+\sigma(y_\alpha)^2
+=
+1.
+\]</div>
+<p>So \(v_\alpha\) is a unit vector.</p>
+<p>Now observe that for every \(a\in A^-\),</p>
+<div class="math-block">\[
+a+x_\alpha\in A.
+\]</div>
+<p>Indeed, \(a,x_\alpha\in Q^{-1}\mathcal O_F\), and for every real embedding \(\tau\),</p>
+<div class="math-block">\[
+|\tau(a+x_\alpha)|
+\le
+|\tau(a)|+|\tau(x_\alpha)|
+\le
+1+1
+=
+2.
+\]</div>
+<p>Similarly,</p>
+<div class="math-block">\[
+a+y_\alpha\in A
+\]</div>
+<p>for every \(a\in A^-\).</p>
+<p>Therefore for every pair \((a,b)\in A^-\times A^-\), both</p>
+<div class="math-block">\[
+(a,b)\in A\times A
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+(a+x_\alpha,b+y_\alpha)\in A\times A.
+\]</div>
+<p>Consequently,</p>
+<div class="math-block">\[
+(\sigma(a),\sigma(b))
+\quad\text{and}\quad
+(\sigma(a+x_\alpha),\sigma(b+y_\alpha))
+\]</div>
+<p>are two points of \(P_F\) at Euclidean distance \(1\).</p>
+<p>Thus each \(\alpha\in\mathcal U_F\) contributes at least</p>
+<div class="math-block">\[
+|A^-|^2
+\]</div>
+<p>ordered unit-distance pairs.</p>
+<p>Distinct \(\alpha\)'s give distinct translation vectors.  Indeed, if</p>
+<div class="math-block">\[
+(\sigma(x_\alpha),\sigma(y_\alpha))
+=
+(\sigma(x_\beta),\sigma(y_\beta)),
+\]</div>
+<p>then injectivity of \(\sigma\) gives \(x_\alpha=x_\beta\) and \(y_\alpha=y_\beta\), hence \(\alpha=\beta\).</p>
+<p>Therefore the ordered unit-distance count satisfies</p>
+<div class="math-block">\[
+2u(P_F)
+\ge
+|\mathcal U_F|\,|A^-|^2.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12 |\mathcal U_F|\,|A^-|^2.
+\]</div>
+<p>Using</p>
+<div class="math-block">\[
+|\mathcal U_F|\ge \rho^d
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A^-|\ge \lambda^d |A|,
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12 \rho^d\lambda^{2d}|A|^2.
+\]</div>
+<p>Recall that \(|P_F|=|A|^2\).  Hence</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12(\rho\lambda^2)^d |P_F|.
+\]</div>
+<p>By definition,</p>
+<div class="math-block">\[
+\eta=\rho\lambda^2&gt;1.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12\eta^d |P_F|.
+\]</div>
+<hr>
+<h1>8. Converting the exponential gain in \(d\) into a power gain in \(|P_F|\)</h1>
+<p>We also have</p>
+<div class="math-block">\[
+|P_F|=|A|^2\le B^{2d}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\delta
+=
+\frac{\log \eta}{4\log B}.
+\]</div>
+<p>Since \(\eta&gt;1\) and \(B&gt;1\), we have</p>
+<div class="math-block">\[
+\delta&gt;0.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|P_F|^\delta
+\le
+(B^{2d})^\delta
+=
+B^{2\delta d}
+=
+\exp(2\delta d\log B)
+=
+\exp\left(\frac12 d\log\eta\right)
+=
+\eta^{d/2}.
+\]</div>
+<p>For all sufficiently large \(d\),</p>
+<div class="math-block">\[
+\frac12\eta^d\ge \eta^{d/2}.
+\]</div>
+<p>Therefore, for all sufficiently large \(d\),</p>
+<div class="math-block">\[
+\frac12\eta^d\ge |P_F|^\delta.
+\]</div>
+<p>Plugging this into the previous estimate gives</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+|P_F|^{1+\delta}.
+\]</div>
+<p>Finally, because</p>
+<div class="math-block">\[
+|P_F|=|A|^2
+\ge
+\left(\frac{2Q}{\sqrt{\Delta}}\right)^{2d},
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\frac{2Q}{\sqrt{\Delta}}&gt;1,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+|P_F|\to\infty
+\]</div>
+<p>as \(d\to\infty\).</p>
+<p>Taking the fields \(F_i\) from Lemma 1 and discarding finitely many initial ones, we obtain an infinite sequence</p>
+<div class="math-block">\[
+P_i=P_{F_i}\subset\mathbb R^2
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+|P_i|\to\infty
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for every \(i\).</p>
+<p>This proves the theorem. \(\square\)</p>
+<hr>
+<h1>Summary of the construction</h1>
+<p>The construction is best viewed as a high-degree analogue of the classical Gaussian-integer construction.</p>
+<p>Classically, one gets unit directions from</p>
+<div class="math-block">\[
+\alpha=\frac{z}{\overline z}\in \mathbb Q(i),
+\qquad
+|\alpha|=1.
+\]</div>
+<p>The number of available directions is controlled by the number of small primes splitting in \(\mathbb Z[i]\), but in \(\mathbb Q(i)\) those primes have growing rational norm, causing the usual \(n^{o(1)}\) bottleneck.</p>
+<p>Here we instead use high-degree totally real fields \(F_i\) in which one fixed small prime, namely \(5\), splits completely.  Passing to</p>
+<div class="math-block">\[
+K_i=F_i(i),
+\]</div>
+<p>each prime of \(F_i\) over \(5\) splits into a conjugate pair.  Exponent vectors on these conjugate prime pairs produce exponentially many norm-one \(S\)-units</p>
+<div class="math-block">\[
+\alpha\overline{\alpha}=1.
+\]</div>
+<p>Writing</p>
+<div class="math-block">\[
+\alpha=x+iy
+\]</div>
+<p>gives</p>
+<div class="math-block">\[
+x^2+y^2=1
+\]</div>
+<p>inside \(F_i\), hence genuine Euclidean unit vectors after applying any real embedding.</p>
+<p>The point set is a product</p>
+<div class="math-block">\[
+P_i=\sigma(A_i)\times \sigma(A_i),
+\]</div>
+<p>where \(A_i\subset F_i\) is a large finite denominator box.  Because every coordinate \(x,y\) of every direction has bounded denominator and all conjugates bounded by \(1\), translating \(A_i\) by \(x\) or \(y\) preserves a fixed exponential proportion of \(A_i\).  Exponentially many directions times exponentially many preserved points per direction gives</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for some fixed \(\delta&gt;0\).</p>
+<hr>
+<h1>Round 3</h1>
+<h2>User</h2>
+<blockquote><p>Critically examine the proof you constructed to identify and resolve any errors or logical gaps. Then, present a complete, rigorous, step-by-step proof. Clearly justify each step with sufficient detail so that an expert can verify your reasoning without needing to fill in any gaps.</p></blockquote>
+<h2>Assistant</h2>
+<h2>Critical repairs to the previous sketch</h2>
+<p>The overall CM/\(S\)-unit strategy works, but several points need to be made precise.</p>
+<ol>
+<li><p><strong>The field tower needs a real proof.</strong> We need an infinite totally real tower with bounded root discriminant and a fixed rational prime splitting completely.  I will prove this using a marked Golod–Shafarevich class-field-tower criterion.</p></li>
+<li><p><strong>The \(S\)-unit construction must use class-group pigeonholing correctly.</strong> The ideals associated to exponent vectors are not automatically principal.  We choose many exponent vectors whose ideals have the same ideal class; quotients are then principal.</p></li>
+<li><p><strong>The finite set \(A\subset F\) needs rigorous size and overlap estimates.</strong> I will prove these using elementary geometry-of-numbers bounds.</p></li>
+<li><p><strong>The unit-distance count needs an injectivity check.</strong> Distinct \(S\)-units must give distinct ordered unit-distance pairs, so that summing over directions is legitimate.</p></li>
+</ol>
+<p>We now give the complete proof.</p>
+<hr>
+<h1>1. A totally real tower with a fixed split prime</h1>
+<p>We use the following standard marked Golod–Shafarevich criterion.</p>
+<h2>Lemma 1 — Marked Golod–Shafarevich criterion</h2>
+<p>Let \(k\) be a number field and let \(T\) be a finite set of finite primes of \(k\). Let \(k_T^+(2)\) be the maximal pro-\(2\) extension of \(k\) which is unramified at every finite prime and in which every real place of \(k\), and every prime in \(T\), splits completely.</p>
+<p>Let</p>
+<div class="math-block">\[
+\mathrm{Cl}_T^+(k)
+\]</div>
+<p>denote the narrow class group of \(k\), modulo the subgroup generated by the classes of the primes in \(T\). Put</p>
+<div class="math-block">\[
+g=\dim_{\mathbb F_2}\mathrm{Cl}_T^+(k)/2\mathrm{Cl}_T^+(k).
+\]</div>
+<p>If</p>
+<div class="math-block">\[
+\frac{g^2}{4}&gt;g+r_1(k)+r_2(k)+|T|+1,
+\]</div>
+<p>then \(k_T^+(2)/k\) is infinite.</p>
+<h3>Justification</h3>
+<p>By class field theory, the generator rank of</p>
+<div class="math-block">\[
+G=\operatorname{Gal}(k_T^+(2)/k)
+\]</div>
+<p>equals \(g\). Shafarevich’s relation-rank bound gives</p>
+<div class="math-block">\[
+r(G)\le g+r_1(k)+r_2(k)+|T|+1.
+\]</div>
+<p>If \(G\) were finite, the Golod–Shafarevich inequality would force</p>
+<div class="math-block">\[
+r(G)&gt;\frac{g^2}{4}.
+\]</div>
+<p>The displayed inequality contradicts this. Hence \(G\) is infinite. \(\square\)</p>
+<hr>
+<h2>Lemma 2 — Existence of the required tower</h2>
+<p>There exist an absolute constant \(\Delta&gt;0\), a prime \(p\equiv 1\pmod 4\), and an infinite sequence of totally real fields</p>
+<div class="math-block">\[
+F_1,F_2,\dots
+\]</div>
+<p>with degrees \(d_i=[F_i:\mathbb Q]\to\infty\), such that</p>
+<ol>
+<li>\(p\) splits completely in every \(F_i\);</li>
+<li>\(\operatorname{rd}(F_i)\le \Delta\) for every \(i\).</li>
+</ol>
+<h3>Proof</h3>
+<p>Take \(p=5\).</p>
+<p>Choose \(t=100\) distinct primes</p>
+<div class="math-block">\[
+q_1,\dots,q_t\equiv 1\pmod {20}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+m=q_1q_2\cdots q_t,
+\qquad
+F_0=\mathbb Q(\sqrt m).
+\]</div>
+<p>Since \(m\equiv 1\pmod 4\), the discriminant of \(F_0\) is \(m\), and \(F_0\) is real quadratic.</p>
+<p>Also \(m\equiv 1\pmod 5\), so \(5\) splits in \(F_0\). Let \(T\) be the two primes of \(F_0\) lying above \(5\).</p>
+<p>By genus theory for real quadratic fields, because the discriminant of \(F_0\) has \(t\) prime factors, the narrow class group satisfies</p>
+<div class="math-block">\[
+\dim_{\mathbb F_2}\mathrm{Cl}^+(F_0)/2\mathrm{Cl}^+(F_0)=t-1=99.
+\]</div>
+<p>Passing to \(\mathrm{Cl}_T^+(F_0)\) can reduce the \(2\)-rank by at most \(|T|=2\). Hence</p>
+<div class="math-block">\[
+g\ge 97.
+\]</div>
+<p>Since \(F_0\) is real quadratic, \(r_1(F_0)=2\), \(r_2(F_0)=0\), and \(|T|=2\). Thus</p>
+<div class="math-block">\[
+g+r_1+r_2+|T|+1=g+5.
+\]</div>
+<p>For \(g\ge 97\),</p>
+<div class="math-block">\[
+\frac{g^2}{4}&gt;g+5.
+\]</div>
+<p>Therefore Lemma 1 implies that</p>
+<div class="math-block">\[
+F_0{}_T^+(2)/F_0
+\]</div>
+<p>is infinite.</p>
+<p>Choose finite subextensions</p>
+<div class="math-block">\[
+F_0\subset F_1\subset F_2\subset\cdots\subset F_0{}_T^+(2)
+\]</div>
+<p>with \([F_i:F_0]\to\infty\).</p>
+<p>Every \(F_i\) is totally real because all real places split completely. Also \(F_i/F_0\) is unramified at finite primes, so</p>
+<div class="math-block">\[
+\operatorname{rd}(F_i)=\operatorname{rd}(F_0)=m^{1/2}.
+\]</div>
+<p>Finally, the two primes of \(F_0\) above \(5\) split completely in every \(F_i\), so \(5\) splits completely in every \(F_i\).</p>
+<p>Thus the lemma holds with</p>
+<div class="math-block">\[
+\Delta=m^{1/2}.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h1>2. Uniform class-number and lattice-counting estimates</h1>
+<p>We will use two elementary estimates.</p>
+<h2>Lemma 3 — Class numbers in bounded-root-discriminant families</h2>
+<p>For every \(R&gt;0\), there is a constant \(C_{\mathrm{cl}}(R)\) such that every number field \(L\) with</p>
+<div class="math-block">\[
+\operatorname{rd}(L)\le R
+\]</div>
+<p>satisfies</p>
+<div class="math-block">\[
+h(L)\le C_{\mathrm{cl}}(R)^{[L:\mathbb Q]}.
+\]</div>
+<h3>Proof</h3>
+<p>Let \(n=[L:\mathbb Q]\). By Minkowski’s ideal-class theorem, every ideal class contains an integral ideal of norm at most</p>
+<div class="math-block">\[
+\left(\frac4\pi\right)^{r_2}
+\frac{n!}{n^n}
+\sqrt{|D_L|}.
+\]</div>
+<p>Since \(r_2\le n/2\), \(n!\le n^n\), and \(|D_L|^{1/n}\le R\), every class contains an ideal of norm at most</p>
+<div class="math-block">\[
+M_R^n,
+\qquad
+M_R=\max\left(2,\left(\frac4\pi\right)^{1/2}R^{1/2}\right).
+\]</div>
+<p>The number of ideals of norm at most \(X\) is at most</p>
+<div class="math-block">\[
+X^2\zeta_L(2).
+\]</div>
+<p>Also</p>
+<div class="math-block">\[
+\zeta_L(2)\le \zeta(2)^n.
+\]</div>
+<p>Taking \(X=M_R^n\), we obtain</p>
+<div class="math-block">\[
+h(L)\le M_R^{2n}\zeta(2)^n.
+\]</div>
+<p>Thus one may take</p>
+<div class="math-block">\[
+C_{\mathrm{cl}}(R)=M_R^2\zeta(2).
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h2>Lemma 4 — Counting denominator boxes</h2>
+<p>Let \(F\) be totally real of degree \(d\), with</p>
+<div class="math-block">\[
+\operatorname{rd}(F)\le \Delta.
+\]</div>
+<p>For an integer \(Q\ge 1\) and \(R&gt;0\), define</p>
+<div class="math-block">\[
+A_F(R;Q)=
+\left\{
+a\in Q^{-1}\mathcal O_F:
+|\tau(a)|\le R
+\text{ for every real embedding }\tau:F\hookrightarrow\mathbb R
+\right\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|A_F(R;Q)|
+\ge
+\left(\frac{RQ}{\sqrt{\Delta}}\right)^d,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A_F(2;Q)|\le (4Q+3)^d.
+\]</div>
+<p>Consequently,</p>
+<div class="math-block">\[
+\frac{|A_F(1;Q)|}{|A_F(2;Q)|}
+\ge
+\left(\frac{1}{7\sqrt{\Delta}}\right)^d.
+\]</div>
+<h3>Proof</h3>
+<p>Embed \(F\) into \(\mathbb R^d\) by</p>
+<div class="math-block">\[
+\Phi(a)=(\tau(a))_{\tau}.
+\]</div>
+<p>The image of \(Q^{-1}\mathcal O_F\) is a lattice of covolume</p>
+<div class="math-block">\[
+Q^{-d}\sqrt{|D_F|}
+\le Q^{-d}\Delta^{d/2}.
+\]</div>
+<p>Let \(B_R=[-R,R]^d\). A standard van der Corput/Blichfeldt argument gives</p>
+<div class="math-block">\[
+|B_R\cap \Phi(Q^{-1}\mathcal O_F)|
+\ge
+\frac{\operatorname{vol}(B_R)}{2^d\operatorname{covol}(\Phi(Q^{-1}\mathcal O_F))}.
+\]</div>
+<p>Since \(\operatorname{vol}(B_R)=(2R)^d\), this gives</p>
+<div class="math-block">\[
+|A_F(R;Q)|
+\ge
+\frac{(2R)^d}{2^d Q^{-d}\Delta^{d/2}}
+=
+\left(\frac{RQ}{\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>For the upper bound, partition \([-2,2]\) into at most \(4Q+3\) intervals of length \(&lt;1/Q\). This partitions \([-2,2]^d\) into at most \((4Q+3)^d\) boxes.</p>
+<p>Each such box contains at most one point of \(\Phi(Q^{-1}\mathcal O_F)\). Indeed, if distinct \(a,b\in Q^{-1}\mathcal O_F\) lie in the same box, then</p>
+<div class="math-block">\[
+|\tau(a-b)|&lt;\frac1Q
+\]</div>
+<p>for every embedding \(\tau\). Hence</p>
+<div class="math-block">\[
+|N_{F/\mathbb Q}(a-b)|&lt;Q^{-d}.
+\]</div>
+<p>But \(Q(a-b)\in\mathcal O_F\setminus\{0\}\), so</p>
+<div class="math-block">\[
+Q^d|N_{F/\mathbb Q}(a-b)|
+=
+|N_{F/\mathbb Q}(Q(a-b))|
+\]</div>
+<p>is a positive integer, contradiction.</p>
+<p>Thus</p>
+<div class="math-block">\[
+|A_F(2;Q)|\le (4Q+3)^d.
+\]</div>
+<p>Finally,</p>
+<div class="math-block">\[
+|A_F(1;Q)|
+\ge
+\left(\frac{Q}{\sqrt{\Delta}}\right)^d,
+\]</div>
+<p>while</p>
+<div class="math-block">\[
+|A_F(2;Q)|\le (4Q+3)^d\le (7Q)^d.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+\frac{|A_F(1;Q)|}{|A_F(2;Q)|}
+\ge
+\left(\frac{1}{7\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h1>3. Fixing constants</h1>
+<p>Let \(F_i\) be the fields from Lemma 2. Put</p>
+<div class="math-block">\[
+d_i=[F_i:\mathbb Q].
+\]</div>
+<p>For each \(i\), set</p>
+<div class="math-block">\[
+K_i=F_i(\mathbf i),
+\qquad
+\mathbf i^2=-1.
+\]</div>
+<p>Since \(K_i/F_i\) is generated by a root of \(X^2+1\), its relative discriminant divides \(4\mathcal O_{F_i}\). Therefore</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)\le 2\operatorname{rd}(F_i)\le 2\Delta.
+\]</div>
+<p>By Lemma 3, there is a constant \(C=C_{\mathrm{cl}}(2\Delta)\) such that</p>
+<div class="math-block">\[
+h(K_i)\le C^{[K_i:\mathbb Q]}=C^{2d_i}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+H=C^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+h(K_i)\le H^{d_i}.
+\]</div>
+<p>Now choose an integer \(E\ge 1\) so large that, with</p>
+<div class="math-block">\[
+\lambda=\frac{1}{7\sqrt{\Delta}},
+\qquad
+\rho=\frac{E+1}{H},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\eta:=\rho\lambda^2&gt;1.
+\]</div>
+<p>Also require</p>
+<div class="math-block">\[
+\frac{2Q}{\sqrt{\Delta}}&gt;1,
+\qquad
+Q=2\cdot 5^{2E}.
+\]</div>
+<p>This is possible because \(E\) is arbitrary.</p>
+<p>Finally put</p>
+<div class="math-block">\[
+B=4Q+3.
+\]</div>
+<p>All constants</p>
+<div class="math-block">\[
+\Delta,H,E,Q,\lambda,\rho,\eta,B
+\]</div>
+<p>are now fixed absolute constants.</p>
+<hr>
+<h1>4. Constructing many norm-one \(S\)-units</h1>
+<p>Fix one of the fields \(F=F_i\), and write</p>
+<div class="math-block">\[
+d=[F:\mathbb Q],
+\qquad
+K=F(\mathbf i).
+\]</div>
+<p>Because \(5\) splits completely in \(F\), we may write</p>
+<div class="math-block">\[
+5\mathcal O_F=\mathfrak q_1\cdots \mathfrak q_d,
+\qquad
+N\mathfrak q_j=5.
+\]</div>
+<p>Since \(5\equiv 1\pmod 4\), the element \(-1\) is a square in \(\mathbb Q_5\). Hence every \(\mathfrak q_j\) splits in \(K/F\):</p>
+<div class="math-block">\[
+\mathfrak q_j\mathcal O_K
+=
+\mathfrak P_j\overline{\mathfrak P}_j.
+\]</div>
+<p>Here the bar denotes the nontrivial automorphism of \(K/F\), i.e. complex conjugation.</p>
+<p>For each vector</p>
+<div class="math-block">\[
+e=(e_1,\dots,e_d)\in\{0,1,\dots,E\}^d,
+\]</div>
+<p>define the fractional ideal</p>
+<div class="math-block">\[
+\mathfrak a_e
+=
+\prod_{j=1}^d
+\mathfrak P_j^{e_j}\overline{\mathfrak P}_j^{-e_j}.
+\]</div>
+<p>There are \((E+1)^d\) such vectors, while</p>
+<div class="math-block">\[
+h(K)\le H^d.
+\]</div>
+<p>Therefore some ideal class contains at least</p>
+<div class="math-block">\[
+\frac{(E+1)^d}{H^d}=\rho^d
+\]</div>
+<p>of the ideals \(\mathfrak a_e\). Let \(\mathcal E\subseteq\{0,\dots,E\}^d\) be such a set, so</p>
+<div class="math-block">\[
+|\mathcal E|\ge \rho^d,
+\]</div>
+<p>and all \(\mathfrak a_e\), \(e\in\mathcal E\), have the same ideal class.</p>
+<p>Fix \(e^0\in\mathcal E\). For \(e\in\mathcal E\), put</p>
+<div class="math-block">\[
+f=e-e^0\in[-E,E]^d.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\mathfrak a_f:=
+\prod_{j=1}^d
+\mathfrak P_j^{f_j}\overline{\mathfrak P}_j^{-f_j}
+=
+\mathfrak a_e\mathfrak a_{e^0}^{-1}
+\]</div>
+<p>is principal. Choose \(\beta_f\in K^\times\) such that</p>
+<div class="math-block">\[
+(\beta_f)=\mathfrak a_f.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\alpha_f=\frac{\beta_f}{\overline{\beta_f}}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\alpha_f\overline{\alpha_f}=1.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+(\alpha_f)
+=
+\mathfrak a_f^2.
+\]</div>
+<p>Thus the valuation vector of \(\alpha_f\) at the primes \(\mathfrak P_j\) is</p>
+<div class="math-block">\[
+(v_{\mathfrak P_1}(\alpha_f),\dots,v_{\mathfrak P_d}(\alpha_f))
+=
+(2f_1,\dots,2f_d).
+\]</div>
+<p>Hence distinct \(f\)’s give distinct \(\alpha_f\)’s.</p>
+<p>Therefore the set</p>
+<div class="math-block">\[
+\mathcal U_F=\{\alpha_f:e\in\mathcal E\}
+\]</div>
+<p>satisfies</p>
+<div class="math-block">\[
+|\mathcal U_F|\ge \rho^d.
+\]</div>
+<hr>
+<h1>5. Coordinates of the \(S\)-units</h1>
+<p>For \(\alpha\in\mathcal U_F\), write uniquely</p>
+<div class="math-block">\[
+\alpha=x_\alpha+\mathbf i y_\alpha,
+\qquad
+x_\alpha,y_\alpha\in F.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\alpha\overline{\alpha}=1,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+x_\alpha^2+y_\alpha^2=1.
+\]</div>
+<p>The valuations of \(\alpha\) at primes above \(5\) lie between \(-2E\) and \(2E\), and \(\alpha\) has no other finite-prime denominators. Hence</p>
+<div class="math-block">\[
+5^{2E}\alpha,\;5^{2E}\alpha^{-1}\in\mathcal O_K.
+\]</div>
+<p>Recall</p>
+<div class="math-block">\[
+Q=2\cdot 5^{2E}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+x_\alpha=\frac{\alpha+\alpha^{-1}}2,
+\qquad
+y_\alpha=\frac{\alpha-\alpha^{-1}}{2\mathbf i},
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+Qx_\alpha
+=
+5^{2E}(\alpha+\alpha^{-1})\in \mathcal O_K\cap F=\mathcal O_F,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+Qy_\alpha
+=
+5^{2E}\frac{\alpha-\alpha^{-1}}{\mathbf i}
+\in \mathcal O_K\cap F=\mathcal O_F.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+x_\alpha,y_\alpha\in Q^{-1}\mathcal O_F.
+\]</div>
+<p>Moreover, for every real embedding \(\tau:F\hookrightarrow\mathbb R\),</p>
+<div class="math-block">\[
+\tau(x_\alpha)^2+\tau(y_\alpha)^2=1,
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+|\tau(x_\alpha)|\le 1,
+\qquad
+|\tau(y_\alpha)|\le 1.
+\]</div>
+<hr>
+<h1>6. The finite point set</h1>
+<p>Define</p>
+<div class="math-block">\[
+A=A_F(2;Q)
+=
+\left\{
+a\in Q^{-1}\mathcal O_F:
+|\tau(a)|\le 2
+\text{ for all real embeddings }\tau
+\right\},
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+A^- = A_F(1;Q).
+\]</div>
+<p>By Lemma 4,</p>
+<div class="math-block">\[
+|A|\le B^d,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\frac{|A^-|}{|A|}
+\ge \lambda^d.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+|A|
+\ge
+\left(\frac{2Q}{\sqrt{\Delta}}\right)^d.
+\]</div>
+<p>By our choice of \(E\), the base \(2Q/\sqrt{\Delta}\) is \(&gt;1\), so \(|A|\to\infty\) as \(d\to\infty\).</p>
+<p>Choose one real embedding</p>
+<div class="math-block">\[
+\sigma:F\hookrightarrow\mathbb R.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+P_F=\{(\sigma(a),\sigma(b)):a,b\in A\}\subset\mathbb R^2.
+\]</div>
+<p>Since \(\sigma\) is injective,</p>
+<div class="math-block">\[
+|P_F|=|A|^2.
+\]</div>
+<hr>
+<h1>7. Counting unit distances</h1>
+<p>Fix \(\alpha\in\mathcal U_F\), and write</p>
+<div class="math-block">\[
+\alpha=x_\alpha+\mathbf i y_\alpha.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+v_\alpha=(\sigma(x_\alpha),\sigma(y_\alpha)).
+\]</div>
+<p>Because \(x_\alpha^2+y_\alpha^2=1\), we have</p>
+<div class="math-block">\[
+\|v_\alpha\|_2=1.
+\]</div>
+<p>Now take any \(a,b\in A^-\). Since \(x_\alpha,y_\alpha\in Q^{-1}\mathcal O_F\), and since all their real conjugates have absolute value at most \(1\), we have</p>
+<div class="math-block">\[
+a+x_\alpha\in A,
+\qquad
+b+y_\alpha\in A.
+\]</div>
+<p>Indeed, for every real embedding \(\tau\),</p>
+<div class="math-block">\[
+|\tau(a+x_\alpha)|
+\le |\tau(a)|+|\tau(x_\alpha)|
+\le 1+1=2,
+\]</div>
+<p>and similarly for \(b+y_\alpha\).</p>
+<p>Thus</p>
+<div class="math-block">\[
+(\sigma(a),\sigma(b)),
+\quad
+(\sigma(a+x_\alpha),\sigma(b+y_\alpha))
+\]</div>
+<p>are two points of \(P_F\) separated by the unit vector \(v_\alpha\).</p>
+<p>So each \(\alpha\in\mathcal U_F\) and each pair \((a,b)\in A^-\times A^-\) gives an ordered unit-distance pair in \(P_F\).</p>
+<p>This assignment is injective. If two triples \((\alpha,a,b)\) and \((\alpha',a',b')\) give the same ordered pair, then equality of the first point gives</p>
+<div class="math-block">\[
+a=a&#x27;,
+\qquad
+b=b&#x27;,
+\]</div>
+<p>because \(\sigma\) is injective. Equality of the second point then gives</p>
+<div class="math-block">\[
+\sigma(x_\alpha)=\sigma(x_{\alpha&#x27;}),
+\qquad
+\sigma(y_\alpha)=\sigma(y_{\alpha&#x27;}).
+\]</div>
+<p>Again using injectivity of \(\sigma\), we obtain</p>
+<div class="math-block">\[
+x_\alpha=x_{\alpha&#x27;},
+\qquad
+y_\alpha=y_{\alpha&#x27;},
+\]</div>
+<p>hence</p>
+<div class="math-block">\[
+\alpha=\alpha&#x27;.
+\]</div>
+<p>Therefore the number of ordered unit-distance pairs in \(P_F\) is at least</p>
+<div class="math-block">\[
+|\mathcal U_F|\,|A^-|^2.
+\]</div>
+<p>Since \(u(P_F)\) counts unordered pairs,</p>
+<div class="math-block">\[
+u(P_F)\ge \frac12|\mathcal U_F|\,|A^-|^2.
+\]</div>
+<p>Using</p>
+<div class="math-block">\[
+|\mathcal U_F|\ge \rho^d
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A^-|\ge \lambda^d |A|,
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12 \rho^d\lambda^{2d}|A|^2.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+|P_F|=|A|^2
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\eta=\rho\lambda^2&gt;1,
+\]</div>
+<p>this becomes</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+\frac12 \eta^d |P_F|.
+\]</div>
+<hr>
+<h1>8. Converting the exponential gain into a power gain</h1>
+<p>We have</p>
+<div class="math-block">\[
+|P_F|=|A|^2\le B^{2d}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\delta=\frac{\log\eta}{4\log B}&gt;0.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|P_F|^\delta
+\le
+(B^{2d})^\delta
+=
+\eta^{d/2}.
+\]</div>
+<p>For all sufficiently large \(d\),</p>
+<div class="math-block">\[
+\frac12\eta^d\ge \eta^{d/2}.
+\]</div>
+<p>Hence, for all sufficiently large \(d\),</p>
+<div class="math-block">\[
+u(P_F)
+\ge
+|P_F|^{1+\delta}.
+\]</div>
+<p>Finally,</p>
+<div class="math-block">\[
+|P_F|=|A|^2
+\ge
+\left(\frac{2Q}{\sqrt{\Delta}}\right)^{2d},
+\]</div>
+<p>and the base is \(&gt;1\). Since the degrees \(d_i\to\infty\), we have</p>
+<div class="math-block">\[
+|P_{F_i}|\to\infty.
+\]</div>
+<p>Discarding finitely many initial fields and reindexing, we obtain an infinite sequence</p>
+<div class="math-block">\[
+P_i\subset\mathbb R^2
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+|P_i|\to\infty
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for every \(i\).</p>
+<p>This proves the theorem. \(\square\)</p>
+<hr>
+</main>
+</body>
+</html>

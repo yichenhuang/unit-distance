@@ -1,0 +1,727 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proof</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p>Below I first point out the main gaps in the previous outline and then give a complete proof.</p>
+<p>The important repairs are:</p>
+<ol>
+<li><strong>Tower construction:</strong> the previous proof invoked a totally real tower with \(5\) splitting completely but did not justify it carefully. We will construct such a tower using the Golod–Shafarevich class-field-tower criterion with prescribed splitting.</li>
+<li><strong>Class-number control:</strong> we need a uniform bound \(h(L_i)\le H^{[K_i:\mathbb Q]}\). This follows from bounded root discriminant; we prove the needed estimate.</li>
+<li><strong>Denominator control for norm-one elements:</strong> we must check carefully that the constructed \(a,b\) lie in one fixed fractional ideal \(M^{-1}\mathcal O_K\), independent of \(i\).</li>
+<li><strong>Counting without overcounting:</strong> we verify that the directed unit-distance pairs counted from different algebraic data are indeed distinct.</li>
+<li><strong>Final exponent:</strong> we choose constants so that the final factor \(1/2\) causes no problem.</li>
+</ol>
+<hr>
+<h1>Proof</h1>
+<p>Let</p>
+<div class="math-block">\[
+D(P)=\{(p,q)\in P\times P:\|p-q\|_2=1\}
+\]</div>
+<p>be the set of directed unit-distance pairs. Then</p>
+<div class="math-block">\[
+u(P)=\frac12 |D(P)|.
+\]</div>
+<p>We will construct finite sets \(P_i\subset\mathbb R^2\) with \(|P_i|\to\infty\) and</p>
+<div class="math-block">\[
+|D(P_i)|\ge 2|P_i|^{1+\delta}.
+\]</div>
+<hr>
+<h2>1. A totally real tower in which \(5\) splits completely</h2>
+<p>We use the following standard Golod–Shafarevich consequence.</p>
+<h3>Golod–Shafarevich splitting criterion</h3>
+<p>Let \(F\) be a number field and let \(T\) be a finite set of finite primes of \(F\). Let \(G\) be the Galois group over \(F\) of the maximal pro-\(2\) extension of \(F\) which is</p>
+<ul>
+<li>unramified at every finite prime;</li>
+<li>split completely at every real place of \(F\);</li>
+<li>split completely at every prime in \(T\).</li>
+</ul>
+<p>Let \(d=d(G)\) and \(r=r(G)\) be the generator and relation ranks of \(G\). Then:</p>
+<ol>
+<li><p>The maximal abelian quotient of \(G\) is obtained from the \(2\)-primary part of the ordinary class group of \(F\) by killing the ideal classes of the primes in \(T\). In particular, if</p>
+<div class="math-block">\[
+\rho_T=\dim_{\mathbb F_2}
+\left(
+\operatorname{Cl}(F)/
+2\operatorname{Cl}(F)+\langle[\mathfrak t]:\mathfrak t\in T\rangle
+\right),
+\]</div>
+<p>then</p>
+<div class="math-block">\[
+d\ge \rho_T.
+\]</div></li>
+<li><p>Shafarevich’s relation-rank estimate gives</p>
+<div class="math-block">\[
+r\le d+r_1(F)+r_2(F)+|T|+1.
+\]</div></li>
+<li><p>If \(G\) is finite, the Golod–Shafarevich inequality gives</p>
+<div class="math-block">\[
+r&gt;\frac{d^2}{4}.
+\]</div></li>
+</ol>
+<p>Now choose \(t=100\) distinct rational primes</p>
+<div class="math-block">\[
+q_1,\dots,q_t\equiv 1\pmod{20},
+\]</div>
+<p>and set</p>
+<div class="math-block">\[
+m=q_1q_2\cdots q_t,\qquad F=\mathbb Q(\sqrt m).
+\]</div>
+<p>Then \(F\) is real quadratic. Since \(m\equiv 1\pmod4\), its discriminant is \(m\). Also \(m\equiv 1\pmod5\), so \(5\) splits in \(F\). Let \(T\) be the two primes of \(F\) above \(5\).</p>
+<p>By genus theory, the narrow class group of \(F\) has \(2\)-rank \(t-1\). The ordinary class group has \(2\)-rank at least \(t-2\). Killing the two classes in \(T\) lowers the \(2\)-rank by at most \(2\), so</p>
+<div class="math-block">\[
+\rho_T\ge t-4=96.
+\]</div>
+<p>Thus \(d\ge 96\). Since \(F\) is real quadratic, \(r_1(F)=2\), \(r_2(F)=0\), and \(|T|=2\). Therefore</p>
+<div class="math-block">\[
+r\le d+5.
+\]</div>
+<p>But for every \(d\ge 96\),</p>
+<div class="math-block">\[
+d+5&lt;\frac{d^2}{4}.
+\]</div>
+<p>Hence \(G\) cannot be finite. Therefore \(G\) is infinite.</p>
+<p>Choose finite subextensions</p>
+<div class="math-block">\[
+F\subset K_1,K_2,\dots\subset \mathcal K
+\]</div>
+<p>with</p>
+<div class="math-block">\[
+k_i=[K_i:\mathbb Q]\to\infty.
+\]</div>
+<p>Because the tower is unramified at finite primes,</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)=\operatorname{rd}(F)=:\Delta
+\]</div>
+<p>for all \(i\). Because every real place splits completely, each \(K_i\) is totally real. Because the two primes over \(5\) split completely in the tower, the rational prime \(5\) splits completely in each \(K_i\).</p>
+<p>Thus we have a sequence of totally real fields \(K_i\) such that:</p>
+<div class="math-block">\[
+[K_i:\mathbb Q]=k_i\to\infty,
+\]</div>
+<div class="math-block">\[
+\operatorname{rd}(K_i)=\Delta,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+5\mathcal O_{K_i}=\mathfrak p_{i,1}\cdots \mathfrak p_{i,k_i}
+\]</div>
+<p>with all \(\mathfrak p_{i,j}\) distinct of residue degree \(1\).</p>
+<hr>
+<h2>2. A uniform class-number bound</h2>
+<p>We need a crude exponential bound for class numbers at bounded root discriminant.</p>
+<h3>Lemma 1</h3>
+<p>For every \(R\ge 1\), there is a constant \(C_{\mathrm{cl}}(R)\) such that every number field \(M\) of degree \(n\) and root discriminant at most \(R\) satisfies</p>
+<div class="math-block">\[
+h(M)\le C_{\mathrm{cl}}(R)^n.
+\]</div>
+<p>One may take</p>
+<div class="math-block">\[
+C_{\mathrm{cl}}(R)=4R\zeta(2)^2.
+\]</div>
+<h3>Proof</h3>
+<p>Let \(d_M\) be the absolute discriminant of \(M\). Minkowski’s ideal-class bound says every ideal class contains an integral ideal of norm at most</p>
+<div class="math-block">\[
+\left(\frac4\pi\right)^{r_2}
+\frac{n!}{n^n}\sqrt{|d_M|}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\left(\frac4\pi\right)^{r_2}\le 2^n,
+\qquad
+\frac{n!}{n^n}\le 1,
+\qquad
+|d_M|^{1/n}\le R,
+\]</div>
+<p>every class contains an ideal of norm at most</p>
+<div class="math-block">\[
+X=(2\sqrt R)^n.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+h(M)\le \#\{\mathfrak a\subset\mathcal O_M:N\mathfrak a\le X\}.
+\]</div>
+<p>The number of ideals of norm \(m\) is at most the \((n+1)\)-fold divisor function \(d_{n+1}(m)\). Therefore</p>
+<div class="math-block">\[
+h(M)\le \sum_{m\le X}d_{n+1}(m).
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\sum_{m=1}^{\infty}\frac{d_{n+1}(m)}{m^2}
+=
+\zeta(2)^{n+1},
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+\sum_{m\le X}d_{n+1}(m)
+\le
+X^2\zeta(2)^{n+1}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+h(M)\le (2\sqrt R)^{2n}\zeta(2)^{n+1}
+\le
+(4R\zeta(2)^2)^n.
+\]</div>
+<p>This proves the lemma. \(\square\)</p>
+<p>Now set</p>
+<div class="math-block">\[
+L_i=K_i(i).
+\]</div>
+<p>Since \(K_i\) is totally real, \(i\notin K_i\), so</p>
+<div class="math-block">\[
+[L_i:\mathbb Q]=2k_i.
+\]</div>
+<p>The relative discriminant of \(K_i(i)/K_i\) divides \((4)\), because \(i\) satisfies \(X^2+1=0\). Hence</p>
+<div class="math-block">\[
+\operatorname{rd}(L_i)\le 2\operatorname{rd}(K_i)=2\Delta.
+\]</div>
+<p>By Lemma 1, there is a constant</p>
+<div class="math-block">\[
+C_0=C_{\mathrm{cl}}(2\Delta)
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+h(L_i)\le C_0^{2k_i}.
+\]</div>
+<p>Put</p>
+<div class="math-block">\[
+H=C_0^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+h(L_i)\le H^{k_i}
+\]</div>
+<p>for all \(i\).</p>
+<hr>
+<h2>3. Choice of constants</h2>
+<p>Choose an integer \(E\ge 1\) so large that, with</p>
+<div class="math-block">\[
+A=\frac{E+1}{H},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+A&gt;16\Delta.
+\]</div>
+<p>Also choose \(E\) large enough that</p>
+<div class="math-block">\[
+\frac{4M}{\sqrt\Delta}&gt;1,
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+M=2\cdot 5^{2E}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+C_{\mathrm{in}}=\frac{4M}{\sqrt\Delta},
+\qquad
+C_{\mathrm{out}}=6M+1.
+\]</div>
+<p>Then \(C_{\mathrm{in}}&gt;1\). Also,</p>
+<div class="math-block">\[
+\frac{C_{\mathrm{in}}}{C_{\mathrm{out}}}
+=
+\frac{4M}{\sqrt\Delta(6M+1)}
+&gt;
+\frac{1}{2\sqrt\Delta},
+\]</div>
+<p>because \(6M+1&lt;8M\). Therefore</p>
+<div class="math-block">\[
+\Theta
+:=
+A\left(\frac{C_{\mathrm{in}}}{C_{\mathrm{out}}}\right)^2
+&gt;
+A\cdot \frac1{4\Delta}
+&gt;
+4.
+\]</div>
+<p>Finally define</p>
+<div class="math-block">\[
+\delta=
+\frac{\log\Theta}{4\log C_{\mathrm{out}}}&gt;0.
+\]</div>
+<p>This \(\delta\) is absolute.</p>
+<hr>
+<h2>4. Many controlled unit vectors</h2>
+<p>Fix \(i\), and write</p>
+<div class="math-block">\[
+K=K_i,\qquad k=k_i,\qquad L=K(i).
+\]</div>
+<p>Since \(5\) splits completely in \(K\),</p>
+<div class="math-block">\[
+5\mathcal O_K=\mathfrak p_1\cdots\mathfrak p_k.
+\]</div>
+<p>Because \(5\equiv 1\pmod4\), the polynomial \(X^2+1\) splits modulo \(5\). Hence each \(\mathfrak p_j\) splits in \(L\):</p>
+<div class="math-block">\[
+\mathfrak p_j\mathcal O_L=\mathfrak P_j\overline{\mathfrak P}_j,
+\]</div>
+<p>where the bar denotes the nontrivial automorphism of \(L/K\).</p>
+<p>For each vector</p>
+<div class="math-block">\[
+\mathbf e=(e_1,\dots,e_k)\in\{0,1,\dots,E\}^k,
+\]</div>
+<p>define the integral ideal</p>
+<div class="math-block">\[
+\mathfrak A_{\mathbf e}
+=
+\prod_{j=1}^k
+\mathfrak P_j^{e_j}
+\overline{\mathfrak P}_j^{E-e_j}.
+\]</div>
+<p>There are \((E+1)^k\) such ideals. Since</p>
+<div class="math-block">\[
+h(L)\le H^k,
+\]</div>
+<p>some ideal class contains at least</p>
+<div class="math-block">\[
+\frac{(E+1)^k}{H^k}=A^k
+\]</div>
+<p>of them. Let \(\mathcal E\) be a subset of \(\{0,\dots,E\}^k\) of size at least \(A^k\) such that all \(\mathfrak A_{\mathbf e}\), \(\mathbf e\in\mathcal E\), lie in the same ideal class.</p>
+<p>Fix \(\mathbf e^{(0)}\in\mathcal E\). For each \(\mathbf e\in\mathcal E\), choose \(\alpha_{\mathbf e}\in L^\times\) such that</p>
+<div class="math-block">\[
+(\alpha_{\mathbf e})
+=
+\mathfrak A_{\mathbf e}\mathfrak A_{\mathbf e^{(0)}}^{-1}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+w_{\mathbf e}
+=
+\frac{\alpha_{\mathbf e}}{\overline{\alpha_{\mathbf e}}}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+w_{\mathbf e}\overline{w_{\mathbf e}}=1.
+\]</div>
+<p>Moreover,</p>
+<div class="math-block">\[
+(w_{\mathbf e})
+=
+\prod_{j=1}^k
+\left(
+\frac{\mathfrak P_j}{\overline{\mathfrak P}_j}
+\right)^{2(e_j-e_j^{(0)})}.
+\]</div>
+<p>Therefore every valuation of \(w_{\mathbf e}\) above \(5\) lies between \(-2E\) and \(2E\), and \(w_{\mathbf e}\) has no other nonzero valuations. Hence</p>
+<div class="math-block">\[
+5^{2E}w_{\mathbf e}\in\mathcal O_L,
+\qquad
+5^{2E}\overline{w_{\mathbf e}}\in\mathcal O_L.
+\]</div>
+<p>Write</p>
+<div class="math-block">\[
+a_{\mathbf e}
+=
+\frac{w_{\mathbf e}+\overline{w_{\mathbf e}}}{2},
+\qquad
+b_{\mathbf e}
+=
+\frac{w_{\mathbf e}-\overline{w_{\mathbf e}}}{2i}.
+\]</div>
+<p>Then \(a_{\mathbf e},b_{\mathbf e}\in K\). Also,</p>
+<div class="math-block">\[
+M a_{\mathbf e}
+=
+2\cdot 5^{2E}
+\cdot
+\frac{w_{\mathbf e}+\overline{w_{\mathbf e}}}{2}
+=
+5^{2E}(w_{\mathbf e}+\overline{w_{\mathbf e}})
+\in \mathcal O_L\cap K=\mathcal O_K.
+\]</div>
+<p>Similarly,</p>
+<div class="math-block">\[
+M b_{\mathbf e}
+=
+5^{2E}\frac{w_{\mathbf e}-\overline{w_{\mathbf e}}}{i}
+\in \mathcal O_L\cap K=\mathcal O_K,
+\]</div>
+<p>since \(i\) is a unit of \(\mathcal O_L\). Thus</p>
+<div class="math-block">\[
+a_{\mathbf e},b_{\mathbf e}\in M^{-1}\mathcal O_K.
+\]</div>
+<p>Finally,</p>
+<div class="math-block">\[
+w_{\mathbf e}=a_{\mathbf e}+ib_{\mathbf e},
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+1=w_{\mathbf e}\overline{w_{\mathbf e}}
+=
+(a_{\mathbf e}+ib_{\mathbf e})(a_{\mathbf e}-ib_{\mathbf e})
+=
+a_{\mathbf e}^2+b_{\mathbf e}^2.
+\]</div>
+<p>Thus every pair \((a_{\mathbf e},b_{\mathbf e})\) satisfies</p>
+<div class="math-block">\[
+a_{\mathbf e}^2+b_{\mathbf e}^2=1.
+\]</div>
+<p>The pairs \((a_{\mathbf e},b_{\mathbf e})\) are distinct. Indeed, if</p>
+<div class="math-block">\[
+(a_{\mathbf e},b_{\mathbf e})=(a_{\mathbf f},b_{\mathbf f}),
+\]</div>
+<p>then \(w_{\mathbf e}=w_{\mathbf f}\), so \((w_{\mathbf e})=(w_{\mathbf f})\). Comparing valuations at \(\mathfrak P_j\) gives</p>
+<div class="math-block">\[
+2(e_j-e_j^{(0)})=2(f_j-e_j^{(0)})
+\]</div>
+<p>for every \(j\), hence \(\mathbf e=\mathbf f\).</p>
+<p>Therefore we have constructed a set</p>
+<div class="math-block">\[
+\mathcal U_K\subset (M^{-1}\mathcal O_K)^2
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+|\mathcal U_K|\ge A^k
+\]</div>
+<p>and every \((a,b)\in\mathcal U_K\) satisfies</p>
+<div class="math-block">\[
+a^2+b^2=1.
+\]</div>
+<p>Consequently, for every real embedding \(\tau:K\hookrightarrow\mathbb R\),</p>
+<div class="math-block">\[
+\tau(a)^2+\tau(b)^2=1,
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+|\tau(a)|\le 1,\qquad |\tau(b)|\le 1.
+\]</div>
+<hr>
+<h2>5. Minkowski boxes</h2>
+<p>Let</p>
+<div class="math-block">\[
+\tau_1,\dots,\tau_k:K\hookrightarrow\mathbb R
+\]</div>
+<p>be the real embeddings of \(K\), and let</p>
+<div class="math-block">\[
+\Phi:K\to\mathbb R^k
+\]</div>
+<p>be the Minkowski embedding</p>
+<div class="math-block">\[
+\Phi(x)=(\tau_1(x),\dots,\tau_k(x)).
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\Lambda=M^{-1}\mathcal O_K.
+\]</div>
+<p>Since \(K\) is totally real and has root discriminant \(\Delta\),</p>
+<div class="math-block">\[
+\operatorname{covol}(\Phi(\mathcal O_K))
+=
+\sqrt{|\operatorname{disc}(K)|}
+=
+\Delta^{k/2}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+\operatorname{covol}(\Phi(\Lambda))
+=
+\left(\frac{\sqrt\Delta}{M}\right)^k.
+\]</div>
+<p>For \(\rho&gt;0\) and \(\mathbf t\in\mathbb R^k\), define</p>
+<div class="math-block">\[
+B_\rho(\mathbf t)
+=
+\{x\in\Lambda:\Phi(x)\in \mathbf t+[-\rho,\rho]^k\}.
+\]</div>
+<p>Averaging over a fundamental domain of \(\Phi(\Lambda)\),</p>
+<div class="math-block">\[
+\mathbb E_{\mathbf t}|B_2(\mathbf t)|
+=
+\frac{\operatorname{vol}([-2,2]^k)}
+{\operatorname{covol}(\Phi(\Lambda))}
+=
+\frac{4^k}{(\sqrt\Delta/M)^k}
+=
+C_{\mathrm{in}}^k.
+\]</div>
+<p>Hence there exists \(\mathbf t=\mathbf t_K\) such that</p>
+<div class="math-block">\[
+|B_2(\mathbf t_K)|\ge C_{\mathrm{in}}^k.
+\]</div>
+<p>Fix such a translate and write</p>
+<div class="math-block">\[
+B_{\mathrm{in}}=B_2(\mathbf t_K),
+\qquad
+B_{\mathrm{out}}=B_3(\mathbf t_K).
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|B_{\mathrm{in}}|\ge C_{\mathrm{in}}^k.
+\]</div>
+<p>We next upper-bound \(B_{\mathrm{out}}\). If \(x,y\in\Lambda\) and \(x\ne y\), then</p>
+<div class="math-block">\[
+M(x-y)\in\mathcal O_K\setminus\{0\}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\left|N_{K/\mathbb Q}(M(x-y))\right|\ge 1.
+\]</div>
+<p>Equivalently,</p>
+<div class="math-block">\[
+\prod_{j=1}^k |\tau_j(x-y)|\ge M^{-k}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+\max_j |\tau_j(x-y)|\ge M^{-1}.
+\]</div>
+<p>So the points of \(\Phi(\Lambda)\) are separated in \(\ell^\infty\)-distance by at least \(M^{-1}\).</p>
+<p>The \(\ell^\infty\)-cubes of radius \(1/(2M)\) centered at the points of \(\Phi(B_{\mathrm{out}})\) have disjoint interiors and all lie inside a cube of side length</p>
+<div class="math-block">\[
+6+\frac1M.
+\]</div>
+<p>Each small cube has volume \(M^{-k}\). Therefore</p>
+<div class="math-block">\[
+|B_{\mathrm{out}}|M^{-k}
+\le
+\left(6+\frac1M\right)^k,
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+|B_{\mathrm{out}}|
+\le
+(6M+1)^k
+=
+C_{\mathrm{out}}^k.
+\]</div>
+<p>Finally, if \(c\in M^{-1}\mathcal O_K\) satisfies</p>
+<div class="math-block">\[
+|\tau_j(c)|\le 1
+\]</div>
+<p>for all \(j\), then</p>
+<div class="math-block">\[
+B_{\mathrm{in}}+c\subseteq B_{\mathrm{out}},
+\]</div>
+<p>because the inner box has radius \(2\), the outer box has radius \(3\), and every conjugate of \(c\) has absolute value at most \(1\).</p>
+<hr>
+<h2>6. The planar point set</h2>
+<p>Use the first real embedding</p>
+<div class="math-block">\[
+\sigma=\tau_1.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+P_K
+=
+\{(\sigma(x),\sigma(y)):x,y\in B_{\mathrm{out}}\}
+\subset\mathbb R^2.
+\]</div>
+<p>Since \(\sigma\) is injective on \(K\), the map</p>
+<div class="math-block">\[
+B_{\mathrm{out}}\times B_{\mathrm{out}}
+\to P_K,
+\qquad
+(x,y)\mapsto(\sigma(x),\sigma(y))
+\]</div>
+<p>is injective. Hence</p>
+<div class="math-block">\[
+|P_K|=|B_{\mathrm{out}}|^2.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+|P_K|\le C_{\mathrm{out}}^{2k}.
+\]</div>
+<p>Also \(B_{\mathrm{in}}\subseteq B_{\mathrm{out}}\), so</p>
+<div class="math-block">\[
+|P_K|\ge |B_{\mathrm{in}}|^2\ge C_{\mathrm{in}}^{2k}.
+\]</div>
+<p>Since \(C_{\mathrm{in}}&gt;1\) and \(k=k_i\to\infty\), we will have</p>
+<div class="math-block">\[
+|P_{K_i}|\to\infty.
+\]</div>
+<hr>
+<h2>7. Counting unit distances</h2>
+<p>Let \((a,b)\in\mathcal U_K\). Then</p>
+<div class="math-block">\[
+a,b\in M^{-1}\mathcal O_K,
+\]</div>
+<p>and for every embedding \(\tau_j\),</p>
+<div class="math-block">\[
+|\tau_j(a)|\le 1,\qquad |\tau_j(b)|\le 1.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+B_{\mathrm{in}}+a\subseteq B_{\mathrm{out}},
+\qquad
+B_{\mathrm{in}}+b\subseteq B_{\mathrm{out}}.
+\]</div>
+<p>For every \(x,y\in B_{\mathrm{in}}\), define</p>
+<div class="math-block">\[
+p=(\sigma(x),\sigma(y)),
+\qquad
+q=(\sigma(x+a),\sigma(y+b)).
+\]</div>
+<p>Then \(p,q\in P_K\). Moreover,</p>
+<div class="math-block">\[
+\|p-q\|_2^2
+=
+\sigma(a)^2+\sigma(b)^2
+=
+\sigma(a^2+b^2)
+=
+\sigma(1)
+=
+1.
+\]</div>
+<p>So \((p,q)\) is a directed unit-distance pair.</p>
+<p>The pairs constructed in this way are all distinct. Indeed, if two quadruples \((a,b,x,y)\) and \((a',b',x',y')\) produce the same ordered pair \((p,q)\), then equality of the first coordinates gives</p>
+<div class="math-block">\[
+\sigma(x)=\sigma(x&#x27;),
+\qquad
+\sigma(y)=\sigma(y&#x27;),
+\]</div>
+<p>so \(x=x'\) and \(y=y'\). Equality of the second points then gives</p>
+<div class="math-block">\[
+\sigma(a)=\sigma(a&#x27;),
+\qquad
+\sigma(b)=\sigma(b&#x27;),
+\]</div>
+<p>so \(a=a'\) and \(b=b'\). Thus no overcounting occurs.</p>
+<p>Therefore</p>
+<div class="math-block">\[
+|D(P_K)|
+\ge
+|\mathcal U_K|\,|B_{\mathrm{in}}|^2
+\ge
+A^k C_{\mathrm{in}}^{2k}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P_K)
+=
+\frac12 |D(P_K)|
+\ge
+\frac12 A^k C_{\mathrm{in}}^{2k}.
+\]</div>
+<p>By definition of \(\Theta\),</p>
+<div class="math-block">\[
+A C_{\mathrm{in}}^2
+=
+\Theta C_{\mathrm{out}}^2.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+u(P_K)
+\ge
+\frac12 \Theta^k C_{\mathrm{out}}^{2k}.
+\]</div>
+<p>On the other hand,</p>
+<div class="math-block">\[
+|P_K|\le C_{\mathrm{out}}^{2k}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+|P_K|^{1+\delta}
+\le
+C_{\mathrm{out}}^{2k(1+\delta)}
+=
+C_{\mathrm{out}}^{2k}
+\left(C_{\mathrm{out}}^{2\delta}\right)^k.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\delta=
+\frac{\log\Theta}{4\log C_{\mathrm{out}}},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+C_{\mathrm{out}}^{2\delta}
+=
+\Theta^{1/2}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|P_K|^{1+\delta}
+\le
+C_{\mathrm{out}}^{2k}\Theta^{k/2}.
+\]</div>
+<p>Because \(\Theta&gt;4\), we have</p>
+<div class="math-block">\[
+\frac12\Theta^k\ge \Theta^{k/2}
+\]</div>
+<p>for every \(k\ge 1\). Hence</p>
+<div class="math-block">\[
+u(P_K)\ge |P_K|^{1+\delta}.
+\]</div>
+<p>Applying this construction to \(K=K_i\), define</p>
+<div class="math-block">\[
+P_i=P_{K_i}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|P_i|\to\infty
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for all \(i\). This proves the theorem. \(\square\)</p>
+</main>
+</body>
+</html>

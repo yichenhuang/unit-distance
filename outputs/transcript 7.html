@@ -1,0 +1,1617 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transcript</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Transcript</h1>
+<h2>System prompt</h2>
+<blockquote><p>The provided theorem was recently proved, and the result is now accepted by the mathematical community. Your task is to independently construct a proof.</p></blockquote>
+<hr>
+<h1>Round 1</h1>
+<h2>User</h2>
+<blockquote><p><strong>Theorem.</strong> There exist an absolute constant $\delta &gt; 0$ and an infinite sequence $\{P_i\}$ of finite point sets in $\mathbb{R}^2$ such that $|P_i| \to \infty$ and $u(P_i) \ge |P_i|^{1+\delta}$ for all $i$, where $u(P_i) = \frac{1}{2} | \{ (p,q) \in P_i \times P_i : \|p-q\|_2 = 1 \} |$ is the number of unit-distance pairs.</p>
+<p><strong>Remark.</strong> This result disproves the Erdős Unit Distance Conjecture.</p>
+<hr>
+<p>As a first step, brainstorm and propose three most promising approaches to prove this theorem. Explore each approach to sufficient depth, and then rank them from most to least promising.</p></blockquote>
+<h2>Assistant</h2>
+<p>I’ll write \(\mathbb R^2\cong \mathbb C\), so a unit-distance pair is a pair whose difference lies on the unit circle</p>
+<div class="math-block">\[
+\mathbb S^1=\{z\in\mathbb C: |z|=1\}.
+\]</div>
+<p>A useful unifying reduction is the following.</p>
+<p>If we can find finite sets \(A\subset \mathbb C\) and \(S\subset \mathbb S^1\) such that</p>
+<div class="math-block">\[
+|A+S| \ll |A|
+\qquad\text{and}\qquad
+|S|\ge |A|^{\delta},
+\]</div>
+<p>then the set</p>
+<div class="math-block">\[
+P:=A\cup (A+S)
+\]</div>
+<p>has many unit distances: for every \(a\in A\) and \(s\in S\), the pair \((a,a+s)\) is a unit pair. If the representations are not too degenerate, then</p>
+<div class="math-block">\[
+u(P)\gtrsim |A||S|\gtrsim |P|^{1+\delta&#x27;}.
+\]</div>
+<p>So the theorem is morally about building a finite set \(A\) with small expansion by many unit directions. The three approaches below are different ways of producing such \(A,S\).</p>
+<hr>
+<h1>Approach 1: Build many unit directions inside a low-complexity additive module</h1>
+<h2>Core idea</h2>
+<p>Construct a high-rank additive progression in \(\mathbb C\),</p>
+<div class="math-block">\[
+\Lambda=\left\{\sum_{j=1}^d n_j g_j : n_j\in\mathbb Z\right\},
+\]</div>
+<p>with \(d\to\infty\), such that the unit circle contains exponentially many elements of \(\Lambda\) whose coordinates in the basis \(g_1,\dots,g_d\) are bounded by an absolute constant.</p>
+<p>More precisely, aim to prove the following sufficient lemma.</p>
+<hr>
+<h2>Sufficient lemma: unit-rich bounded progression</h2>
+<p>Suppose there exist constants</p>
+<div class="math-block">\[
+\alpha&gt;1,\qquad \beta&gt;0,\qquad C\ge 1
+\]</div>
+<p>and, for infinitely many \(r\), complex numbers \(g_1,\dots,g_d\), with \(d\le \beta r\), and a set</p>
+<div class="math-block">\[
+S_r\subset \mathbb S^1
+\]</div>
+<p>such that</p>
+<ol>
+<li>\(|S_r|\ge \alpha^r\);</li>
+<li><p>every \(s\in S_r\) has a representation</p>
+<div class="math-block">\[
+s=\sum_{j=1}^d c_j(s)g_j
+\]</div>
+<p>with integers \(c_j(s)\in[-C,C]\);</p></li>
+<li><p>the map</p>
+<div class="math-block">\[
+(n_1,\dots,n_d)\mapsto \sum_{j=1}^d n_jg_j
+\]</div>
+<p>is injective on boxes of side length \(L+O(C)\), where \(L\) is some sufficiently large absolute constant.</p></li>
+</ol>
+<p>Then the theorem follows.</p>
+<p>Indeed, define</p>
+<div class="math-block">\[
+A_r:=\left\{\sum_{j=1}^d n_jg_j: 0\le n_j&lt;L\right\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|A_r|=L^d.
+\]</div>
+<p>For each \(s\in S_r\), because \(s\) has bounded integer coordinates, all points in the interior box</p>
+<div class="math-block">\[
+C\le n_j&lt;L-C
+\]</div>
+<p>satisfy \(a+s\in A_r\). Thus each \(s\in S_r\) contributes at least \((L-2C)^d\) unit pairs inside \(A_r\). Therefore</p>
+<div class="math-block">\[
+u(A_r)\gtrsim |S_r|(L-2C)^d
+\ge \alpha^r (L-2C)^d.
+\]</div>
+<p>Since \(d\le \beta r\), we have \(r\ge d/\beta\), so</p>
+<div class="math-block">\[
+u(A_r)
+\gtrsim
+\alpha^{d/\beta}(L-2C)^d
+=
+\left(\alpha^{1/\beta}(L-2C)\right)^d.
+\]</div>
+<p>Meanwhile</p>
+<div class="math-block">\[
+|A_r|=L^d.
+\]</div>
+<p>If \(L\) is chosen so that</p>
+<div class="math-block">\[
+\alpha^{1/\beta}(L-2C)&gt;L,
+\]</div>
+<p>then</p>
+<div class="math-block">\[
+u(A_r)\ge |A_r|^{1+\delta}
+\]</div>
+<p>for some absolute \(\delta&gt;0\).</p>
+<p>So the main task is to construct, for arbitrarily large \(r\), an additive module of rank \(O(r)\) containing \(\alpha^r\) distinct unit vectors of bounded coordinate complexity.</p>
+<hr>
+<h2>Function-field source of exponentially many unit directions</h2>
+<p>The classical Erdős lower bound uses Gaussian integers. One chooses an integer \(R\) with many representations</p>
+<div class="math-block">\[
+a^2+b^2=R^2,
+\]</div>
+<p>so that the vectors</p>
+<div class="math-block">\[
+\frac{a+ib}{R}
+\]</div>
+<p>are unit vectors. The limitation is that an integer \(R\) cannot have polynomially many essentially different Gaussian divisors; one only gets \(R^{o(1)}\) directions.</p>
+<p>A natural way around this is to move first to a function field. Let</p>
+<div class="math-block">\[
+\ell_j(t)=t-z_j,\qquad \overline{\ell_j}(t)=t-\overline{z_j}
+\]</div>
+<p>with \(z_j\in\mathbb C\setminus\mathbb R\). For every choice of signs \(\varepsilon=(\varepsilon_1,\dots,\varepsilon_r)\in\{\pm1\}^r\), define</p>
+<div class="math-block">\[
+G_\varepsilon(t)
+=
+\prod_{j=1}^r
+\begin{cases}
+\ell_j(t), &amp; \varepsilon_j=1,\\
+\overline{\ell_j}(t), &amp; \varepsilon_j=-1.
+\end{cases}
+\]</div>
+<p>For real \(t=T\), the ratio</p>
+<div class="math-block">\[
+u_\varepsilon(T)
+:=
+\frac{G_\varepsilon(T)}
+{\overline{G_\varepsilon(T)}}
+\]</div>
+<p>has modulus \(1\). Thus</p>
+<div class="math-block">\[
+u_\varepsilon(T)\in \mathbb S^1.
+\]</div>
+<p>There are \(2^r\) such directions. This is the function-field analogue of having \(2^r\) Gaussian divisors.</p>
+<p>To put the directions over a common denominator, write</p>
+<div class="math-block">\[
+D(t):=\prod_{j=1}^r \overline{\ell_j}(t).
+\]</div>
+<p>Then each \(u_\varepsilon(t)\) can be written as</p>
+<div class="math-block">\[
+u_\varepsilon(t)=\frac{N_\varepsilon(t)}{D(t)}
+\]</div>
+<p>where \(N_\varepsilon(t)\) is a polynomial of degree at most \(r\). The real vector space of possible numerators has dimension \(O(r)\). Thus the \(2^r\) unit directions all live in an \(O(r)\)-dimensional real vector space after specialization \(t=T\).</p>
+<p>The remaining challenge is additive-combinatorial: choose \(z_1,\dots,z_r\) and \(T\) so that the \(2^r\) values \(u_\varepsilon(T)\) lie in an actual rank-\(O(r)\) additive lattice with bounded coordinate complexity.</p>
+<p>A concrete technical target would be:</p>
+<blockquote><p><strong>Bounded divisor basis lemma.</strong> There exist choices of \(z_1,\dots,z_r\) and a real specialization \(T\) for which the \(2^r\) unit complex numbers \(u_\varepsilon(T)\) are distinct and lie in a generalized arithmetic progression of rank \(O(r)\) and volume \(\exp(O(r))\).</p></blockquote>
+<p>Once that lemma is proved, the sufficient lemma above gives the theorem immediately.</p>
+<hr>
+<h2>Why this approach is promising</h2>
+<p>This is the most direct continuation of Erdős’s original construction. The obstruction in the integer/Gaussian-integer setting is the divisor bound: an integer of size \(R\) has only \(R^{o(1)}\) Gaussian divisors. In a polynomial ring, however, a degree-\(r\) polynomial can have \(2^r\) divisors of comparable degree. So the function-field world naturally supplies exponentially many exact unit directions.</p>
+<p>The key is to specialize back to the real plane while keeping additive complexity linear in \(r\). If this can be done, one gets a point set of size roughly \(L^{O(r)}\) and about \(2^r\) available unit directions, hence</p>
+<div class="math-block">\[
+u(P)\ge |P|^{1+\delta}
+\]</div>
+<p>for some constant \(\delta&gt;0\).</p>
+<hr>
+<h2>Main subproblems</h2>
+<ol>
+<li><p><strong>Bounded-coordinate specialization.</strong> Find a basis in which all \(u_\varepsilon(T)\) have bounded integer coordinates.</p></li>
+<li><p><strong>Noncollision.</strong> Ensure the \(2^r\) directions remain distinct after specialization.</p></li>
+<li><p><strong>Injectivity of the point progression.</strong> Ensure that the additive map from the coefficient box into \(\mathbb C\) has no unwanted collisions.</p></li>
+<li><p><strong>Control of coefficient growth.</strong> Avoid the monomial-basis coefficient explosion that would otherwise make the progression volume \(\exp(\Theta(r^2))\) instead of \(\exp(O(r))\).</p></li>
+</ol>
+<p>I would try to attack this using a CRT-type basis for the quotient ring generated by the factors \(\ell_j,\overline{\ell_j}\), rather than the monomial basis.</p>
+<hr>
+<h1>Approach 2: Degenerate unit circles to translated parabolas and lift a sharp incidence construction</h1>
+<h2>Core idea</h2>
+<p>Locally, a unit circle looks like a parabola. More importantly, the incidence relation between points and unit circles degenerates exactly to the incidence relation between points and translates of a parabola. Translated parabolas have a clean \(N^{4/3}\)-incidence construction. If enough of that construction can be lifted from the parabolic limit back to genuine unit circles, the theorem follows, even with the optimal exponent \(\delta=1/3\).</p>
+<hr>
+<h2>The parabolic scaling</h2>
+<p>Let centers and points have the form</p>
+<div class="math-block">\[
+c=(\varepsilon a,\varepsilon^2 b),
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+q=(\varepsilon x,1+\varepsilon^2 y),
+\]</div>
+<p>where \(\varepsilon&gt;0\) is small. Then</p>
+<div class="math-block">\[
+\|q-c\|^2
+=
+\varepsilon^2(x-a)^2+
+\left(1+\varepsilon^2(y-b)\right)^2.
+\]</div>
+<p>The equation \(\|q-c\|=1\) becomes</p>
+<div class="math-block">\[
+\varepsilon^2(x-a)^2+
+\left(1+\varepsilon^2(y-b)\right)^2=1.
+\]</div>
+<p>Expanding,</p>
+<div class="math-block">\[
+1+\varepsilon^2\bigl((x-a)^2+2(y-b)\bigr)
++\varepsilon^4(y-b)^2
+=
+1.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+(x-a)^2+2(y-b)+\varepsilon^2(y-b)^2=0.
+\]</div>
+<p>When \(\varepsilon=0\), this is the translated parabola relation</p>
+<div class="math-block">\[
+y=b-\frac{(x-a)^2}{2}.
+\]</div>
+<p>For \(\varepsilon&gt;0\), solving for \(y-b\) gives the exact unit-circle branch</p>
+<div class="math-block">\[
+y-b=f_\varepsilon(x-a),
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+f_\varepsilon(d)
+=
+\frac{-1+\sqrt{1-\varepsilon^2d^2}}{\varepsilon^2}.
+\]</div>
+<p>As \(\varepsilon\to 0\),</p>
+<div class="math-block">\[
+f_\varepsilon(d)
+=
+-\frac{d^2}{2}
+-\frac{\varepsilon^2 d^4}{8}
+-\frac{\varepsilon^4 d^6}{16}
+-\cdots.
+\]</div>
+<p>So the unit-circle incidence geometry is an analytic perturbation of the translated-parabola incidence geometry.</p>
+<hr>
+<h2>Sharp incidence construction for translated parabolas</h2>
+<p>At \(\varepsilon=0\), take</p>
+<div class="math-block">\[
+A=\{1,\dots,L\},
+\qquad
+D=\{1,\dots,L\},
+\qquad
+B=\{1,\dots,L^2\}.
+\]</div>
+<p>Let the centers be indexed by \((a,b)\in A\times B\), so there are</p>
+<div class="math-block">\[
+|A||B|\sim L^3
+\]</div>
+<p>centers.</p>
+<p>For each \(d\in D\), define</p>
+<div class="math-block">\[
+x=a+d,
+\qquad
+y=b-\frac{d^2}{2}.
+\]</div>
+<p>The \(x\)-coordinates lie in \(A+D\), which has size \(O(L)\). The \(y\)-coordinates lie in</p>
+<div class="math-block">\[
+B-\frac{D^2}{2},
+\]</div>
+<p>which has size \(O(L^2)\). Hence the number of points is also \(O(L^3)\).</p>
+<p>But for every triple \((a,b,d)\in A\times B\times D\), we get an incidence. Therefore the number of incidences is</p>
+<div class="math-block">\[
+|A||B||D|\sim L^4.
+\]</div>
+<p>Thus for translated parabolas one has</p>
+<div class="math-block">\[
+N\sim L^3,\qquad I\sim L^4=N^{4/3}.
+\]</div>
+<p>If this incidence pattern can be lifted to unit circles, then with \(P=C\cup Q\) we get</p>
+<div class="math-block">\[
+u(P)\gtrsim |P|^{4/3}.
+\]</div>
+<p>That would give the theorem with \(\delta=1/3\), the largest possible exponent compatible with the Szemerédi–Trotter unit-circle incidence upper bound.</p>
+<hr>
+<h2>Direct lifting target</h2>
+<p>The direct analogue for unit circles is to find sets \(A,D,B\) such that</p>
+<div class="math-block">\[
+|A|\sim L,\qquad |D|\sim L,\qquad |B|\sim L^2,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A+D|\ll L,
+\]</div>
+<p>while also</p>
+<div class="math-block">\[
+|B+f_\varepsilon(D)|\ll L^2.
+\]</div>
+<p>Then define</p>
+<div class="math-block">\[
+C=\{(\varepsilon a,\varepsilon^2 b): a\in A,\ b\in B\}
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+Q=\{(\varepsilon x,1+\varepsilon^2 y): x\in A+D,\ y\in B+f_\varepsilon(D)\}.
+\]</div>
+<p>For every \(a\in A\), \(b\in B\), \(d\in D\), the point</p>
+<div class="math-block">\[
+q=(\varepsilon(a+d),1+\varepsilon^2(b+f_\varepsilon(d)))
+\]</div>
+<p>is at distance \(1\) from</p>
+<div class="math-block">\[
+c=(\varepsilon a,\varepsilon^2 b).
+\]</div>
+<p>Thus we get</p>
+<div class="math-block">\[
+|A||B||D|\sim L^4
+\]</div>
+<p>unit distances, while</p>
+<div class="math-block">\[
+|C|+|Q|\ll L^3.
+\]</div>
+<p>The hard part is to arrange the exact small-sumset condition</p>
+<div class="math-block">\[
+|B+f_\varepsilon(D)|\ll L^2.
+\]</div>
+<p>For \(f_0(d)=-d^2/2\), this is easy because \(d^2\in[1,L^2]\) when \(d\in[1,L]\). For \(\varepsilon&gt;0\), the higher-order terms destroy this simple arithmetic structure. So one needs to choose \(D\) and \(\varepsilon\) more carefully.</p>
+<p>A concrete lemma to aim for is:</p>
+<blockquote><p><strong>Circularized parabola lemma.</strong> For infinitely many \(L\), there exist \(\varepsilon=\varepsilon_L&gt;0\), sets \(A,D,B\subset\mathbb R\), with \(|A|\asymp |D|\asymp L\), \(|B|\asymp L^2\), such that</p>
+<div class="math-block">\[
+|A+D|\ll L
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|B+f_{\varepsilon}(D)|\ll L^2.
+\]</div></blockquote>
+<p>This lemma would immediately prove the theorem.</p>
+<hr>
+<h2>Alternative: formal deformation of the incidence graph</h2>
+<p>Instead of preserving the product structure \(A\times B\times D\), one could attempt to lift a large subgraph of the parabolic incidence graph by formal deformation.</p>
+<p>At \(\varepsilon=0\), we have an explicit realization with \(N\sim L^3\) vertices and \(L^4\) incidences. For \(\varepsilon&gt;0\), the equations become analytic perturbations:</p>
+<div class="math-block">\[
+(x-a)^2+2(y-b)+\varepsilon^2(y-b)^2=0.
+\]</div>
+<p>One can try to choose a large subgraph \(H_L\) of the parabolic incidence graph and solve the unit-circle equations as Puiseux series in \(\varepsilon\). If this can be done to all orders, then Artin approximation or Tarski transfer gives an honest real realization for sufficiently small positive \(\varepsilon\).</p>
+<p>Even if one loses many incidences, it is enough to preserve</p>
+<div class="math-block">\[
+L^{3+\eta}
+\]</div>
+<p>incidences for some fixed \(\eta&gt;0\), because the number of vertices is \(O(L^3)\), giving</p>
+<div class="math-block">\[
+u(P)\gtrsim |P|^{1+\eta/3}.
+\]</div>
+<p>Thus a much weaker lifting than the full \(L^4\)-incidence construction would already prove the theorem.</p>
+<hr>
+<h2>Why this approach is promising</h2>
+<p>This approach starts from an explicit, sharp, real incidence construction. It does not need finite fields or complex realizations. The geometry is also extremely natural: unit circles really do degenerate to translated parabolas under the scaling above.</p>
+<p>The main issue is exactness. Approximate parabola incidences are easy; exact unit-circle incidences require controlling the higher-order terms in \(f_\varepsilon\). Still, because only a polynomial improvement over linear is required, one may be able to keep a sufficiently large subconfiguration.</p>
+<hr>
+<h2>Main subproblems</h2>
+<ol>
+<li><p><strong>Find \(D\) with simultaneous additive structure for \(d\) and \(f_\varepsilon(d)\).</strong> Need both \(A+D\) and \(B+f_\varepsilon(D)\) small.</p></li>
+<li><p><strong>Develop a formal deformation theory for incidence graphs.</strong> Identify large subgraphs of the parabolic construction whose obstruction groups vanish.</p></li>
+<li><p><strong>Prevent splitting of coincident parabolic points.</strong> At \(\varepsilon=0\), many incidences are compressed because different triples \((a,b,d)\) yield the same point. Under perturbation these points tend to split. One must preserve enough coincidences.</p></li>
+<li><p><strong>Use sparse subgraphs if necessary.</strong> Retaining \(L^{3+\eta}\) incidences is sufficient.</p></li>
+</ol>
+<hr>
+<h1>Approach 3: Transfer dense finite-field unit-distance configurations to the real plane</h1>
+<h2>Core idea</h2>
+<p>Over a finite field \(\mathbb F_q\), the unit-distance graph in \(\mathbb F_q^2\) is extremely dense.</p>
+<p>Define a graph \(G_q\) on \(\mathbb F_q^2\) by connecting \(p,q\) whenever</p>
+<div class="math-block">\[
+(p_1-q_1)^2+(p_2-q_2)^2=1.
+\]</div>
+<p>The equation</p>
+<div class="math-block">\[
+x^2+y^2=1
+\]</div>
+<p>has \(q+O(1)\) solutions over \(\mathbb F_q\), so \(G_q\) has</p>
+<div class="math-block">\[
+n=q^2
+\]</div>
+<p>vertices and degree about \(q\). Hence</p>
+<div class="math-block">\[
+e(G_q)\sim q^3=n^{3/2}.
+\]</div>
+<p>This is much denser than what is possible over \(\mathbb R\), where the unit-distance upper bound is \(O(n^{4/3})\). Therefore one should not try to transfer the entire finite-field graph. Instead, one should transfer a subgraph with \(N\) vertices and \(N^{1+\eta}\) edges, where \(\eta\le 1/3\).</p>
+<p>For example, finite-field pseudorandomness suggests that one can find subgraphs with</p>
+<div class="math-block">\[
+E\sim N^{4/3}
+\]</div>
+<p>for suitable \(N\).</p>
+<p>If such a finite-field subgraph can be realized as a real unit-distance graph, the theorem follows.</p>
+<hr>
+<h2>Algebraic formulation</h2>
+<p>Given a finite graph \(H=(V,E)\), ask whether there exist real variables</p>
+<div class="math-block">\[
+(x_v,y_v)_{v\in V}
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+(x_v-x_w)^2+(y_v-y_w)^2=1
+\]</div>
+<p>for every edge \(vw\in E\), and such that distinct vertices are mapped to distinct points.</p>
+<p>This is a system of polynomial equations and inequalities.</p>
+<p>Finite-field unit graphs provide many large graphs \(H\) for which the same polynomial equations have solutions over \(\mathbb F_q\). The goal is to choose \(H\) so that the system also has a real solution.</p>
+<hr>
+<h2>Possible transfer mechanisms</h2>
+<h3>1. Ultraproduct/Lefschetz route</h3>
+<p>Take an ultraproduct of finite fields \(\mathbb F_{q_i}\) with \(q_i\to\infty\). The resulting field has characteristic \(0\). The finite-field unit-distance relation survives in the ultraproduct.</p>
+<p>One can then attempt to extract finite subgraphs \(H_i\) of increasing size and density whose unit-distance equations have solutions in a characteristic-zero field. By algebraic-geometry transfer principles, a polynomial system over \(\mathbb Q\) that has a solution in some characteristic-zero field has a solution over \(\mathbb C\).</p>
+<p>The remaining step is a realification lemma:</p>
+<blockquote><p><strong>Realification lemma.</strong> If a sufficiently sparse but still superlinear unit-distance graph has a complex realization by the equations</p>
+<div class="math-block">\[
+(x_v-x_w)^2+(y_v-y_w)^2=1,
+\]</div>
+<p>then it has an injective real Euclidean realization, perhaps after passing to a large subgraph.</p></blockquote>
+<p>This is the hardest part of the transfer route, because complex quadratic distance is not the same as real Euclidean distance.</p>
+<hr>
+<h3>2. \(p\)-adic lifting and real specialization</h3>
+<p>For a finite-field solution over \(\mathbb F_p\), try to lift the coordinates to \(\mathbb Q_p\) using Hensel-type arguments. Then use Hilbert irreducibility, weak approximation, or real-specialization methods to move the lifted solution to a number field with a real embedding.</p>
+<p>The dream statement is:</p>
+<blockquote><p><strong>Local-to-real lifting lemma.</strong> For a carefully chosen family of finite-field unit-distance subgraphs \(H\), solvability of the unit-distance equations over many finite fields implies solvability over a real closed field, hence over \(\mathbb R\).</p></blockquote>
+<p>Because the equations are quadratic and all edge lengths are the same, this might be more tractable than arbitrary polynomial systems.</p>
+<hr>
+<h3>3. Flow/cycle lifting via edge directions</h3>
+<p>Orient the graph \(H\). A unit-distance realization is equivalent to assigning to every oriented edge \(e\) a unit vector \(u_e\in \mathbb S^1\) such that around every cycle,</p>
+<div class="math-block">\[
+\sum_{e\in C} \pm u_e=0.
+\]</div>
+<p>Over \(\mathbb F_q\), one has many such assignments with \(u_e\in\{(x,y):x^2+y^2=1\}\).</p>
+<p>The transfer problem becomes:</p>
+<blockquote><p>Can one choose a dense finite-field subgraph whose cycle relations can be lifted to real unit vectors?</p></blockquote>
+<p>This turns the problem into a mixture of matroid theory and additive geometry on the unit circle. One might try to choose subgraphs whose cycle space has a totally unimodular or otherwise controlled structure, allowing finite-field solutions to be lifted to real solutions.</p>
+<hr>
+<h2>Why this approach is promising</h2>
+<p>Finite fields naturally contain dense unit-distance graphs. Their combinatorics already has the right local structure: two unit circles meet in at most two points, just as over the reals. Thus finite-field unit graphs resemble extremal point-unit-circle incidence configurations.</p>
+<p>If one can transfer even a small polynomial fraction of their density to the real plane, the theorem follows.</p>
+<hr>
+<h2>Main subproblems</h2>
+<ol>
+<li><p><strong>Choose the right finite-field subgraphs.</strong> The full graph is too dense to transfer to \(\mathbb R\), because real unit-distance graphs satisfy \(u(P)=O(n^{4/3})\). One should prune to density \(N^{1+\eta}\), ideally \(N^{4/3}\).</p></li>
+<li><p><strong>Ensure characteristic-zero solvability.</strong> A solution over one finite field does not by itself imply a complex or real solution. One needs a uniform family or an ultraproduct/compactness argument.</p></li>
+<li><p><strong>Realify complex solutions.</strong> Complex distance realizations may not be real Euclidean realizations. One needs a mechanism forcing or extracting real solutions.</p></li>
+<li><p><strong>Preserve injectivity.</strong> Vertices must remain distinct after lifting.</p></li>
+</ol>
+<hr>
+<h1>Ranking</h1>
+<h2>1. Most promising: Approach 1 — low-complexity additive module / function-field Gaussian-divisor construction</h2>
+<p>This is the route I would prioritize.</p>
+<p>It is closest to Erdős’s original construction, but it attacks the precise bottleneck: integer divisor counts are too small, whereas function-field divisor counts are exponential in the degree. The whole theorem reduces to a clean additive-combinatorial statement: find exponentially many unit directions inside a bounded-coordinate rank-\(O(r)\) progression.</p>
+<p>The proof would be very short once the unit-rich bounded progression lemma is established.</p>
+<p>The key technical challenge is controlling additive complexity after specializing the function-field directions to \(\mathbb R^2\). But the presence of \(2^r\) exact norm-one rational functions in an \(O(r)\)-dimensional function space is a strong structural starting point.</p>
+<hr>
+<h2>2. Second most promising: Approach 2 — parabolic degeneration and incidence lifting</h2>
+<p>This approach is geometrically natural and starts from a fully explicit \(N^{4/3}\)-incidence construction for translated parabolas. The unit-circle relation is an exact analytic perturbation of that parabola relation under a simple scaling.</p>
+<p>If one can lift even a sparse superlinear portion of the parabolic incidence graph, the theorem follows. The full lift would give the optimal exponent \(\delta=1/3\).</p>
+<p>The main obstacle is that the high-incidence parabola construction relies on exact arithmetic coincidences involving \(d^2\), and those coincidences tend to split under the circular perturbation. Still, because one only needs some fixed \(\delta&gt;0\), a partial deformation may be enough.</p>
+<hr>
+<h2>3. Third most promising: Approach 3 — finite-field transfer</h2>
+<p>Finite fields contain extremely dense unit-distance graphs, so they are an abundant source of candidate incidence patterns. This makes the approach conceptually attractive.</p>
+<p>However, the transfer to the real Euclidean plane is a major obstacle. One must prune the finite-field graph to avoid violating the real \(O(n^{4/3})\) upper bound, then lift a finite-field polynomial solution to a real one while preserving unit distances and injectivity. The complex-to-real step is especially delicate.</p>
+<p>I would keep this as a parallel strategy, especially because finite-field configurations often reveal the correct algebraic structure, but I would not make it the first line of attack unless a strong realification lemma becomes available.</p>
+<hr>
+<h1>Round 2</h1>
+<h2>User</h2>
+<blockquote><p>Thoroughly develop your top-ranked approach to construct a complete and rigorous proof, adapting your strategy as needed.</p></blockquote>
+<h2>Assistant</h2>
+<p>Below is a complete proof following the spirit of the top-ranked “low-complexity additive module” approach, but with an important adaptation.</p>
+<p>The original plan was to find exponentially many unit directions inside a rank-\(O(r)\) additive progression. The cleanest rigorous way to achieve the same effect is to use <strong>relative norm-one units in mixed-signature quadratic extensions</strong>. These units give exponentially many exact unit complex numbers under one chosen embedding. Their additive sumsets remain small because of a simple algebraic norm-separation argument.</p>
+<p>I will identify \(\mathbb R^2\) with \(\mathbb C\).</p>
+<hr>
+<h1>1. Arithmetic source of many unit directions</h1>
+<p>We need the following proposition.</p>
+<hr>
+<h2>Proposition 1: exponentially many bounded algebraic unit directions</h2>
+<p>There exist constants</p>
+<div class="math-block">\[
+\alpha&gt;1,\qquad M\ge 1,
+\]</div>
+<p>and an infinite sequence of number fields \(L_i\), embeddings</p>
+<div class="math-block">\[
+\sigma_i:L_i\hookrightarrow \mathbb C,
+\]</div>
+<p>and finite sets</p>
+<div class="math-block">\[
+U_i\subset \mathcal O_{L_i}^{\times},
+\]</div>
+<p>such that, writing</p>
+<div class="math-block">\[
+d_i=[L_i:\mathbb Q]\to\infty,
+\]</div>
+<p>we have:</p>
+<ol>
+<li>\(|U_i|\ge \alpha^{d_i}\);</li>
+<li><p>for every \(u\in U_i\),</p>
+<div class="math-block">\[
+|\sigma_i(u)|=1;
+\]</div></li>
+<li><p>for every embedding \(\tau:L_i\hookrightarrow \mathbb C\) and every \(u\in U_i\),</p>
+<div class="math-block">\[
+|\tau(u)|\le M.
+\]</div></li>
+</ol>
+<p>Thus each \(U_i\) gives exponentially many algebraic integers whose distinguished complex embeddings are exact unit complex numbers and whose other conjugates are uniformly bounded.</p>
+<p>We first prove this proposition.</p>
+<hr>
+<h2>1.1. Mixed-signature quadratic towers</h2>
+<p>We use a classical theorem of Golod–Shafarevich–Martinet:</p>
+<blockquote><p><strong>Martinet tower theorem.</strong>   There exists a totally real number field \(F_0\) admitting an infinite tower of totally real extensions</p>
+<div class="math-block">\[
+F_0\subset F_1\subset F_2\subset\cdots
+\]</div>
+<p>with \([F_i:F_0]\to\infty\), such that the root discriminants of the \(F_i\) are uniformly bounded.</p></blockquote>
+<p>Equivalently, there is a constant \(\Delta_F\) such that</p>
+<div class="math-block">\[
+|\operatorname{Disc}(F_i)|^{1/[F_i:\mathbb Q]}\le \Delta_F
+\]</div>
+<p>for all \(i\).</p>
+<p>Choose an algebraic integer \(\theta\in \mathcal O_{F_0}\) with mixed signs at the real embeddings of \(F_0\): at least one real embedding sends \(\theta\) to a positive number, and at least one real embedding sends \(\theta\) to a negative number. Such a \(\theta\) exists by weak approximation.</p>
+<p>Define</p>
+<div class="math-block">\[
+L_i:=F_i(\sqrt{\theta}).
+\]</div>
+<p>Because \(\theta\) is negative at some real place of \(F_i\), it is not a square in \(F_i\), so</p>
+<div class="math-block">\[
+[L_i:F_i]=2.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+\rho_i:L_i\to L_i
+\]</div>
+<p>be the nontrivial \(F_i\)-automorphism, so</p>
+<div class="math-block">\[
+\rho_i(\sqrt{\theta})=-\sqrt{\theta}.
+\]</div>
+<p>At a real place \(v\) of \(F_i\),</p>
+<ul>
+<li>if \(v(\theta)&gt;0\), then \(L_i\otimes_{F_i,v}\mathbb R\cong \mathbb R\times \mathbb R\);</li>
+<li>if \(v(\theta)&lt;0\), then \(L_i\otimes_{F_i,v}\mathbb R\cong \mathbb C\).</li>
+</ul>
+<p>Since \(\theta\) has both positive and negative signs at the base field \(F_0\), the fields \(L_i\) have both real places and complex places, and the number of split real places is a positive proportion of \([L_i:\mathbb Q]\).</p>
+<p>Let</p>
+<div class="math-block">\[
+d_i=[L_i:\mathbb Q].
+\]</div>
+<p>Let \(s_i\) denote the number of real places of \(F_i\) that split in \(L_i\), i.e. the number of real places \(v\) of \(F_i\) with \(v(\theta)&gt;0\). Then there is a constant</p>
+<div class="math-block">\[
+\kappa&gt;0
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+s_i\ge \kappa d_i
+\]</div>
+<p>for all \(i\).</p>
+<p>Also, because the relative discriminant of \(L_i/F_i\) divides the extension of the fixed ideal \((4\theta)\subset \mathcal O_{F_0}\), the fields \(L_i\) also have uniformly bounded root discriminant. Thus there is a constant \(\Delta_L\) such that</p>
+<div class="math-block">\[
+|\operatorname{Disc}(L_i)|^{1/d_i}\le \Delta_L
+\]</div>
+<p>for all \(i\).</p>
+<p>Choose one real place of \(F_0\) at which \(\theta&lt;0\), and for each \(i\) choose a complex embedding</p>
+<div class="math-block">\[
+\sigma_i:L_i\hookrightarrow \mathbb C
+\]</div>
+<p>lying above a real place of \(F_i\) above that chosen negative place. Then</p>
+<div class="math-block">\[
+\sigma_i\circ \rho_i=\overline{\sigma_i}.
+\]</div>
+<hr>
+<h2>1.2. Relative norm-one units</h2>
+<p>Define the relative norm-one unit group</p>
+<div class="math-block">\[
+E_i^1:=\{u\in \mathcal O_{L_i}^{\times}:u\rho_i(u)=1\}.
+\]</div>
+<p>Equivalently,</p>
+<div class="math-block">\[
+E_i^1=\ker\left(N_{L_i/F_i}:\mathcal O_{L_i}^{\times}\to \mathcal O_{F_i}^{\times}\right).
+\]</div>
+<p>At the distinguished complex embedding \(\sigma_i\), every \(u\in E_i^1\) satisfies</p>
+<div class="math-block">\[
+\sigma_i(u)\overline{\sigma_i(u)}
+=
+\sigma_i(u)\sigma_i(\rho_i(u))
+=
+\sigma_i(u\rho_i(u))
+=
+1.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+|\sigma_i(u)|=1.
+\]</div>
+<p>So relative norm-one units give exact unit directions.</p>
+<p>Now consider the split real places of \(F_i\). For each split real place \(v\), choose one of the two real embeddings</p>
+<div class="math-block">\[
+\tau_v:L_i\hookrightarrow \mathbb R
+\]</div>
+<p>above \(v\). Since \(v\) splits, the other embedding is \(\tau_v\circ \rho_i\). For \(u\in E_i^1\),</p>
+<div class="math-block">\[
+\tau_v(u)\cdot \tau_v(\rho_i(u))=1,
+\]</div>
+<p>so if we define</p>
+<div class="math-block">\[
+\ell_v(u):=\log|\tau_v(u)|,
+\]</div>
+<p>then the other embedding contributes \(-\ell_v(u)\).</p>
+<p>Define the relative logarithmic embedding</p>
+<div class="math-block">\[
+\ell_i:E_i^1\to \mathbb R^{s_i}
+\]</div>
+<p>by</p>
+<div class="math-block">\[
+\ell_i(u)=(\ell_v(u))_{v}.
+\]</div>
+<p>By Dirichlet’s unit theorem, \(\ell_i(E_i^1)\) is a lattice of rank \(s_i\) in \(\mathbb R^{s_i}\), up to a finite kernel consisting of roots of unity.</p>
+<p>Let</p>
+<div class="math-block">\[
+\Lambda_i:=\ell_i(E_i^1).
+\]</div>
+<p>We need a uniform upper bound on the covolume of \(\Lambda_i\).</p>
+<p>Because the root discriminants of the \(L_i\) are bounded, the analytic class number formula together with the standard residue bound for Dedekind zeta-functions gives</p>
+<div class="math-block">\[
+R_{L_i}\le C_1^{d_i}
+\]</div>
+<p>for some absolute constant \(C_1\), where \(R_{L_i}\) is the ordinary regulator of \(L_i\).</p>
+<p>The relative regulator of \(L_i/F_i\), i.e. the covolume of \(\Lambda_i\), is bounded by the ordinary regulator up to an exponential-in-degree factor. Indeed, the subgroup</p>
+<div class="math-block">\[
+\mathcal O_{F_i}^{\times}\cdot E_i^1\subseteq \mathcal O_{L_i}^{\times}
+\]</div>
+<p>has index at most \(2^{O(d_i)}\), because for every \(u\in \mathcal O_{L_i}^{\times}\),</p>
+<div class="math-block">\[
+u^2=N_{L_i/F_i}(u)\cdot \frac{u}{\rho_i(u)},
+\]</div>
+<p>where \(N_{L_i/F_i}(u)\in \mathcal O_{F_i}^{\times}\) and \(u/\rho_i(u)\in E_i^1\). Therefore the quotient is killed by \(2\).</p>
+<p>It follows that there is a constant \(R_0\ge 1\) such that</p>
+<div class="math-block">\[
+\operatorname{covol}(\Lambda_i)\le R_0^{d_i}
+\]</div>
+<p>for all \(i\).</p>
+<hr>
+<h2>1.3. Many relative units in a bounded log box</h2>
+<p>Fix \(T&gt;1\), to be chosen large enough later. Let</p>
+<div class="math-block">\[
+Q_T=[-T,T]^{s_i}\subset \mathbb R^{s_i}.
+\]</div>
+<p>We claim that \(\Lambda_i\cap Q_T\) contains exponentially many points.</p>
+<p>A standard Blichfeldt argument gives this cleanly. Let</p>
+<div class="math-block">\[
+Q_T&#x27;=[-T/2,T/2]^{s_i}.
+\]</div>
+<p>Some translate of \(Q_T'\) contains at least</p>
+<div class="math-block">\[
+\frac{\operatorname{vol}(Q_T&#x27;)}{\operatorname{covol}(\Lambda_i)}
+=
+\frac{T^{s_i}}{\operatorname{covol}(\Lambda_i)}
+\]</div>
+<p>points of \(\Lambda_i\). Subtracting one of those points from all the others, we obtain at least the same number, up to harmless constants, of lattice points in</p>
+<div class="math-block">\[
+Q_T&#x27;-Q_T&#x27;=Q_T.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|\Lambda_i\cap Q_T|
+\ge
+\frac{T^{s_i}}{2R_0^{d_i}}
+\]</div>
+<p>for all sufficiently large \(i\).</p>
+<p>Since \(s_i\ge \kappa d_i\),</p>
+<div class="math-block">\[
+|\Lambda_i\cap Q_T|
+\ge
+\frac12\left(\frac{T^{\kappa}}{R_0}\right)^{d_i}.
+\]</div>
+<p>Choose \(T\) so large that</p>
+<div class="math-block">\[
+\alpha:=\frac12\frac{T^{\kappa}}{R_0}&gt;1.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+M:=e^T.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+U_i:=\{u\in E_i^1:\|\ell_i(u)\|_{\infty}\le T\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i}.
+\]</div>
+<p>Moreover, for every \(u\in U_i\),</p>
+<ul>
+<li>at the distinguished complex embedding \(\sigma_i\),</li>
+</ul>
+<div class="math-block">  \[
+  |\sigma_i(u)|=1;
+  \]</div>
+<ul>
+<li>at every complex place lying above a negative real place of \(F_i\), the same norm-one argument gives modulus \(1\);</li>
+</ul>
+<ul>
+<li>at each split real place, both real embeddings have absolute value between \(e^{-T}\) and \(e^T\).</li>
+</ul>
+<p>Therefore, for every embedding \(\tau:L_i\hookrightarrow \mathbb C\),</p>
+<div class="math-block">\[
+|\tau(u)|\le e^T=M.
+\]</div>
+<p>This proves Proposition 1.</p>
+<hr>
+<h1>2. A sumset construction from the unit directions</h1>
+<p>We now prove the theorem using the sets \(U_i\) from Proposition 1.</p>
+<p>Fix one of the fields \(L=L_i\), embedding \(\sigma=\sigma_i\), degree \(d=d_i\), and unit set \(U=U_i\). Write</p>
+<div class="math-block">\[
+m:=|U|.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+m\ge \alpha^d.
+\]</div>
+<p>For \(k\ge 1\), define the \(k\)-fold additive sumset</p>
+<div class="math-block">\[
+kU:=\{u_1+\cdots+u_k:u_1,\dots,u_k\in U\}\subset \mathcal O_L.
+\]</div>
+<p>The key point is that although \(U\) is exponentially large, the sumsets \(kU\) are still only exponentially large in \(d\), for fixed \(k\). This is where algebraic norm-separation replaces the bounded-coordinate progression from the original brainstorm.</p>
+<hr>
+<h2>Lemma 2: packing bound for \(kU\)</h2>
+<p>For each fixed \(k\ge 1\),</p>
+<div class="math-block">\[
+|kU|\le (CkM)^d
+\]</div>
+<p>for an absolute constant \(C\).</p>
+<h3>Proof</h3>
+<p>Let \(x,y\in kU\) be distinct. Then</p>
+<div class="math-block">\[
+z:=x-y
+\]</div>
+<p>is a nonzero algebraic integer.</p>
+<p>Let</p>
+<div class="math-block">\[
+r:=|\sigma(z)|.
+\]</div>
+<p>Since \(z\neq 0\),</p>
+<div class="math-block">\[
+N_{L/\mathbb Q}(z)
+\]</div>
+<p>is a nonzero integer, so</p>
+<div class="math-block">\[
+|N_{L/\mathbb Q}(z)|\ge 1.
+\]</div>
+<p>Enumerate all embeddings \(\tau:L\hookrightarrow \mathbb C\). The embeddings \(\sigma\) and \(\overline{\sigma}\) contribute</p>
+<div class="math-block">\[
+|\sigma(z)|\cdot |\overline{\sigma}(z)|=r^2.
+\]</div>
+<p>For every other embedding \(\tau\), since each \(u\in U\) satisfies \(|\tau(u)|\le M\), every \(x\in kU\) satisfies</p>
+<div class="math-block">\[
+|\tau(x)|\le kM.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+|\tau(z)|\le 2kM.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+1
+\le
+|N_{L/\mathbb Q}(z)|
+=
+\prod_{\tau:L\hookrightarrow \mathbb C}|\tau(z)|
+\le
+r^2(2kM)^{d-2}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+r\ge (2kM)^{-(d-2)/2}.
+\]</div>
+<p>So distinct points of \(\sigma(kU)\subset \mathbb C\) are separated by at least</p>
+<div class="math-block">\[
+\rho:=(2kM)^{-(d-2)/2}.
+\]</div>
+<p>On the other hand, since \(|\sigma(u)|=1\) for all \(u\in U\), every point of \(\sigma(kU)\) lies in the disk of radius \(k\) centered at \(0\).</p>
+<p>A packing argument in the plane gives</p>
+<div class="math-block">\[
+|kU|
+=
+|\sigma(kU)|
+\le
+\left(\frac{5k}{\rho}\right)^2
+\le
+25k^2(2kM)^{d-2}.
+\]</div>
+<p>Absorbing the harmless polynomial factor into the exponential base, we get</p>
+<div class="math-block">\[
+|kU|\le (CkM)^d
+\]</div>
+<p>for an absolute constant \(C\). ∎</p>
+<hr>
+<h1>3. Choosing a sumset with small additive growth</h1>
+<p>Let \(K\ge 2\) be a fixed integer to be chosen later. Set</p>
+<div class="math-block">\[
+B:=CKM.
+\]</div>
+<p>By Lemma 2,</p>
+<div class="math-block">\[
+|KU|\le B^d.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+|U|\ge \alpha^d,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\frac{|KU|}{|U|}
+\le
+\left(\frac{B}{\alpha}\right)^d.
+\]</div>
+<p>For \(j=2,\dots,K\), define</p>
+<div class="math-block">\[
+a_j:=|jU|.
+\]</div>
+<p>Because \(1\in U\), the sequence \(|jU|\) is nondecreasing: adding \(1\) gives an injection</p>
+<div class="math-block">\[
+jU\hookrightarrow (j+1)U.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\prod_{j=2}^{K}\frac{|jU|}{|(j-1)U|}
+=
+\frac{|KU|}{|U|}
+\le
+\left(\frac{B}{\alpha}\right)^d.
+\]</div>
+<p>Hence there exists some</p>
+<div class="math-block">\[
+j\in\{2,\dots,K\}
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+\frac{|jU|}{|(j-1)U|}
+\le
+\exp(\varepsilon d),
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\varepsilon:=
+\frac{\log B-\log \alpha}{K-1}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\log B=\log(CM)+\log K,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\varepsilon\to 0
+\]</div>
+<p>as \(K\to\infty\). Choose \(K\) once and for all so large that</p>
+<div class="math-block">\[
+\varepsilon&lt;\frac12\log \alpha.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\lambda:=\log\alpha-\varepsilon&gt;0.
+\]</div>
+<p>For this \(j\), define</p>
+<div class="math-block">\[
+A:=(j-1)U,
+\qquad
+Q:=jU.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|Q|\le e^{\varepsilon d}|A|.
+\]</div>
+<hr>
+<h1>4. Constructing the point set</h1>
+<p>Define a finite point set in the plane by</p>
+<div class="math-block">\[
+P:=\sigma(A\cup Q)\subset \mathbb C\cong \mathbb R^2.
+\]</div>
+<p>Because \(\sigma\) is an embedding, it is injective, so</p>
+<div class="math-block">\[
+|P|=|A\cup Q|.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+n:=|P|.
+\]</div>
+<p>We have</p>
+<div class="math-block">\[
+n
+\le
+|A|+|Q|
+\le
+(1+e^{\varepsilon d})|A|
+\le
+2e^{\varepsilon d}|A|.
+\]</div>
+<p>Also, since \(j\le K\),</p>
+<div class="math-block">\[
+|Q|\le |KU|\le B^d,
+\]</div>
+<p>and hence</p>
+<div class="math-block">\[
+n\le 2B^d.
+\]</div>
+<p>Now consider all pairs</p>
+<div class="math-block">\[
+(a,u)\in A\times U.
+\]</div>
+<p>Since \(a\in (j-1)U\) and \(u\in U\), we have</p>
+<div class="math-block">\[
+a+u\in jU=Q.
+\]</div>
+<p>Therefore both</p>
+<div class="math-block">\[
+\sigma(a),\qquad \sigma(a+u)
+\]</div>
+<p>belong to \(P\). Moreover,</p>
+<div class="math-block">\[
+|\sigma(a+u)-\sigma(a)|
+=
+|\sigma(u)|
+=
+1.
+\]</div>
+<p>Thus every \((a,u)\in A\times U\) produces a unit-distance pair in \(P\).</p>
+<p>The map</p>
+<div class="math-block">\[
+(a,u)\mapsto \bigl(\sigma(a),\sigma(a+u)\bigr)
+\]</div>
+<p>is injective as a map into ordered pairs. Indeed, if</p>
+<div class="math-block">\[
+\sigma(a)=\sigma(a&#x27;)
+\]</div>
+<p>then \(a=a'\), and then</p>
+<div class="math-block">\[
+\sigma(a+u)=\sigma(a+u&#x27;)
+\]</div>
+<p>implies \(u=u'\).</p>
+<p>Therefore there are at least</p>
+<div class="math-block">\[
+|A||U|
+\]</div>
+<p>ordered unit-distance pairs of this form. Since an unordered edge gives at most two ordered pairs,</p>
+<div class="math-block">\[
+u(P)\ge \frac12 |A||U|.
+\]</div>
+<p>Using</p>
+<div class="math-block">\[
+|U|\ge \alpha^d
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A|\ge \frac12 e^{-\varepsilon d}n,
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+u(P)
+\ge
+\frac12 |A||U|
+\ge
+\frac14 n e^{-\varepsilon d}\alpha^d
+=
+\frac14 n e^{(\log\alpha-\varepsilon)d}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+u(P)\ge \frac14 n e^{\lambda d}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+n\le 2B^d,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+e^{\lambda d}
+\ge
+\left(\frac{n}{2}\right)^{\lambda/\log B}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P)
+\ge
+c\, n^{1+\lambda/\log B}
+\]</div>
+<p>for some constant \(c&gt;0\) independent of \(i\).</p>
+<p>Let</p>
+<div class="math-block">\[
+\delta_0:=\frac{\lambda}{\log B}&gt;0.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+u(P)\ge c\, n^{1+\delta_0}.
+\]</div>
+<p>Since \(d_i\to\infty\) and</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+|P_i|\to\infty.
+\]</div>
+<p>Discarding finitely many initial terms if necessary, we may absorb the constant \(c\) into the exponent. Namely, for all sufficiently large \(i\),</p>
+<div class="math-block">\[
+c\, |P_i|^{1+\delta_0}
+\ge
+|P_i|^{1+\delta_0/2}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\delta:=\frac{\delta_0}{2}&gt;0.
+\]</div>
+<p>Then for infinitely many \(i\),</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}.
+\]</div>
+<p>This proves the theorem. ∎</p>
+<hr>
+<h1>5. Summary of the construction</h1>
+<p>The proof can be summarized as follows.</p>
+<ol>
+<li>Choose mixed-signature quadratic extensions \(L_i/F_i\) of growing degree and bounded root discriminant.</li>
+<li><p>The relative norm-one unit group</p>
+<div class="math-block">\[
+E_i^1=\{u\in \mathcal O_{L_i}^{\times}:u\rho_i(u)=1\}
+\]</div>
+<p>has rank proportional to \([L_i:\mathbb Q]\).</p></li>
+<li><p>At a chosen complex embedding \(\sigma_i\), every \(u\in E_i^1\) satisfies</p>
+<div class="math-block">\[
+|\sigma_i(u)|=1.
+\]</div>
+<p>So these units become exact unit directions in the plane.</p></li>
+<li>Bounded regulator gives exponentially many such units whose other conjugates are uniformly bounded.</li>
+<li>If \(U_i\) is this set of unit directions, then for fixed \(k\), the sumset \(kU_i\) has size only \(C^{d_i}\). The reason is the norm-separation estimate: two distinct algebraic integers in \(kU_i\) have distinguished complex embeddings separated by at least \(C^{-d_i}\), while all lie in a bounded disk.</li>
+<li><p>A telescoping argument finds \(j\) such that</p>
+<div class="math-block">\[
+|jU_i|
+\]</div>
+<p>is not much larger than</p>
+<div class="math-block">\[
+|(j-1)U_i|.
+\]</div></li>
+<li><p>Taking</p>
+<div class="math-block">\[
+P_i=\sigma_i\bigl((j-1)U_i\cup jU_i\bigr)
+\]</div>
+<p>gives many unit distances, because every</p>
+<div class="math-block">\[
+a\in (j-1)U_i,\qquad u\in U_i
+\]</div>
+<p>yields</p>
+<div class="math-block">\[
+\sigma_i(a)\longleftrightarrow \sigma_i(a+u)
+\]</div>
+<p>at distance \(1\).</p></li>
+</ol>
+<p>Thus the point sets \(P_i\subset \mathbb R^2\) satisfy</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for some absolute \(\delta&gt;0\), with \(|P_i|\to\infty\).</p>
+<hr>
+<h1>Round 3</h1>
+<h2>User</h2>
+<blockquote><p>Critically examine the proof you constructed to identify and resolve any errors or logical gaps. Then, present a complete, rigorous, step-by-step proof. Clearly justify each step with sufficient detail so that an expert can verify your reasoning without needing to fill in any gaps.</p></blockquote>
+<h2>Assistant</h2>
+<p>Below I first point out the main gaps in the previous sketch, and then give a corrected proof.</p>
+<p>The previous proof had three places that needed real justification:</p>
+<ol>
+<li><strong>Regulators.</strong> I asserted too quickly that bounded root discriminant gives exponentially bounded regulators. One needs a standard Landau–Stark residue bound plus the analytic class number formula, and then a separate comparison between the ordinary regulator and the relative norm-one regulator.</li>
+<li><strong>Relative units.</strong> I used the fact that the relative norm-one unit group has rank proportional to the degree. This is true, but it needs a signature computation and a finite-index argument.</li>
+<li><strong>Sumsets.</strong> Exact sumsets \(kU\) are not literally nested as sets. They are only nondecreasing in cardinality because \(1\in U\), via the injection \(x\mapsto x+1\). The proof below uses only cardinality monotonicity.</li>
+</ol>
+<p>We now give the complete proof.</p>
+<hr>
+<h1>1. Arithmetic input</h1>
+<p>We use the following classical theorem of Martinet.</p>
+<blockquote><p><strong>Martinet tower theorem.</strong>   There exists an infinite sequence of totally real number fields</p>
+<div class="math-block">\[
+F_1,F_2,\dots
+\]</div>
+<p>with \([F_i:\mathbb Q]\to\infty\), and with uniformly bounded root discriminants:</p>
+<div class="math-block">\[
+|\operatorname{Disc}(F_i)|^{1/[F_i:\mathbb Q]}\le \Delta_F
+\]</div>
+<p>for some absolute constant \(\Delta_F\).</p></blockquote>
+<p>Fix such a tower. Choose a totally real base field \(F_0\) inside the tower, and choose an algebraic integer \(\theta\in \mathcal O_{F_0}\) with mixed signs at the real embeddings of \(F_0\): positive at at least one real embedding and negative at at least one real embedding. Such a \(\theta\) exists by weak approximation.</p>
+<p>For each \(i\), set</p>
+<div class="math-block">\[
+L_i:=F_i(\sqrt{\theta}).
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+d_i=[L_i:\mathbb Q].
+\]</div>
+<p>Since \(\theta\) is negative at some real embedding of \(F_i\), it is not a square in \(F_i\), so</p>
+<div class="math-block">\[
+[L_i:F_i]=2.
+\]</div>
+<p>Let \(\rho_i\) be the nontrivial \(F_i\)-automorphism of \(L_i\), so</p>
+<div class="math-block">\[
+\rho_i(\sqrt{\theta})=-\sqrt{\theta}.
+\]</div>
+<p>Because \(\theta\) has both positive and negative real signs, \(L_i\) has both real and complex places.</p>
+<p>Choose one real embedding of \(F_0\) at which \(\theta&lt;0\). For every \(i\), choose a complex embedding</p>
+<div class="math-block">\[
+\sigma_i:L_i\hookrightarrow \mathbb C
+\]</div>
+<p>lying over an extension of that real embedding. Then</p>
+<div class="math-block">\[
+\sigma_i\circ \rho_i=\overline{\sigma_i}.
+\]</div>
+<hr>
+<h1>2. Bounded root discriminants and relative regulators</h1>
+<p>Let</p>
+<div class="math-block">\[
+n_i=[F_i:\mathbb Q].
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+d_i=2n_i.
+\]</div>
+<p>The relative discriminant of \(L_i/F_i\) divides the extension of the fixed ideal \((4\theta)\subseteq \mathcal O_{F_0}\). Hence</p>
+<div class="math-block">\[
+|\operatorname{Disc}(L_i)|^{1/d_i}
+\]</div>
+<p>is uniformly bounded. Indeed,</p>
+<div class="math-block">\[
+\operatorname{Disc}(L_i)
+=
+\operatorname{Disc}(F_i)^2
+N_{F_i/\mathbb Q}(\mathfrak d_{L_i/F_i}),
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\mathfrak d_{L_i/F_i}\mid (4\theta)\mathcal O_{F_i}.
+\]</div>
+<p>Therefore there is a constant \(\Delta_L\) such that</p>
+<div class="math-block">\[
+|\operatorname{Disc}(L_i)|^{1/d_i}\le \Delta_L
+\]</div>
+<p>for all \(i\).</p>
+<p>We need the following standard consequence of the analytic class number formula.</p>
+<blockquote><p><strong>Regulator bound.</strong>   For every \(\Delta&gt;0\), there exists \(C_\Delta&gt;0\) such that if \(K\) is a number field of degree \(m\) and root discriminant at most \(\Delta\), then its ordinary regulator satisfies</p>
+<div class="math-block">\[
+R_K\le C_\Delta^m.
+\]</div>
+<p>Also, by Friedman’s lower bound for regulators, there exists \(c&gt;0\) such that for every number field \(K\) of positive unit rank,</p>
+<div class="math-block">\[
+R_K\ge c^{[K:\mathbb Q]}.
+\]</div></blockquote>
+<p>The upper bound follows from Landau’s residue estimate</p>
+<div class="math-block">\[
+\operatorname{Res}_{s=1}\zeta_K(s)
+\le
+\left(C\frac{\log |\operatorname{Disc}(K)|}{[K:\mathbb Q]}\right)^{[K:\mathbb Q]}
+\]</div>
+<p>and the analytic class number formula.</p>
+<p>Now define the relative norm-one unit group</p>
+<div class="math-block">\[
+E_i^1
+:=
+\{u\in \mathcal O_{L_i}^{\times}:u\rho_i(u)=1\}.
+\]</div>
+<p>Let \(s_i\) be the number of real places of \(F_i\) at which \(\theta&gt;0\). Since \(\theta\) is positive at a fixed positive proportion of the real embeddings coming from \(F_0\), there is a constant \(\kappa&gt;0\) such that</p>
+<div class="math-block">\[
+s_i\ge \kappa d_i.
+\]</div>
+<p>At each such split real place \(v\), choose one of the two real embeddings</p>
+<div class="math-block">\[
+\tau_v:L_i\hookrightarrow \mathbb R
+\]</div>
+<p>above \(v\). Define</p>
+<div class="math-block">\[
+\ell_i:E_i^1\to \mathbb R^{s_i}
+\]</div>
+<p>by</p>
+<div class="math-block">\[
+\ell_i(u)=\bigl(\log|\tau_v(u)|\bigr)_v.
+\]</div>
+<p>The image \(\Lambda_i:=\ell_i(E_i^1)\) is a full-rank lattice in \(\mathbb R^{s_i}\). Its rank is \(s_i\). Indeed, \(L_i\) has signature</p>
+<div class="math-block">\[
+(r_1,r_2)=(2s_i,n_i-s_i),
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+\operatorname{rank}\mathcal O_{L_i}^{\times}
+=
+r_1+r_2-1
+=
+n_i+s_i-1,
+\]</div>
+<p>whereas</p>
+<div class="math-block">\[
+\operatorname{rank}\mathcal O_{F_i}^{\times}
+=
+n_i-1.
+\]</div>
+<p>The quotient of \(\mathcal O_{L_i}^{\times}\) by the subgroup generated by \(\mathcal O_{F_i}^{\times}\) and \(E_i^1\) is killed by \(2\), because for every unit \(u\),</p>
+<div class="math-block">\[
+u^2
+=
+N_{L_i/F_i}(u)\cdot \frac{u}{\rho_i(u)},
+\]</div>
+<p>with</p>
+<div class="math-block">\[
+N_{L_i/F_i}(u)\in \mathcal O_{F_i}^{\times},
+\qquad
+\frac{u}{\rho_i(u)}\in E_i^1.
+\]</div>
+<p>Thus \(E_i^1\) has rank \(s_i\).</p>
+<p>Let</p>
+<div class="math-block">\[
+R_i^1:=\operatorname{covol}(\Lambda_i).
+\]</div>
+<p>We claim that</p>
+<div class="math-block">\[
+R_i^1\le R_0^{d_i}
+\]</div>
+<p>for some constant \(R_0\) independent of \(i\).</p>
+<p>To see this, compare the full logarithmic lattice of \(\mathcal O_{L_i}^{\times}\) with the direct sum of the logarithmic lattice of \(\mathcal O_{F_i}^{\times}\) and that of \(E_i^1\). In the full logarithmic embedding, the base-field units contribute vectors of the form \((x,x)\) at split real places, while norm-one units contribute vectors of the form \((y,-y)\). These subspaces are orthogonal. The finite-index argument above gives index at most \(2^{O(d_i)}\). Therefore</p>
+<div class="math-block">\[
+R_i^1
+\le
+C^{d_i}\frac{R_{L_i}}{R_{F_i}}.
+\]</div>
+<p>Using the upper bound \(R_{L_i}\le C_1^{d_i}\) and the lower bound \(R_{F_i}\ge C_2^{-d_i}\), we obtain</p>
+<div class="math-block">\[
+R_i^1\le R_0^{d_i}.
+\]</div>
+<hr>
+<h1>3. Many bounded norm-one units</h1>
+<p>Fix \(T&gt;1\), to be chosen later. Consider the box</p>
+<div class="math-block">\[
+[-T,T]^{s_i}\subset \mathbb R^{s_i}.
+\]</div>
+<p>By Blichfeldt’s theorem, applied to the lattice \(\Lambda_i\), we have</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge
+\frac12\frac{T^{s_i}}{R_i^1}
+\]</div>
+<p>for all sufficiently large \(i\). Hence</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge
+\frac12
+\left(\frac{T^\kappa}{R_0}\right)^{d_i}.
+\]</div>
+<p>Choose \(T\) large enough so that</p>
+<div class="math-block">\[
+\frac{T^\kappa}{R_0}&gt;4.
+\]</div>
+<p>Then there exists \(\alpha&gt;1\) such that, for all large \(i\),</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge \alpha^{d_i}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+U_i
+:=
+\{u\in E_i^1:\|\ell_i(u)\|_\infty\le T\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+M:=e^T.
+\]</div>
+<p>For every \(u\in U_i\), we have</p>
+<div class="math-block">\[
+|\sigma_i(u)|=1,
+\]</div>
+<p>because</p>
+<div class="math-block">\[
+\sigma_i(u)\overline{\sigma_i(u)}
+=
+\sigma_i(u)\sigma_i(\rho_i(u))
+=
+\sigma_i(u\rho_i(u))
+=
+1.
+\]</div>
+<p>Moreover, for every embedding \(\tau:L_i\hookrightarrow \mathbb C\),</p>
+<div class="math-block">\[
+|\tau(u)|\le M.
+\]</div>
+<p>Indeed, at split real places this follows from \(\|\ell_i(u)\|_\infty\le T\), and at complex places above negative real places the norm-one condition gives modulus \(1\).</p>
+<p>Thus we have produced, for each large \(i\), a set \(U_i\) of algebraic units satisfying:</p>
+<ol>
+<li>\(|U_i|\ge \alpha^{d_i}\);</li>
+<li>\(|\sigma_i(u)|=1\) for all \(u\in U_i\);</li>
+<li>\(|\tau(u)|\le M\) for every embedding \(\tau\).</li>
+</ol>
+<p>Also \(1\in U_i\).</p>
+<hr>
+<h1>4. A packing bound for sumsets</h1>
+<p>For a positive integer \(k\), define</p>
+<div class="math-block">\[
+kU_i
+=
+\{u_1+\cdots+u_k:u_1,\dots,u_k\in U_i\}.
+\]</div>
+<p>We prove:</p>
+<blockquote><p><strong>Lemma.</strong> There is an absolute constant \(C_{\mathrm{pack}}\) such that, for all \(i\) and all \(k\ge 1\),</p>
+<div class="math-block">\[
+|kU_i|\le (C_{\mathrm{pack}}kM)^{d_i}.
+\]</div></blockquote>
+<p>Proof. Let \(x,y\in kU_i\) be distinct. Then</p>
+<div class="math-block">\[
+z:=x-y
+\]</div>
+<p>is a nonzero algebraic integer. Therefore</p>
+<div class="math-block">\[
+|N_{L_i/\mathbb Q}(z)|\ge 1.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+r:=|\sigma_i(z)|.
+\]</div>
+<p>The conjugate embedding \(\overline{\sigma_i}\) contributes the same absolute value \(r\). For every other embedding \(\tau\),</p>
+<div class="math-block">\[
+|\tau(z)|
+\le
+|\tau(x)|+|\tau(y)|
+\le
+2kM.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+1
+\le
+|N_{L_i/\mathbb Q}(z)|
+\le
+r^2(2kM)^{d_i-2}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+r\ge (2kM)^{-(d_i-2)/2}.
+\]</div>
+<p>So distinct points of \(\sigma_i(kU_i)\subset \mathbb C\) are separated by at least</p>
+<div class="math-block">\[
+\rho:=(2kM)^{-(d_i-2)/2}.
+\]</div>
+<p>On the other hand, since \(|\sigma_i(u)|=1\) for all \(u\in U_i\), every point of \(\sigma_i(kU_i)\) lies in the disk of radius \(k\). A planar packing bound gives</p>
+<div class="math-block">\[
+|kU_i|
+=
+|\sigma_i(kU_i)|
+\le
+\left(\frac{5k}{\rho}\right)^2
+\le
+(C_{\mathrm{pack}}kM)^{d_i}
+\]</div>
+<p>for an absolute constant \(C_{\mathrm{pack}}\). ∎</p>
+<hr>
+<h1>5. Choosing a sumset with small growth</h1>
+<p>Fix a large integer \(K\), to be chosen momentarily, and set</p>
+<div class="math-block">\[
+B:=C_{\mathrm{pack}}KM.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|KU_i|\le B^{d_i}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\frac{|KU_i|}{|U_i|}
+\le
+\left(\frac{B}{\alpha}\right)^{d_i}.
+\]</div>
+<p>Because \(1\in U_i\), the map</p>
+<div class="math-block">\[
+x\mapsto x+1
+\]</div>
+<p>is an injection \(jU_i\hookrightarrow (j+1)U_i\). Hence the cardinalities \(|jU_i|\) are nondecreasing, and</p>
+<div class="math-block">\[
+\prod_{j=2}^{K}
+\frac{|jU_i|}{|(j-1)U_i|}
+=
+\frac{|KU_i|}{|U_i|}
+\le
+\left(\frac{B}{\alpha}\right)^{d_i}.
+\]</div>
+<p>Therefore there exists some \(j_i\in\{2,\dots,K\}\) such that</p>
+<div class="math-block">\[
+\frac{|j_iU_i|}{|(j_i-1)U_i|}
+\le
+\exp(\varepsilon d_i),
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\varepsilon
+:=
+\frac{\log(B/\alpha)}{K-1}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+B=C_{\mathrm{pack}}KM,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\varepsilon
+=
+\frac{\log K+O(1)}{K-1}\to 0
+\]</div>
+<p>as \(K\to\infty\). Choose \(K\) so large that</p>
+<div class="math-block">\[
+\varepsilon&lt;\frac12\log\alpha.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\lambda:=\log\alpha-\varepsilon&gt;0.
+\]</div>
+<hr>
+<h1>6. Constructing the point set</h1>
+<p>For each sufficiently large \(i\), put</p>
+<div class="math-block">\[
+A_i:=(j_i-1)U_i,
+\qquad
+B_i:=j_iU_i.
+\]</div>
+<p>Define the point set</p>
+<div class="math-block">\[
+P_i:=\sigma_i(A_i\cup B_i)\subset \mathbb C\cong \mathbb R^2.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+n_i:=|P_i|.
+\]</div>
+<p>We first bound \(n_i\). Since</p>
+<div class="math-block">\[
+|B_i|\le e^{\varepsilon d_i}|A_i|,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+n_i
+\le
+|A_i|+|B_i|
+\le
+2e^{\varepsilon d_i}|A_i|.
+\]</div>
+<p>Also, because \(j_i\le K\) and \(1\in U_i\), both \(|A_i|\) and \(|B_i|\) are at most \(|KU_i|\). Indeed, one pads sums with copies of \(1\). Therefore</p>
+<div class="math-block">\[
+n_i
+\le
+2|KU_i|
+\le
+2B^{d_i}.
+\]</div>
+<p>Now count unit distances. For every pair</p>
+<div class="math-block">\[
+(a,u)\in A_i\times U_i,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+a+u\in B_i.
+\]</div>
+<p>Therefore both</p>
+<div class="math-block">\[
+\sigma_i(a)
+\quad\text{and}\quad
+\sigma_i(a+u)
+\]</div>
+<p>belong to \(P_i\), and</p>
+<div class="math-block">\[
+|\sigma_i(a+u)-\sigma_i(a)|
+=
+|\sigma_i(u)|
+=
+1.
+\]</div>
+<p>The map</p>
+<div class="math-block">\[
+(a,u)
+\mapsto
+\bigl(\sigma_i(a),\sigma_i(a+u)\bigr)
+\]</div>
+<p>is injective. Indeed, if two such ordered pairs coincide, then \(\sigma_i(a)=\sigma_i(a')\), hence \(a=a'\), and then \(\sigma_i(u)=\sigma_i(u')\), hence \(u=u'\).</p>
+<p>Thus we obtain at least \(|A_i||U_i|\) ordered unit-distance pairs. Therefore</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac12 |A_i||U_i|.
+\]</div>
+<p>Using</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i}
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A_i|
+\ge
+\frac{n_i}{2e^{\varepsilon d_i}},
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac14 n_i e^{-\varepsilon d_i}\alpha^{d_i}
+=
+\frac14 n_i e^{\lambda d_i}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+n_i\le 2B^{d_i},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+e^{\lambda d_i}
+\ge
+\left(\frac{n_i}{2}\right)^{\lambda/\log B}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+c\, n_i^{1+\delta_0},
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\delta_0:=\frac{\lambda}{\log B}&gt;0
+\]</div>
+<p>and \(c&gt;0\) is an absolute constant.</p>
+<p>Finally, since \(1\in U_i\), we have</p>
+<div class="math-block">\[
+|A_i|\ge |U_i|\ge \alpha^{d_i},
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+n_i\to\infty.
+\]</div>
+<p>Discarding finitely many initial terms, we may absorb the constant \(c\) into the exponent. Namely, for all sufficiently large \(i\),</p>
+<div class="math-block">\[
+c\, n_i^{1+\delta_0}
+\ge
+n_i^{1+\delta_0/2}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\delta:=\frac{\delta_0}{2}&gt;0.
+\]</div>
+<p>Then, after relabeling the remaining infinite sequence,</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for all \(i\), with \(|P_i|\to\infty\).</p>
+<p>This proves the theorem. ∎</p>
+<hr>
+</main>
+</body>
+</html>

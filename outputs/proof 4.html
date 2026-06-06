@@ -1,0 +1,647 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proof</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p>Below I repair the main gaps in the previous outline and then give the full proof.</p>
+<p>The two important repairs are:</p>
+<ol>
+<li><p><strong>CM tower gap.</strong> An arbitrary unramified tower over a CM field need not have all layers CM. I avoid this by first constructing a totally real \(T\)-split unramified tower \(F_i\), and then setting</p>
+<div class="math-block">\[
+K_i=F_i(i).
+\]</div>
+<p>Then \(K_i\) is automatically CM.</p></li>
+<li><strong>Class-number bound gap.</strong> The previous proof invoked an analytic class-number estimate. We can instead use a completely elementary exponential class-number bound from Minkowski’s theorem plus \(\zeta_K(2)\le \zeta(2)^{[K:\mathbb Q]}\).</li>
+</ol>
+<p>We will use one standard arithmetic input: the Golod–Shafarevich criterion for \(T\)-split class field towers.</p>
+<hr>
+<h1>Proof</h1>
+<p>We identify \(\mathbb C\) with \(\mathbb R^2\).</p>
+<h2>1. A bounded-root-discriminant CM family with one completely split prime</h2>
+<p>Fix \(\ell=5\).</p>
+<p>Choose \(20\) distinct rational primes</p>
+<div class="math-block">\[
+r_1,\dots,r_{20}\equiv 1 \pmod {20},
+\]</div>
+<p>and put</p>
+<div class="math-block">\[
+D=r_1\cdots r_{20}.
+\]</div>
+<p>Then \(D\equiv 1\pmod 4\), so</p>
+<div class="math-block">\[
+F_0=\mathbb Q(\sqrt D)
+\]</div>
+<p>is a real quadratic field of discriminant \(D\). Also \(D\equiv 1\pmod 5\), so \(5\) splits in \(F_0\). Let \(T\) be the set of the two primes of \(F_0\) above \(5\).</p>
+<p>By genus theory,</p>
+<div class="math-block">\[
+d_2\operatorname{Cl}^+(F_0)=19,
+\]</div>
+<p>where \(\operatorname{Cl}^+(F_0)\) is the narrow class group and</p>
+<div class="math-block">\[
+d_2 A:=\dim_{\mathbb F_2} A/A^2.
+\]</div>
+<p>Quotienting by the classes of the two primes in \(T\) lowers the \(2\)-rank by at most \(2\), so the \(T\)-split narrow \(2\)-class group has \(2\)-rank at least</p>
+<div class="math-block">\[
+19-2=17.
+\]</div>
+<p>Now use the Golod–Shafarevich–Shafarevich theorem in the following standard form.</p>
+<blockquote><p>If \(F\) is a number field, \(T\) a finite set of finite primes, and \(G\) is the Galois group of the maximal pro-\(2\) extension of \(F\) unramified at all finite primes and split completely at all real places and at all primes of \(T\), then \(G\) has generator rank</p>
+<div class="math-block">\[
+s=d_2\bigl(\operatorname{Cl}^+(F)/\langle T\rangle\bigr)
+\]</div>
+<p>and relation rank at most</p>
+<div class="math-block">\[
+s+r_1(F)+r_2(F)+|T|+1.
+\]</div>
+<p>If this upper bound is \(&lt;s^2/4\), then \(G\) is infinite.</p></blockquote>
+<p>For \(F_0\), we have \(r_1=2\), \(r_2=0\), \(|T|=2\), and \(s\ge 17\). Hence the relation rank is at most</p>
+<div class="math-block">\[
+s+5,
+\]</div>
+<p>while</p>
+<div class="math-block">\[
+s+5&lt;\frac{s^2}{4}
+\]</div>
+<p>for all \(s\ge 17\). Therefore the \(T\)-split narrow \(2\)-class field tower of \(F_0\) is infinite.</p>
+<p>Let</p>
+<div class="math-block">\[
+F_1,F_2,\dots
+\]</div>
+<p>be finite layers in this tower with</p>
+<div class="math-block">\[
+d_i:=[F_i:\mathbb Q]\to\infty.
+\]</div>
+<p>Then:</p>
+<ul>
+<li>every \(F_i\) is totally real;</li>
+<li>\(F_i/F_0\) is unramified at all finite primes;</li>
+<li>every prime of \(T\) splits completely in \(F_i\);</li>
+<li>therefore \(5\) splits completely in \(F_i\);</li>
+<li>and</li>
+</ul>
+<div class="math-block">  \[
+  \operatorname{rd}(F_i)=\operatorname{rd}(F_0)=\sqrt D.
+  \]</div>
+<p>Now define</p>
+<div class="math-block">\[
+K_i:=F_i(i).
+\]</div>
+<p>Since \(F_i\) is totally real, \(K_i\) is CM, with maximal totally real subfield \(F_i\). Also \(5\) splits in \(\mathbb Q(i)\), because \(5\equiv 1\pmod 4\). Hence \(5\) splits completely in \(K_i\).</p>
+<p>Moreover,</p>
+<div class="math-block">\[
+[K_i:\mathbb Q]=2d_i.
+\]</div>
+<p>The relative discriminant of \(F_i(i)/F_i\) divides \(4\mathcal O_{F_i}\), so</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)\le 2\operatorname{rd}(F_i)=2\sqrt D.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+R_0:=2\sqrt D.
+\]</div>
+<p>Thus we have an infinite sequence of CM fields \(K_i\) with</p>
+<div class="math-block">\[
+[K_i:\mathbb Q]=2d_i,\qquad d_i\to\infty,
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)\le R_0
+\]</div>
+<p>and \(5\) splits completely in every \(K_i\).</p>
+<hr>
+<h2>2. A uniform exponential class-number bound</h2>
+<p>We need the following elementary estimate.</p>
+<h3>Lemma</h3>
+<p>There is a constant \(H\), depending only on \(R_0\), such that for every \(K_i\),</p>
+<div class="math-block">\[
+h_{K_i}\le H^{d_i}.
+\]</div>
+<h3>Proof</h3>
+<p>Let \(K\) be one of the \(K_i\), and write</p>
+<div class="math-block">\[
+[K:\mathbb Q]=2d.
+\]</div>
+<p>Since \(K\) is totally imaginary, Minkowski’s bound says that every ideal class contains an integral ideal \(\mathfrak a\) with</p>
+<div class="math-block">\[
+N\mathfrak a\le
+\left(\frac{4}{\pi}\right)^d
+\frac{(2d)!}{(2d)^{2d}}
+\sqrt{|\Delta_K|}.
+\]</div>
+<p>Using \((2d)!\le (2d)^{2d}\) and</p>
+<div class="math-block">\[
+\sqrt{|\Delta_K|}\le R_0^d,
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+N\mathfrak a\le
+\left(\frac{4R_0}{\pi}\right)^d.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+A:=\frac{4R_0}{\pi}.
+\]</div>
+<p>Then every ideal class has a representative of norm at most \(A^d\).</p>
+<p>Let \(I_K(X)\) be the number of integral ideals of \(K\) with norm at most \(X\). For \(X\ge 1\),</p>
+<div class="math-block">\[
+I_K(X)
+\le X^2 \zeta_K(2).
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+\zeta_K(2)\le \zeta(2)^{2d}.
+\]</div>
+<p>Indeed, each Euler factor of \(\zeta_K(2)\) is bounded by the corresponding Euler factor of \(\zeta(2)^{2d}\).</p>
+<p>Therefore</p>
+<div class="math-block">\[
+h_K\le I_K(A^d)
+\le A^{2d}\zeta(2)^{2d}.
+\]</div>
+<p>So it is enough to take</p>
+<div class="math-block">\[
+H:=A^2\zeta(2)^2
+=
+\left(\frac{4R_0}{\pi}\right)^2\zeta(2)^2.
+\]</div>
+<p>This proves the lemma. \(\square\)</p>
+<hr>
+<h2>3. Choice of parameters</h2>
+<p>For a positive integer \(m\), define</p>
+<div class="math-block">\[
+C_m:=(1+2\cdot 5^m)^2
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+L_m:=\frac{(m+1)\pi 5^{2m}}{2HR_0}.
+\]</div>
+<p>We choose \(m\) so large that</p>
+<div class="math-block">\[
+L_m&gt;C_m.
+\]</div>
+<p>This is possible because</p>
+<div class="math-block">\[
+\frac{L_m}{C_m}
+=
+\frac{(m+1)\pi 5^{2m}}
+{2HR_0(1+2\cdot 5^m)^2}
+\sim
+\frac{\pi(m+1)}{8HR_0}
+\to\infty.
+\]</div>
+<p>Now fix such an \(m\), and define</p>
+<div class="math-block">\[
+\delta
+:=
+\frac12\left(\frac{\log L_m}{\log C_m}-1\right)&gt;0.
+\]</div>
+<p>Equivalently,</p>
+<div class="math-block">\[
+L_m=C_m^{1+2\delta}.
+\]</div>
+<p>This \(\delta\) is an absolute constant.</p>
+<hr>
+<h2>4. Many unit translations inside a fractional ideal</h2>
+<p>Fix one of the fields \(K=K_i\), and write</p>
+<div class="math-block">\[
+[K:\mathbb Q]=2d.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+F=F_i
+\]</div>
+<p>be its maximal totally real subfield.</p>
+<p>Choose the \(d\) embeddings</p>
+<div class="math-block">\[
+\sigma_1,\dots,\sigma_d:K\hookrightarrow \mathbb C
+\]</div>
+<p>corresponding to the \(d\) real embeddings of \(F\) and the choice \(i\mapsto i\). Thus</p>
+<div class="math-block">\[
+\sigma_r(\overline x)=\overline{\sigma_r(x)}
+\]</div>
+<p>for CM conjugation \(x\mapsto \overline x\).</p>
+<p>Because \(5\) splits completely in \(K\), we may write</p>
+<div class="math-block">\[
+5\mathcal O_K
+=
+\prod_{j=1}^d \mathfrak q_j\overline{\mathfrak q_j},
+\]</div>
+<p>where each \(\mathfrak q_j\) has norm \(5\), and \(\overline{\mathfrak q_j}\) is its CM conjugate.</p>
+<p>Let</p>
+<div class="math-block">\[
+\mathcal E:=\{0,1,\dots,m\}^d.
+\]</div>
+<p>For</p>
+<div class="math-block">\[
+\mathbf e=(e_1,\dots,e_d)\in\mathcal E,
+\]</div>
+<p>define</p>
+<div class="math-block">\[
+\mathfrak Q_{\mathbf e}:=\prod_{j=1}^d \mathfrak q_j^{e_j}.
+\]</div>
+<p>The map</p>
+<div class="math-block">\[
+\mathbf e\mapsto [\mathfrak Q_{\mathbf e}]\in\operatorname{Cl}(K)
+\]</div>
+<p>takes \((m+1)^d\) values into a class group of size at most \(H^d\). Hence some fiber \(\mathcal F\subseteq\mathcal E\) has size at least</p>
+<div class="math-block">\[
+|\mathcal F|\ge \left(\frac{m+1}{H}\right)^d.
+\]</div>
+<p>Fix \(\mathbf e_*\in\mathcal F\).</p>
+<p>For every \(\mathbf e\in\mathcal F\), the fractional ideal</p>
+<div class="math-block">\[
+\mathfrak Q_{\mathbf e}\mathfrak Q_{\mathbf e_*}^{-1}
+\]</div>
+<p>is principal. Choose \(z_{\mathbf e}\in K^\times\) such that</p>
+<div class="math-block">\[
+(z_{\mathbf e})
+=
+\mathfrak Q_{\mathbf e}\mathfrak Q_{\mathbf e_*}^{-1}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\theta_{\mathbf e}:=
+\frac{z_{\mathbf e}}{\overline{z_{\mathbf e}}}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\theta_{\mathbf e}\overline{\theta_{\mathbf e}}=1.
+\]</div>
+<p>Therefore, for every \(r\),</p>
+<div class="math-block">\[
+|\sigma_r(\theta_{\mathbf e})|=1.
+\]</div>
+<p>In particular,</p>
+<div class="math-block">\[
+|\sigma_1(\theta_{\mathbf e})|=1.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+(\theta_{\mathbf e})
+=
+\prod_{j=1}^d
+\mathfrak q_j^{e_j-e_{*,j}}
+\overline{\mathfrak q_j}^{-(e_j-e_{*,j})}.
+\]</div>
+<p>Since each exponent \(e_j-e_{*,j}\) lies between \(-m\) and \(m\), all finite valuations of \(\theta_{\mathbf e}\) are at least \(-m\) at primes above \(5\), and are nonnegative elsewhere. Hence</p>
+<div class="math-block">\[
+\theta_{\mathbf e}\in 5^{-m}\mathcal O_K.
+\]</div>
+<p>Finally, the \(\theta_{\mathbf e}\) are distinct: the valuation of \((\theta_{\mathbf e})\) at \(\mathfrak q_j\) is exactly \(e_j-e_{*,j}\), so the ideal \((\theta_{\mathbf e})\) determines \(\mathbf e\).</p>
+<p>Thus the set</p>
+<div class="math-block">\[
+\Theta:=\{\theta_{\mathbf e}:\mathbf e\in\mathcal F\}
+\]</div>
+<p>satisfies</p>
+<div class="math-block">\[
+|\Theta|\ge \left(\frac{m+1}{H}\right)^d,
+\]</div>
+<p>and every \(\theta\in\Theta\) lies in \(5^{-m}\mathcal O_K\) and has</p>
+<div class="math-block">\[
+|\sigma_1(\theta)|=1.
+\]</div>
+<hr>
+<h2>5. The model set</h2>
+<p>Let</p>
+<div class="math-block">\[
+\Lambda:=\sigma(5^{-m}\mathcal O_K)\subset \mathbb C^d,
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\sigma(\alpha):=(\sigma_1(\alpha),\dots,\sigma_d(\alpha)).
+\]</div>
+<p>This is a full lattice in \(\mathbb C^d\simeq\mathbb R^{2d}\).</p>
+<p>Let</p>
+<div class="math-block">\[
+B_d:=\{x\in\mathbb C^d:\|x\|_2\le \sqrt d\}.
+\]</div>
+<p>For \(y\in\mathbb C^d\), define</p>
+<div class="math-block">\[
+X_y:=
+\{\alpha\in 5^{-m}\mathcal O_K:\sigma(\alpha)\in y+B_d\},
+\]</div>
+<p>and define the planar point set</p>
+<div class="math-block">\[
+P_y:=\{\sigma_1(\alpha):\alpha\in X_y\}\subset\mathbb C\simeq\mathbb R^2.
+\]</div>
+<p>Since \(\sigma_1\) is an embedding, it is injective, so</p>
+<div class="math-block">\[
+|P_y|=|X_y|.
+\]</div>
+<hr>
+<h2>6. Uniform upper bound for \(|P_y|\)</h2>
+<p>We show that for every \(y\),</p>
+<div class="math-block">\[
+|P_y|\le C_m^d.
+\]</div>
+<p>Let \(\alpha,\beta\in 5^{-m}\mathcal O_K\), \(\alpha\ne\beta\). Put</p>
+<div class="math-block">\[
+\gamma:=\alpha-\beta.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+5^m\gamma\in\mathcal O_K\setminus\{0\}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+|N_{K/\mathbb Q}(5^m\gamma)|\ge 1.
+\]</div>
+<p>Since \([K:\mathbb Q]=2d\),</p>
+<div class="math-block">\[
+|N_{K/\mathbb Q}(\gamma)|\ge 5^{-2md}.
+\]</div>
+<p>But</p>
+<div class="math-block">\[
+|N_{K/\mathbb Q}(\gamma)|
+=
+\prod_{r=1}^d |\sigma_r(\gamma)|^2.
+\]</div>
+<p>By AM-GM,</p>
+<div class="math-block">\[
+\|\sigma(\gamma)\|_2^2
+=
+\sum_{r=1}^d |\sigma_r(\gamma)|^2
+\ge
+d\left(\prod_{r=1}^d |\sigma_r(\gamma)|^2\right)^{1/d}
+\ge d5^{-2m}.
+\]</div>
+<p>Hence distinct points of \(\Lambda\) are separated by at least</p>
+<div class="math-block">\[
+\sqrt d\,5^{-m}.
+\]</div>
+<p>All points of \(\Lambda\cap(y+B_d)\) lie in a ball of radius \(\sqrt d\). Packing balls of radius</p>
+<div class="math-block">\[
+\frac12\sqrt d\,5^{-m}
+\]</div>
+<p>around them gives</p>
+<div class="math-block">\[
+|X_y|
+\le
+\left(1+2\cdot 5^m\right)^{2d}
+=
+C_m^d.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|P_y|\le C_m^d.
+\]</div>
+<hr>
+<h2>7. Averaging unit-translation incidences</h2>
+<p>For \(\theta\in\Theta\), define</p>
+<div class="math-block">\[
+M_\theta(y)
+:=
+\left|
+\left\{
+\alpha\in X_y:\alpha+\theta\in X_y
+\right\}
+\right|.
+\]</div>
+<p>Each such \(\alpha\) gives a unit-distance pair in \(P_y\), since</p>
+<div class="math-block">\[
+|\sigma_1(\alpha+\theta)-\sigma_1(\alpha)|
+=
+|\sigma_1(\theta)|
+=
+1.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+I(y):=\sum_{\theta\in\Theta}M_\theta(y).
+\]</div>
+<p>We will average \(I(y)\) over the torus \(\mathbb C^d/\Lambda\).</p>
+<p>First compute the covolume of \(\Lambda\). The usual Minkowski covolume formula gives</p>
+<div class="math-block">\[
+\operatorname{covol}(\sigma(\mathcal O_K))
+=
+2^{-d}\sqrt{|\Delta_K|}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+\operatorname{covol}(\Lambda)
+=
+5^{-2md}2^{-d}\sqrt{|\Delta_K|}
+\le
+5^{-2md}2^{-d}R_0^d.
+\]</div>
+<p>Also</p>
+<div class="math-block">\[
+\operatorname{vol}(B_d)
+=
+\frac{\pi^d d^d}{d!}
+\ge \pi^d.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+\frac{\operatorname{vol}(B_d)}{\operatorname{covol}(\Lambda)}
+\ge
+\left(\frac{2\pi 5^{2m}}{R_0}\right)^d.
+\]</div>
+<p>Now fix \(\theta\in\Theta\). Put</p>
+<div class="math-block">\[
+v:=\sigma(\theta)\in\Lambda.
+\]</div>
+<p>Since \(|\sigma_r(\theta)|=1\) for every \(r\),</p>
+<div class="math-block">\[
+\|v\|_2=\sqrt d.
+\]</div>
+<p>The intersection</p>
+<div class="math-block">\[
+B_d\cap(B_d-v)
+\]</div>
+<p>contains a ball of radius \(\sqrt d/2\). Therefore</p>
+<div class="math-block">\[
+\operatorname{vol}\bigl(B_d\cap(B_d-v)\bigr)
+\ge
+4^{-d}\operatorname{vol}(B_d).
+\]</div>
+<p>For any bounded measurable set \(S\subset\mathbb C^d\), the standard lattice averaging identity gives</p>
+<div class="math-block">\[
+\mathbb E_{y\in\mathbb C^d/\Lambda}
+|\Lambda\cap(y+S)|
+=
+\frac{\operatorname{vol}(S)}{\operatorname{covol}(\Lambda)}.
+\]</div>
+<p>Applying this with</p>
+<div class="math-block">\[
+S=B_d\cap(B_d-v)
+\]</div>
+<p>gives</p>
+<div class="math-block">\[
+\mathbb E_y M_\theta(y)
+\ge
+4^{-d}
+\frac{\operatorname{vol}(B_d)}{\operatorname{covol}(\Lambda)}
+\ge
+4^{-d}
+\left(\frac{2\pi 5^{2m}}{R_0}\right)^d.
+\]</div>
+<p>Summing over \(\theta\in\Theta\), we obtain</p>
+<div class="math-block">\[
+\mathbb E_y I(y)
+\ge
+\left(\frac{m+1}{H}\right)^d
+4^{-d}
+\left(\frac{2\pi 5^{2m}}{R_0}\right)^d.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\mathbb E_y I(y)
+\ge
+\left(
+\frac{(m+1)\pi 5^{2m}}{2HR_0}
+\right)^d
+=
+L_m^d.
+\]</div>
+<p>Therefore there exists some \(y\) such that</p>
+<div class="math-block">\[
+I(y)\ge L_m^d.
+\]</div>
+<p>Fix such a \(y\), and set</p>
+<div class="math-block">\[
+P:=P_y.
+\]</div>
+<hr>
+<h2>8. Unit-distance count</h2>
+<p>The quantity \(I(y)\) counts distinct directed unit-distance pairs in \(P\). Indeed, if</p>
+<div class="math-block">\[
+(\alpha,\theta)
+\]</div>
+<p>contributes to \(I(y)\), then</p>
+<div class="math-block">\[
+\sigma_1(\alpha),\ \sigma_1(\alpha+\theta)\in P
+\]</div>
+<p>and their distance is \(1\). Moreover, the map</p>
+<div class="math-block">\[
+(\alpha,\theta)\mapsto
+\bigl(\sigma_1(\alpha),\sigma_1(\alpha+\theta)\bigr)
+\]</div>
+<p>is injective because \(\sigma_1\) is injective on \(K\).</p>
+<p>Thus the number of unordered unit-distance pairs satisfies</p>
+<div class="math-block">\[
+u(P)\ge \frac12 I(y)\ge \frac12 L_m^d.
+\]</div>
+<p>On the other hand,</p>
+<div class="math-block">\[
+|P|\le C_m^d.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+L_m=C_m^{1+2\delta},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+u(P)
+\ge
+\frac12 C_m^{(1+2\delta)d}.
+\]</div>
+<p>For all sufficiently large \(d\),</p>
+<div class="math-block">\[
+\frac12 C_m^{(1+2\delta)d}
+\ge
+C_m^{(1+\delta)d}.
+\]</div>
+<p>Therefore, for all sufficiently large \(d\),</p>
+<div class="math-block">\[
+u(P)\ge C_m^{(1+\delta)d}\ge |P|^{1+\delta}.
+\]</div>
+<hr>
+<h2>9. Forming the infinite sequence</h2>
+<p>Apply the construction to the fields \(K_i\). Since</p>
+<div class="math-block">\[
+d_i\to\infty,
+\]</div>
+<p>we may discard finitely many initial fields so that the final inequality holds for every remaining \(i\). Relabel the remaining point sets as</p>
+<div class="math-block">\[
+P_1,P_2,\dots.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for every \(i\).</p>
+<p>Finally, \(|P_i|\to\infty\). Indeed,</p>
+<div class="math-block">\[
+u(P_i)\ge \frac12 L_m^{d_i}\to\infty,
+\]</div>
+<p>and always</p>
+<div class="math-block">\[
+u(P_i)\le \binom{|P_i|}{2}.
+\]</div>
+<p>Hence \(|P_i|\to\infty\).</p>
+<p>Thus there exist an absolute constant \(\delta&gt;0\) and an infinite sequence of finite point sets \(P_i\subset\mathbb R^2\) with \(|P_i|\to\infty\) and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}.
+\]</div>
+<p>This proves the theorem. \(\square\)</p>
+</main>
+</body>
+</html>

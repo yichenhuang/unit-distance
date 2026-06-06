@@ -1,0 +1,873 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proof</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p>Below is a corrected and more rigorous version of the proof.   The main gaps in my previous proof were:</p>
+<ol>
+<li><strong>Tower existence was only sketched.</strong> I now isolate the precise standard Golod–Shafarevich input needed.</li>
+<li><strong>Principalization was too optimistic.</strong> Individual ideals need not be principal. The fix is to take many ideals in the same ideal class and then quotient by one of them.</li>
+<li><strong>The relative norm need not initially be fixed.</strong> The quotient generators have relative norms equal to totally positive units. A second pigeonhole argument modulo unit norms makes the relative norm common.</li>
+<li><strong>The lattice-point estimates require proof.</strong> I give both lower and upper bounds explicitly.</li>
+<li><strong>The edge count needs injectivity.</strong> I verify that different algebraic translations give different directed unit-distance pairs.</li>
+</ol>
+<p>We identify \(\mathbb R^2\) with \(\mathbb C\).</p>
+<hr>
+<h1>Proof</h1>
+<h2>1. A totally real bounded-root-discriminant tower with \(5\) split</h2>
+<p>We use the following standard consequence of the Golod–Shafarevich theorem.</p>
+<h3>Lemma 1</h3>
+<p>There is an infinite sequence of totally real number fields \(F_i/\mathbb Q\) such that, writing</p>
+<div class="math-block">\[
+d_i=[F_i:\mathbb Q],
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+d_i\to\infty,
+\]</div>
+<p>the prime \(5\) splits completely in every \(F_i\), and the root discriminants are uniformly bounded:</p>
+<div class="math-block">\[
+\operatorname{rd}(F_i)\le R_F
+\]</div>
+<p>for some absolute constant \(R_F\).</p>
+<h3>Justification</h3>
+<p>Let \(\ell=3\) and \(T=\{5\}\). By the tame Golod–Shafarevich theorem with prescribed splitting, there exists a finite set \(S\) of rational primes, disjoint from \(\{3,5\}\), such that the maximal pro-\(3\) extension \(M/\mathbb Q\) unramified outside \(S\) and in which \(5\) splits completely is infinite.</p>
+<p>For completeness, recall the mechanism. Shafarevich’s generator-relation estimates imply that for \(S\) sufficiently large, with all \(q\in S\) satisfying \(q\equiv 1\pmod 3\), the Galois group</p>
+<div class="math-block">\[
+G=\operatorname{Gal}(M/\mathbb Q)
+\]</div>
+<p>has a pro-\(3\) presentation with generator rank \(d(G)\) and relation rank \(r(G)\) satisfying</p>
+<div class="math-block">\[
+d(G)\ge |S|-C,\qquad r(G)\le |S|+C
+\]</div>
+<p>for a constant \(C\) depending only on the prescribed splitting set \(T=\{5\}\). Taking \(|S|\) large gives</p>
+<div class="math-block">\[
+r(G)&lt;\frac{d(G)^2}{4}.
+\]</div>
+<p>The Golod–Shafarevich inequality says a finite pro-\(3\) group must satisfy the opposite inequality. Hence \(G\) is infinite.</p>
+<p>Choose finite Galois subextensions</p>
+<div class="math-block">\[
+F_i\subset M
+\]</div>
+<p>with degrees \(d_i=[F_i:\mathbb Q]\to\infty\). Since each \(F_i/\mathbb Q\) has Galois group a finite \(3\)-group, its degree is odd. A Galois extension of \(\mathbb Q\) of odd degree is totally real; otherwise complex conjugation would give an element of order \(2\) in the Galois group.</p>
+<p>The prime \(5\) splits completely in \(M\), hence in every \(F_i\). Finally, the fields \(F_i\) are ramified only at the fixed finite set \(S\), and the ramification is tame. For a tame Galois extension, the contribution of a ramified prime \(q\) to the root discriminant is at most \(q\). Hence</p>
+<div class="math-block">\[
+\operatorname{rd}(F_i)\le \prod_{q\in S}q=:R_F.
+\]</div>
+<p>This proves the lemma. \(\square\)</p>
+<hr>
+<h2>2. Passing to CM fields</h2>
+<p>For each \(i\), set</p>
+<div class="math-block">\[
+K_i=F_i(i).
+\]</div>
+<p>Since \(F_i\) is totally real, \(K_i/F_i\) is a CM extension. Let</p>
+<div class="math-block">\[
+\overline{\phantom{x}}:K_i\to K_i
+\]</div>
+<p>denote the nontrivial automorphism over \(F_i\), so \(\bar i=-i\).</p>
+<p>Because \(5\equiv 1\pmod 4\), the polynomial \(x^2+1\) splits over \(\mathbb F_5\). Since \(5\) splits completely in \(F_i\), every prime \(\mathfrak p\mid 5\) of \(F_i\) has residue field \(\mathbb F_5\), so \(\mathfrak p\) splits in \(K_i/F_i\). Therefore \(5\) splits completely in \(K_i\).</p>
+<p>The root discriminants of the \(K_i\) are also uniformly bounded. Indeed, the relative discriminant of \(F_i(i)/F_i\) divides \(4\mathcal O_{F_i}\), so</p>
+<div class="math-block">\[
+|\operatorname{Disc}(K_i)|
+\le
+|\operatorname{Disc}(F_i)|^2\,4^{d_i}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)
+=
+|\operatorname{Disc}(K_i)|^{1/(2d_i)}
+\le
+2\operatorname{rd}(F_i)
+\le
+2R_F.
+\]</div>
+<p>Fix</p>
+<div class="math-block">\[
+R:=2R_F.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\operatorname{rd}(K_i)\le R
+\]</div>
+<p>for all \(i\).</p>
+<hr>
+<h2>3. Uniform exponential class-number bound</h2>
+<p>We need a class-number bound depending only exponentially on the degree.</p>
+<h3>Lemma 2</h3>
+<p>For every \(R&gt;0\), there exists \(C_R&gt;1\) such that if \(K\) is a number field of degree \(n\) with</p>
+<div class="math-block">\[
+\operatorname{rd}(K)\le R,
+\]</div>
+<p>then</p>
+<div class="math-block">\[
+h_K\le C_R^n.
+\]</div>
+<p>Consequently, since \([K_i:\mathbb Q]=2d_i\), there is a constant \(H&gt;1\) such that</p>
+<div class="math-block">\[
+h_{K_i}\le H^{d_i}
+\]</div>
+<p>for all \(i\).</p>
+<h3>Proof</h3>
+<p>By Minkowski’s ideal-class bound, every ideal class of \(K\) contains an integral ideal \(\mathfrak a\) with</p>
+<div class="math-block">\[
+N\mathfrak a
+\le
+\left(\frac4\pi\right)^{r_2}
+\frac{n!}{n^n}
+\sqrt{|\operatorname{Disc}(K)|}.
+\]</div>
+<p>Since \(r_2\le n/2\), \(n!/n^n\le 1\), and</p>
+<div class="math-block">\[
+\sqrt{|\operatorname{Disc}(K)|}
+\le
+R^{n/2},
+\]</div>
+<p>there is a constant \(A=A(R)&gt;1\) such that every ideal class contains an integral ideal of norm at most</p>
+<div class="math-block">\[
+A^n.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+h_K
+\le
+\#\{\mathfrak a\subset\mathcal O_K:N\mathfrak a\le A^n\}.
+\]</div>
+<p>Let \(a_K(m)\) be the number of ideals of norm \(m\). The Euler product for \(\zeta_K(s)\) is coefficientwise dominated by \(\zeta(s)^n\), so</p>
+<div class="math-block">\[
+a_K(m)\le d_n(m),
+\]</div>
+<p>where \(d_n(m)\) is the number of ordered factorizations</p>
+<div class="math-block">\[
+m=m_1m_2\cdots m_n.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+h_K
+\le
+\sum_{m\le A^n}d_n(m)
+=
+\#\{(m_1,\dots,m_n)\in\mathbb N^n:m_1\cdots m_n\le A^n\}.
+\]</div>
+<p>This last quantity is at most exponential in \(n\). Indeed, after increasing \(A\) if necessary, assume \(A\ge 2\). For each \(m_j\), define</p>
+<div class="math-block">\[
+b_j=\lceil \log_A m_j\rceil.
+\]</div>
+<p>If \(m_1\cdots m_n\le A^n\), then</p>
+<div class="math-block">\[
+\sum_{j=1}^n b_j\le 2n.
+\]</div>
+<p>For a fixed vector \((b_1,\dots,b_n)\) with sum \(s\), there are at most \(A^s\) choices for \((m_1,\dots,m_n)\). Therefore</p>
+<div class="math-block">\[
+\sum_{m\le A^n}d_n(m)
+\le
+\sum_{s=0}^{2n}A^s\binom{n+s-1}{s}
+\le
+C_R^n
+\]</div>
+<p>for some constant \(C_R&gt;1\). Thus</p>
+<div class="math-block">\[
+h_K\le C_R^n.
+\]</div>
+<p>Applying this with \(K=K_i\), \(n=2d_i\), and \(\operatorname{rd}(K_i)\le R\), we get</p>
+<div class="math-block">\[
+h_{K_i}\le C_R^{2d_i}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+H=C_R^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+h_{K_i}\le H^{d_i}.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h2>4. Many algebraic translations of common relative norm</h2>
+<p>The next lemma is the arithmetic core.</p>
+<h3>Lemma 3</h3>
+<p>Let \(F\) be a totally real field of degree \(d\), let</p>
+<div class="math-block">\[
+K=F(i),
+\]</div>
+<p>and suppose \(5\) splits completely in \(F\). Fix \(k\ge 1\), and set</p>
+<div class="math-block">\[
+B=5^k.
+\]</div>
+<p>Then there exist a totally positive unit</p>
+<div class="math-block">\[
+\eta\in\mathcal O_F^{\times,+}
+\]</div>
+<p>and a set</p>
+<div class="math-block">\[
+\mathcal A\subset B^{-1}\mathcal O_K
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+|\mathcal A|
+\ge
+\frac{(k+1)^d}{2^d h_K},
+\]</div>
+<p>and every \(\alpha\in\mathcal A\) satisfies</p>
+<div class="math-block">\[
+\alpha\bar\alpha=\eta.
+\]</div>
+<h3>Proof</h3>
+<p>Since \(5\) splits completely in \(F\),</p>
+<div class="math-block">\[
+5\mathcal O_F=\prod_{\mathfrak p\mid 5}\mathfrak p,
+\]</div>
+<p>with exactly \(d\) primes \(\mathfrak p\), each of norm \(5\).</p>
+<p>Each \(\mathfrak p\mid 5\) splits in \(K/F\), so choose one prime \(\mathfrak P_{\mathfrak p}\) above \(\mathfrak p\), and write</p>
+<div class="math-block">\[
+\mathfrak p\mathcal O_K
+=
+\mathfrak P_{\mathfrak p}\overline{\mathfrak P}_{\mathfrak p}.
+\]</div>
+<p>For each vector</p>
+<div class="math-block">\[
+\mathbf e=(e_{\mathfrak p})_{\mathfrak p\mid 5}
+\in\{0,1,\dots,k\}^d,
+\]</div>
+<p>define the integral ideal</p>
+<div class="math-block">\[
+\mathfrak I_{\mathbf e}
+=
+\prod_{\mathfrak p\mid 5}
+\mathfrak P_{\mathfrak p}^{\,e_{\mathfrak p}}
+\overline{\mathfrak P}_{\mathfrak p}^{\,k-e_{\mathfrak p}}.
+\]</div>
+<p>There are \((k+1)^d\) such ideals, and they are distinct. Moreover,</p>
+<div class="math-block">\[
+\mathfrak I_{\mathbf e}\overline{\mathfrak I}_{\mathbf e}
+=
+\prod_{\mathfrak p\mid 5}
+\left(\mathfrak P_{\mathfrak p}\overline{\mathfrak P}_{\mathfrak p}\right)^k
+=
+\prod_{\mathfrak p\mid 5}
+(\mathfrak p\mathcal O_K)^k
+=
+5^k\mathcal O_K
+=
+B\mathcal O_K.
+\]</div>
+<p>Now partition the ideals \(\mathfrak I_{\mathbf e}\) by their ideal class in \(\operatorname{Cl}(K)\). Some class contains a subset \(E\) of exponent vectors with</p>
+<div class="math-block">\[
+|E|\ge \frac{(k+1)^d}{h_K}.
+\]</div>
+<p>Fix \(\mathbf e_0\in E\). For each \(\mathbf e\in E\), the fractional ideal</p>
+<div class="math-block">\[
+\mathfrak J_{\mathbf e}
+=
+\mathfrak I_{\mathbf e}\mathfrak I_{\mathbf e_0}^{-1}
+\]</div>
+<p>is principal. Choose \(\gamma_{\mathbf e}\in K^\times\) such that</p>
+<div class="math-block">\[
+(\gamma_{\mathbf e})=\mathfrak J_{\mathbf e}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\mathfrak I_{\mathbf e}\overline{\mathfrak I}_{\mathbf e}
+=
+\mathfrak I_{\mathbf e_0}\overline{\mathfrak I}_{\mathbf e_0}
+=
+B\mathcal O_K,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\mathfrak J_{\mathbf e}\overline{\mathfrak J}_{\mathbf e}
+=
+\mathcal O_K.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+(\gamma_{\mathbf e}\bar\gamma_{\mathbf e})
+=
+\mathcal O_K.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+u_{\mathbf e}:=\gamma_{\mathbf e}\bar\gamma_{\mathbf e}
+\]</div>
+<p>is a unit of \(K\). It is fixed by complex conjugation, hence lies in \(F\). Therefore</p>
+<div class="math-block">\[
+u_{\mathbf e}\in\mathcal O_F^\times.
+\]</div>
+<p>For every real embedding \(\tau:F\hookrightarrow\mathbb R\), extending \(\tau\) to \(\rho:K\hookrightarrow\mathbb C\), we have</p>
+<div class="math-block">\[
+\tau(u_{\mathbf e})
+=
+|\rho(\gamma_{\mathbf e})|^2&gt;0.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u_{\mathbf e}\in\mathcal O_F^{\times,+}.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+\mathfrak J_{\mathbf e}
+=
+\mathfrak I_{\mathbf e}\mathfrak I_{\mathbf e_0}^{-1}
+=
+\mathfrak I_{\mathbf e}\frac{\overline{\mathfrak I}_{\mathbf e_0}}{B}
+\subset
+B^{-1}\mathcal O_K.
+\]</div>
+<p>Thus \(\gamma_{\mathbf e}\in B^{-1}\mathcal O_K\).</p>
+<p>Now consider the relative norm map on units</p>
+<div class="math-block">\[
+N_{K/F}:\mathcal O_K^\times\to\mathcal O_F^{\times,+},
+\qquad
+v\mapsto v\bar v.
+\]</div>
+<p>This image contains all squares of units of \(F\), because if \(w\in\mathcal O_F^\times\), then viewed as a unit of \(K\),</p>
+<div class="math-block">\[
+N_{K/F}(w)=w^2.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\mathcal O_F^\times/(\mathcal O_F^\times)^2
+\]</div>
+<p>has size \(2^d\), the quotient</p>
+<div class="math-block">\[
+\mathcal O_F^{\times,+}/N_{K/F}(\mathcal O_K^\times)
+\]</div>
+<p>has size at most \(2^d\).</p>
+<p>Therefore, by pigeonhole, there is a subset \(E'\subset E\) with</p>
+<div class="math-block">\[
+|E&#x27;|\ge \frac{|E|}{2^d}
+\ge
+\frac{(k+1)^d}{2^d h_K}
+\]</div>
+<p>such that all \(u_{\mathbf e}\), \(\mathbf e\in E'\), lie in one coset of</p>
+<div class="math-block">\[
+N_{K/F}(\mathcal O_K^\times)
+\]</div>
+<p>inside \(\mathcal O_F^{\times,+}\).</p>
+<p>Fix \(\mathbf e_*\in E'\), and put</p>
+<div class="math-block">\[
+\eta:=u_{\mathbf e_*}.
+\]</div>
+<p>For every \(\mathbf e\in E'\), since \(u_{\mathbf e}\) and \(\eta\) lie in the same coset, there exists \(v_{\mathbf e}\in\mathcal O_K^\times\) such that</p>
+<div class="math-block">\[
+v_{\mathbf e}\bar v_{\mathbf e}
+=
+\frac{\eta}{u_{\mathbf e}}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\alpha_{\mathbf e}:=\gamma_{\mathbf e}v_{\mathbf e}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+\alpha_{\mathbf e}\bar\alpha_{\mathbf e}
+=
+\gamma_{\mathbf e}\bar\gamma_{\mathbf e}\,
+v_{\mathbf e}\bar v_{\mathbf e}
+=
+u_{\mathbf e}\frac{\eta}{u_{\mathbf e}}
+=
+\eta.
+\]</div>
+<p>Also</p>
+<div class="math-block">\[
+\alpha_{\mathbf e}\in B^{-1}\mathcal O_K.
+\]</div>
+<p>Finally, the fractional ideals \((\alpha_{\mathbf e})=\mathfrak J_{\mathbf e}\) are distinct as \(\mathbf e\) varies, so the elements \(\alpha_{\mathbf e}\) are distinct.</p>
+<p>Thus</p>
+<div class="math-block">\[
+\mathcal A:=\{\alpha_{\mathbf e}:\mathbf e\in E&#x27;\}
+\]</div>
+<p>has the required size, and every \(\alpha\in\mathcal A\) satisfies</p>
+<div class="math-block">\[
+\alpha\bar\alpha=\eta.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h2>5. Lattice boxes</h2>
+<p>Let \(F\) be totally real of degree \(d\), \(K=F(i)\), and let</p>
+<div class="math-block">\[
+\rho_1,\dots,\rho_d:K\hookrightarrow\mathbb C
+\]</div>
+<p>be the embeddings extending the real embeddings</p>
+<div class="math-block">\[
+\tau_1,\dots,\tau_d:F\hookrightarrow\mathbb R
+\]</div>
+<p>with \(\rho_j(i)=i\).</p>
+<p>Let \(\eta\in\mathcal O_F^{\times,+}\). Define</p>
+<div class="math-block">\[
+a_j=\sqrt{\tau_j(\eta)}&gt;0.
+\]</div>
+<p>Since \(\eta\) is a totally positive unit,</p>
+<div class="math-block">\[
+\prod_{j=1}^d a_j^2
+=
+\prod_{j=1}^d \tau_j(\eta)
+=
+N_{F/\mathbb Q}(\eta)
+=
+1.
+\]</div>
+<p>Fix \(B\ge 1\), and set</p>
+<div class="math-block">\[
+L=B^{-1}\mathcal O_K.
+\]</div>
+<p>For \(T&gt;0\), define</p>
+<div class="math-block">\[
+X(T)
+=
+\left\{
+x\in L:
+|\rho_j(x)|\le T a_j\ \text{for all }j=1,\dots,d
+\right\}.
+\]</div>
+<h3>Lemma 4</h3>
+<p>Assume</p>
+<div class="math-block">\[
+\operatorname{rd}(K)\le R.
+\]</div>
+<p>There is an absolute constant \(C_{\mathrm{box}}&gt;0\) such that for every \(T&gt;1\),</p>
+<div class="math-block">\[
+|X(T)|\le \left(C_{\mathrm{box}}B^2T^2\right)^d,
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|X(T-1)|
+\ge
+\left(
+\frac{\pi B^2(T-1)^2}{2R}
+\right)^d.
+\]</div>
+<h3>Proof</h3>
+<p>Embed \(K\) into \(\mathbb C^d\cong\mathbb R^{2d}\) by</p>
+<div class="math-block">\[
+x\mapsto(\rho_1(x),\dots,\rho_d(x)).
+\]</div>
+<p>The covolume of \(\mathcal O_K\) in this embedding is</p>
+<div class="math-block">\[
+2^{-d}\sqrt{|\operatorname{Disc}(K)|}.
+\]</div>
+<p>Therefore the covolume of</p>
+<div class="math-block">\[
+L=B^{-1}\mathcal O_K
+\]</div>
+<p>is</p>
+<div class="math-block">\[
+\operatorname{covol}(L)
+=
+B^{-2d}2^{-d}\sqrt{|\operatorname{Disc}(K)|}.
+\]</div>
+<p>The region defining \(X(T-1)\) is a product of disks of radii \((T-1)a_j\), so its volume is</p>
+<div class="math-block">\[
+\prod_{j=1}^d \pi (T-1)^2a_j^2
+=
+\pi^d(T-1)^{2d}
+\prod_{j=1}^d a_j^2
+=
+\pi^d(T-1)^{2d}.
+\]</div>
+<p>We use the following elementary form of van der Corput’s lattice-point lemma: if \(C\subset\mathbb R^n\) is centrally symmetric and convex and \(\Lambda\) is a lattice, then</p>
+<div class="math-block">\[
+|C\cap\Lambda|
+\ge
+\frac{\operatorname{vol}(C)}{2^n\operatorname{covol}(\Lambda)}.
+\]</div>
+<p>Applying this with \(n=2d\), we get</p>
+<div class="math-block">\[
+|X(T-1)|
+\ge
+\frac{
+\pi^d(T-1)^{2d}
+}{
+4^d B^{-2d}2^{-d}\sqrt{|\operatorname{Disc}(K)|}
+}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+\sqrt{|\operatorname{Disc}(K)|}
+=
+\operatorname{rd}(K)^d
+\le R^d,
+\]</div>
+<p>we obtain</p>
+<div class="math-block">\[
+|X(T-1)|
+\ge
+\left(
+\frac{\pi B^2(T-1)^2}{2R}
+\right)^d.
+\]</div>
+<p>This proves the lower bound.</p>
+<p>For the upper bound, cover each disk</p>
+<div class="math-block">\[
+\{z\in\mathbb C:|z|\le Ta_j\}
+\]</div>
+<p>by at most \(C B^2T^2\) sets of diameter less than</p>
+<div class="math-block">\[
+\frac{a_j}{8B},
+\]</div>
+<p>where \(C\) is an absolute constant. Taking products over \(j=1,\dots,d\), the whole box defining \(X(T)\) is covered by at most</p>
+<div class="math-block">\[
+(C_{\mathrm{box}}B^2T^2)^d
+\]</div>
+<p>product cells, with the property that if two points \(x,y\) lie in the same cell, then</p>
+<div class="math-block">\[
+|\rho_j(x-y)|&lt;\frac{a_j}{8B}
+\]</div>
+<p>for every \(j\).</p>
+<p>We claim each such cell contains at most one point of \(L\). Suppose \(x,y\in L\) are distinct and lie in the same cell. Then</p>
+<div class="math-block">\[
+z:=B(x-y)\in\mathcal O_K
+\]</div>
+<p>is a nonzero algebraic integer. Hence</p>
+<div class="math-block">\[
+|N_{K/\mathbb Q}(z)|\ge 1.
+\]</div>
+<p>But</p>
+<div class="math-block">\[
+|N_{K/\mathbb Q}(z)|
+=
+\prod_{j=1}^d|\rho_j(z)|^2
+&lt;
+\prod_{j=1}^d\left(\frac{a_j}{8}\right)^2
+=
+8^{-2d}\prod_{j=1}^d a_j^2
+=
+8^{-2d}&lt;1,
+\]</div>
+<p>a contradiction. Thus each cell contains at most one point of \(L\), and therefore</p>
+<div class="math-block">\[
+|X(T)|\le (C_{\mathrm{box}}B^2T^2)^d.
+\]</div>
+<p>\(\square\)</p>
+<hr>
+<h2>6. Choosing constants</h2>
+<p>For each \(i\), apply Lemma 3 to \(F_i\), \(K_i=F_i(i)\), with some fixed integer \(k\ge 1\) to be chosen.</p>
+<p>Let</p>
+<div class="math-block">\[
+B=5^k.
+\]</div>
+<p>By Lemma 3, there are a totally positive unit</p>
+<div class="math-block">\[
+\eta_i\in\mathcal O_{F_i}^{\times,+}
+\]</div>
+<p>and a set</p>
+<div class="math-block">\[
+\mathcal A_i\subset B^{-1}\mathcal O_{K_i}
+\]</div>
+<p>such that</p>
+<div class="math-block">\[
+\alpha\bar\alpha=\eta_i
+\]</div>
+<p>for all \(\alpha\in\mathcal A_i\), and</p>
+<div class="math-block">\[
+|\mathcal A_i|
+\ge
+\frac{(k+1)^{d_i}}{2^{d_i}h_{K_i}}.
+\]</div>
+<p>Since \(h_{K_i}\le H^{d_i}\), we have</p>
+<div class="math-block">\[
+|\mathcal A_i|
+\ge
+\left(\frac{k+1}{2H}\right)^{d_i}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+D:=\frac{k+1}{2H}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|\mathcal A_i|\ge D^{d_i}.
+\]</div>
+<p>Now define, for \(t&gt;0\),</p>
+<div class="math-block">\[
+X_i(t)
+=
+\left\{
+x\in B^{-1}\mathcal O_{K_i}:
+|\rho_{i,j}(x)|\le t\sqrt{\tau_{i,j}(\eta_i)}
+\ \text{for all }j=1,\dots,d_i
+\right\}.
+\]</div>
+<p>Lemma 4 with \(T=2\) gives</p>
+<div class="math-block">\[
+|X_i(1)|
+\ge
+\left(\frac{\pi B^2}{2R}\right)^{d_i}
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|X_i(2)|
+\le
+\left(4C_{\mathrm{box}}B^2\right)^{d_i}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\lambda:=\frac{\pi B^2}{2R},
+\qquad
+U:=4C_{\mathrm{box}}B^2.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|X_i(1)|\ge \lambda^{d_i},
+\qquad
+|X_i(2)|\le U^{d_i}.
+\]</div>
+<p>Choose \(k\) so large that</p>
+<div class="math-block">\[
+\lambda&gt;1
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\Theta:=\frac{D\lambda}{U}&gt;1.
+\]</div>
+<p>This is possible because</p>
+<div class="math-block">\[
+\frac{\lambda}{U}
+=
+\frac{\pi}{8C_{\mathrm{box}}R}
+\]</div>
+<p>is independent of \(k\), while</p>
+<div class="math-block">\[
+D=\frac{k+1}{2H}\to\infty
+\]</div>
+<p>as \(k\to\infty\).</p>
+<p>From now on \(k\), hence \(B,D,\lambda,U,\Theta\), are fixed absolute constants.</p>
+<hr>
+<h2>7. Constructing the point sets</h2>
+<p>For each \(i\), choose one embedding</p>
+<div class="math-block">\[
+\rho_{i,1}:K_i\hookrightarrow\mathbb C
+\]</div>
+<p>extending a real embedding</p>
+<div class="math-block">\[
+\tau_{i,1}:F_i\hookrightarrow\mathbb R.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+a_i:=\sqrt{\tau_{i,1}(\eta_i)}.
+\]</div>
+<p>Now define the finite point set</p>
+<div class="math-block">\[
+P_i
+=
+\left\{
+\frac{\rho_{i,1}(x)}{a_i}:x\in X_i(2)
+\right\}
+\subset\mathbb C\simeq\mathbb R^2.
+\]</div>
+<p>Because \(\rho_{i,1}\) is an injective field embedding,</p>
+<div class="math-block">\[
+|P_i|=|X_i(2)|.
+\]</div>
+<p>Also \(X_i(1)\subset X_i(2)\), so</p>
+<div class="math-block">\[
+|P_i|
+=
+|X_i(2)|
+\ge
+|X_i(1)|
+\ge
+\lambda^{d_i}.
+\]</div>
+<p>Since \(\lambda&gt;1\) and \(d_i\to\infty\), we have</p>
+<div class="math-block">\[
+|P_i|\to\infty.
+\]</div>
+<hr>
+<h2>8. Counting unit distances</h2>
+<p>Take \(\alpha\in\mathcal A_i\). Since</p>
+<div class="math-block">\[
+\alpha\bar\alpha=\eta_i,
+\]</div>
+<p>we have, for every \(j\),</p>
+<div class="math-block">\[
+|\rho_{i,j}(\alpha)|^2
+=
+\tau_{i,j}(\eta_i),
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+|\rho_{i,j}(\alpha)|
+=
+\sqrt{\tau_{i,j}(\eta_i)}.
+\]</div>
+<p>Thus, if \(x\in X_i(1)\), then for every \(j\),</p>
+<div class="math-block">\[
+|\rho_{i,j}(x+\alpha)|
+\le
+|\rho_{i,j}(x)|+|\rho_{i,j}(\alpha)|
+\le
+\sqrt{\tau_{i,j}(\eta_i)}
++
+\sqrt{\tau_{i,j}(\eta_i)}
+=
+2\sqrt{\tau_{i,j}(\eta_i)}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+x+\alpha\in X_i(2).
+\]</div>
+<p>Therefore for every pair \((x,\alpha)\in X_i(1)\times\mathcal A_i\), the two points</p>
+<div class="math-block">\[
+\frac{\rho_{i,1}(x)}{a_i},
+\qquad
+\frac{\rho_{i,1}(x+\alpha)}{a_i}
+\]</div>
+<p>belong to \(P_i\), and their Euclidean distance is</p>
+<div class="math-block">\[
+\left|
+\frac{\rho_{i,1}(x+\alpha)-\rho_{i,1}(x)}{a_i}
+\right|
+=
+\frac{|\rho_{i,1}(\alpha)|}{a_i}
+=
+1.
+\]</div>
+<p>Moreover, the map</p>
+<div class="math-block">\[
+(x,\alpha)
+\mapsto
+\left(
+\frac{\rho_{i,1}(x)}{a_i},
+\frac{\rho_{i,1}(x+\alpha)}{a_i}
+\right)
+\]</div>
+<p>is injective. Indeed, if two pairs \((x,\alpha)\) and \((y,\beta)\) produce the same ordered pair of points, then injectivity of \(\rho_{i,1}\) gives \(x=y\), and then \(x+\alpha=y+\beta\), so \(\alpha=\beta\).</p>
+<p>Thus the number of directed unit-distance pairs in \(P_i\) is at least</p>
+<div class="math-block">\[
+|\mathcal A_i|\,|X_i(1)|.
+\]</div>
+<p>Since \(u(P_i)\) counts undirected unit-distance pairs, equivalently half the number of directed unit-distance pairs, we get</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac12|\mathcal A_i|\,|X_i(1)|.
+\]</div>
+<p>Using the bounds above,</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac12 D^{d_i}\lambda^{d_i}
+=
+\frac12(D\lambda)^{d_i}
+=
+\frac12(\Theta U)^{d_i}.
+\]</div>
+<hr>
+<h2>9. Extracting a power saving</h2>
+<p>We know</p>
+<div class="math-block">\[
+|P_i|=|X_i(2)|\le U^{d_i}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+\delta:=\frac{\log\Theta}{2\log U}.
+\]</div>
+<p>Since \(\Theta&gt;1\), we have \(\delta&gt;0\).</p>
+<p>For all sufficiently large \(i\),</p>
+<div class="math-block">\[
+\frac12\Theta^{d_i}
+\ge
+\Theta^{d_i/2}.
+\]</div>
+<p>Therefore, for all sufficiently large \(i\),</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+U^{d_i}\Theta^{d_i/2}
+=
+U^{d_i(1+\delta)}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+|P_i|\le U^{d_i},
+\]</div>
+<p>we obtain</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+|P_i|^{1+\delta}.
+\]</div>
+<p>Discarding finitely many initial terms and relabeling, we get an infinite sequence of finite point sets \(P_i\subset\mathbb R^2\) such that</p>
+<div class="math-block">\[
+|P_i|\to\infty
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for a fixed absolute constant \(\delta&gt;0\).</p>
+<p>This proves the theorem. \(\square\)</p>
+</main>
+</body>
+</html>

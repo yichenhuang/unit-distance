@@ -1,0 +1,643 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proof</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p>Below I first point out the main gaps in the earlier sketch, then give a repaired proof.</p>
+<p>The previous argument had three places needing real justification:</p>
+<ol>
+<li><p><strong>The split CM tower was asserted too quickly.</strong> I replace it with a concrete Golod-Shafarevich construction: first build a totally real infinite unramified \(3\)-class tower in which \(5\) splits completely, then adjoin \(i\).</p></li>
+<li><p><strong>The lattice-counting estimate was quoted without proof.</strong> I state and justify the needed van der Corput/Blichfeldt estimate.</p></li>
+<li><p><strong>The class-number and double-counting issues need explicit constants.</strong> I give uniform class-number bounds, choose parameters carefully, and account for the factor \(1/2\) in the definition of \(u(P)\).</p></li>
+</ol>
+<p>We identify \(\mathbb R^2\) with \(\mathbb C\).</p>
+<hr>
+<h1>Proof</h1>
+<h2>1. A totally real tower in which \(5\) splits completely</h2>
+<p>We use a standard Golod-Shafarevich input.</p>
+<h3>Standard class-field-tower criterion</h3>
+<p>Let \(F\) be a number field, let \(\ell\) be an odd prime, and let \(T\) be a finite set of finite primes of \(F\). Let \(G_T(F,\ell)\) be the Galois group of the maximal everywhere finite-unramified pro-\(\ell\) extension of \(F\) in which all primes of \(T\) split completely.</p>
+<p>Let \(d\) and \(r\) be the generator and relation ranks of \(G_T(F,\ell)\). Shafarevich’s relation-rank estimate gives</p>
+<div class="math-block">\[
+r\le d+r_1(F)+r_2(F)+|T|+1.
+\]</div>
+<p>If \(G_T(F,\ell)\) is finite, then the Golod-Shafarevich inequality gives</p>
+<div class="math-block">\[
+r&gt;\frac{d^2}{4}.
+\]</div>
+<p>We will use this with \(\ell=3\).</p>
+<hr>
+<h2>1.1. Construction of the base field</h2>
+<p>Choose an integer \(t\) large enough that</p>
+<div class="math-block">\[
+\frac{(t-1)^2}{4}&gt;(t-1)+7.
+\]</div>
+<p>For example, \(t=20\) works.</p>
+<p>By Chebotarev, choose distinct rational primes</p>
+<div class="math-block">\[
+s_1,\dots,s_t
+\]</div>
+<p>which split completely in the splitting field of \(x^3-5\). Then each \(s_a\) satisfies</p>
+<div class="math-block">\[
+s_a\equiv 1\pmod 3
+\]</div>
+<p>and \(5\) is a cube modulo \(s_a\).</p>
+<p>For each \(a\), let \(F_a\) be the unique cyclic cubic subfield of \(\mathbb Q(\zeta_{s_a})\). Since \(s_a\equiv 1\pmod 3\), such a field exists. It is totally real. Also, since \(5\) is a cube modulo \(s_a\), the Frobenius of \(5\) in \(F_a/\mathbb Q\) is trivial, so \(5\) splits completely in \(F_a\).</p>
+<p>Let</p>
+<div class="math-block">\[
+E:=F_1F_2\cdots F_t.
+\]</div>
+<p>The fields \(F_a\) are linearly disjoint because their conductors are pairwise coprime, so</p>
+<div class="math-block">\[
+\operatorname{Gal}(E/\mathbb Q)\cong (\mathbb Z/3\mathbb Z)^t.
+\]</div>
+<p>Choose an isomorphism</p>
+<div class="math-block">\[
+\operatorname{Gal}(E/\mathbb Q)\cong \mathbb F_3^t
+\]</div>
+<p>and define a surjection</p>
+<div class="math-block">\[
+\varphi:\mathbb F_3^t\to \mathbb F_3,\qquad
+(x_1,\dots,x_t)\mapsto x_1+\cdots+x_t.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+F:=E^{\ker\varphi}.
+\]</div>
+<p>Then \(F/\mathbb Q\) is cyclic cubic and totally real.</p>
+<p>Each prime \(s_a\) ramifies in \(F\): indeed, the inertia subgroup at \(s_a\) in \(E/\mathbb Q\) is the \(a\)-th coordinate copy of \(\mathbb F_3\), and \(\varphi\) is nontrivial on it.</p>
+<p>Moreover, \(E/F\) is everywhere unramified at finite primes. At each \(s_a\), the inertia subgroup in \(E/\mathbb Q\) maps injectively to \(\operatorname{Gal}(F/\mathbb Q)\), so the relative inertia in \(E/F\) is trivial. At all other finite primes there is no ramification in \(E/\mathbb Q\).</p>
+<p>Since \(5\) splits completely in every \(F_a\), it splits completely in \(E\), hence also in \(F\). Let \(T\) be the set of the three primes of \(F\) above \(5\).</p>
+<p>Now \(E/F\) is an everywhere unramified elementary abelian \(3\)-extension of degree</p>
+<div class="math-block">\[
+[E:F]=3^{t-1},
+\]</div>
+<p>and all primes of \(T\) split completely in \(E/F\). Hence \(G_T(F,3)\) has an elementary abelian quotient of rank \(t-1\), so its generator rank satisfies</p>
+<div class="math-block">\[
+d\ge t-1.
+\]</div>
+<p>Since \(F\) is totally real cubic,</p>
+<div class="math-block">\[
+r_1(F)=3,\qquad r_2(F)=0,\qquad |T|=3.
+\]</div>
+<p>Thus Shafarevich gives</p>
+<div class="math-block">\[
+r\le d+7.
+\]</div>
+<p>If \(G_T(F,3)\) were finite, Golod-Shafarevich would imply</p>
+<div class="math-block">\[
+r&gt;\frac{d^2}{4}.
+\]</div>
+<p>But \(d\ge t-1\), and \(t\) was chosen so that</p>
+<div class="math-block">\[
+\frac{d^2}{4}&gt;d+7.
+\]</div>
+<p>This is impossible. Therefore \(G_T(F,3)\) is infinite.</p>
+<p>Choose finite Galois subextensions</p>
+<div class="math-block">\[
+F\subset K_1\subset K_2\subset\cdots
+\]</div>
+<p>inside this infinite pro-\(3\) extension with</p>
+<div class="math-block">\[
+[K_j:F]\to\infty.
+\]</div>
+<p>Each \(K_j/F\) is unramified at all finite primes, all primes above \(5\) split completely, and \(K_j\) is totally real because \(K_j/F\) has odd degree and is Galois.</p>
+<p>Therefore</p>
+<div class="math-block">\[
+[K_j:\mathbb Q]\to\infty,
+\]</div>
+<p>the rational prime \(5\) splits completely in every \(K_j\), and</p>
+<div class="math-block">\[
+\operatorname{rd}(K_j)=\operatorname{rd}(F)
+\]</div>
+<p>is constant.</p>
+<p>Set</p>
+<div class="math-block">\[
+\kappa:=\operatorname{rd}(F).
+\]</div>
+<hr>
+<h1>2. Passing to CM fields</h1>
+<p>Define</p>
+<div class="math-block">\[
+L_j:=K_j(i).
+\]</div>
+<p>Since \(K_j\) is totally real, \(L_j\) is a CM field. Let</p>
+<div class="math-block">\[
+\tau_j:L_j\to L_j
+\]</div>
+<p>be complex conjugation over \(K_j\), so \(\tau_j(i)=-i\).</p>
+<p>Write</p>
+<div class="math-block">\[
+r_j:=[K_j:\mathbb Q].
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+[L_j:\mathbb Q]=2r_j,
+\qquad r_j\to\infty.
+\]</div>
+<p>Because \(5\) splits completely in \(K_j\), and because \(5\equiv 1\pmod 4\), the polynomial \(x^2+1\) splits modulo every prime of \(K_j\) above \(5\). Hence \(5\) splits completely in \(L_j\). Thus</p>
+<div class="math-block">\[
+5\mathcal O_{L_j}
+=
+\prod_{a=1}^{r_j}
+\mathfrak p_a\,\tau_j(\mathfrak p_a),
+\]</div>
+<p>where the \(2r_j\) primes above \(5\) are paired by \(\tau_j\).</p>
+<p>The root discriminants of \(L_j\) are uniformly bounded. Indeed, the relative discriminant of \(K_j(i)/K_j\) divides \(4\mathcal O_{K_j}\), so</p>
+<div class="math-block">\[
+|\Delta_{L_j}|
+\le
+|\Delta_{K_j}|^2\,4^{r_j}.
+\]</div>
+<p>Taking \(1/(2r_j)\)-th powers gives</p>
+<div class="math-block">\[
+\operatorname{rd}(L_j)\le 2\operatorname{rd}(K_j)=2\kappa.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\rho:=2\kappa.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\operatorname{rd}(L_j)\le \rho
+\]</div>
+<p>for every \(j\).</p>
+<hr>
+<h1>3. Uniform estimates for CM fields of bounded root discriminant</h1>
+<p>Let \(L\) be one of the \(L_j\), with</p>
+<div class="math-block">\[
+[L:\mathbb Q]=2r.
+\]</div>
+<p>Choose one embedding from each conjugate pair,</p>
+<div class="math-block">\[
+\Sigma=\{\sigma_1,\dots,\sigma_r\}.
+\]</div>
+<p>For \(S&gt;0\), define</p>
+<div class="math-block">\[
+\mathcal C_L(S)
+:=
+\left\{
+\alpha\in\mathcal O_L:
+|\sigma(\alpha)|\le S
+\text{ for all }\sigma\in\Sigma
+\right\}.
+\]</div>
+<p>Because \(L\) is CM, this is equivalent to bounding all complex conjugates.</p>
+<hr>
+<h2>3.1. Lattice count</h2>
+<p>The Minkowski embedding</p>
+<div class="math-block">\[
+\Phi:\mathcal O_L\hookrightarrow \mathbb C^r
+\]</div>
+<p>has covolume</p>
+<div class="math-block">\[
+2^{-r}\sqrt{|\Delta_L|}.
+\]</div>
+<p>The body</p>
+<div class="math-block">\[
+\{z\in\mathbb C^r: |z_a|\le S\text{ for all }a\}
+\]</div>
+<p>has volume</p>
+<div class="math-block">\[
+(\pi S^2)^r.
+\]</div>
+<p>By the van der Corput lattice-counting inequality,</p>
+<div class="math-block">\[
+|\mathcal C_L(S)|
+\ge
+\frac{(\pi S^2)^r}{2^{2r}\cdot 2^{-r}\sqrt{|\Delta_L|}}
+=
+\left(\frac{\pi S^2}{2\operatorname{rd}(L)}\right)^r.
+\]</div>
+<p>Since \(\operatorname{rd}(L)\le \rho\),</p>
+<div class="math-block">\[
+|\mathcal C_L(S)|
+\ge
+\left(\frac{\pi S^2}{2\rho}\right)^r.
+\]</div>
+<p>Also,</p>
+<div class="math-block">\[
+|\mathcal C_L(S)|\le (2S+1)^{2r}.
+\]</div>
+<p>Indeed, if \(k=\lfloor 2S\rfloor+1\), reduction modulo \(k\mathcal O_L\) is injective on \(\mathcal C_L(S)\). If \(\alpha\ne \beta\) and \(\alpha\equiv\beta\pmod{k\mathcal O_L}\), then \(\gamma=\alpha-\beta=k\eta\) for some nonzero \(\eta\in\mathcal O_L\), so</p>
+<div class="math-block">\[
+|N_{L/\mathbb Q}(\gamma)|\ge k^{2r}.
+\]</div>
+<p>But</p>
+<div class="math-block">\[
+|\sigma(\gamma)|\le 2S
+\]</div>
+<p>for every embedding, so</p>
+<div class="math-block">\[
+|N_{L/\mathbb Q}(\gamma)|\le (2S)^{2r}&lt;k^{2r},
+\]</div>
+<p>a contradiction.</p>
+<p>Thus</p>
+<div class="math-block">\[
+|\mathcal C_L(S)|\le |\mathcal O_L/k\mathcal O_L|
+=
+k^{2r}
+\le (2S+1)^{2r}.
+\]</div>
+<hr>
+<h2>3.2. Class-number bound</h2>
+<p>There is a constant \(H\), depending only on \(\rho\), such that</p>
+<div class="math-block">\[
+h_L\le H^r
+\]</div>
+<p>for every \(L=L_j\).</p>
+<p>Indeed, Minkowski’s ideal theorem gives an integral ideal of norm at most</p>
+<div class="math-block">\[
+\left(\frac{4}{\pi}\right)^r
+\frac{(2r)!}{(2r)^{2r}}
+\sqrt{|\Delta_L|}
+\le
+\left(\frac{4\rho}{\pi}\right)^r
+\]</div>
+<p>in every ideal class.</p>
+<p>The number of ideals of norm at most \(X\) is at most \(X^2\zeta_L(2)\). Also,</p>
+<div class="math-block">\[
+\zeta_L(2)\le \zeta(2)^{2r}.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+h_L
+\le
+\left(\frac{4\rho}{\pi}\right)^{2r}
+\zeta(2)^{2r}.
+\]</div>
+<p>So it suffices to take</p>
+<div class="math-block">\[
+H:=
+\max\left\{
+2,\left(\frac{4\rho\,\zeta(2)}{\pi}\right)^2
+\right\}.
+\]</div>
+<hr>
+<h1>4. Many norm-one \(S\)-units of bounded denominator</h1>
+<p>Fix \(L=L_j\), write \(r=[L:\mathbb Q]/2\), and write \(\tau=\tau_j\).</p>
+<p>Since \(5\) splits completely,</p>
+<div class="math-block">\[
+5\mathcal O_L
+=
+\prod_{a=1}^r
+\mathfrak p_a\,\tau(\mathfrak p_a).
+\]</div>
+<p>Choose an integer \(m\ge 1\), to be fixed later. For</p>
+<div class="math-block">\[
+e=(e_1,\dots,e_r)\in\{0,1,\dots,m\}^r,
+\]</div>
+<p>define</p>
+<div class="math-block">\[
+I_e:=\prod_{a=1}^r \mathfrak p_a^{e_a}.
+\]</div>
+<p>There are \((m+1)^r\) such ideals. Since \(h_L\le H^r\), some ideal class contains at least</p>
+<div class="math-block">\[
+\left(\frac{m+1}{H}\right)^r
+\]</div>
+<p>of them. Let \(E\subseteq\{0,\dots,m\}^r\) be such a set. Fix \(e^{(0)}\in E\).</p>
+<p>For every \(e\in E\), the fractional ideal</p>
+<div class="math-block">\[
+I_eI_{e^{(0)}}^{-1}
+\]</div>
+<p>is principal. Choose \(a_e\in L^\times\) with</p>
+<div class="math-block">\[
+(a_e)=I_eI_{e^{(0)}}^{-1}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+w_e:=\frac{a_e}{\tau(a_e)}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+w_e\tau(w_e)=1.
+\]</div>
+<p>Therefore, for every complex embedding \(\sigma:L\hookrightarrow\mathbb C\),</p>
+<div class="math-block">\[
+|\sigma(w_e)|=1.
+\]</div>
+<p>Indeed, because \(\tau\) is the CM involution,</p>
+<div class="math-block">\[
+\sigma(\tau x)=\overline{\sigma(x)}.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+|\sigma(w_e)|^2
+=
+\sigma(w_e)\overline{\sigma(w_e)}
+=
+\sigma(w_e\tau(w_e))
+=
+1.
+\]</div>
+<p>The principal ideal of \(w_e\) is</p>
+<div class="math-block">\[
+(w_e)
+=
+\prod_{a=1}^r
+\mathfrak p_a^{e_a-e_a^{(0)}}
+\tau(\mathfrak p_a)^{-(e_a-e_a^{(0)})}.
+\]</div>
+<p>Hence distinct \(e\)'s give distinct \(w_e\)'s.</p>
+<p>Let</p>
+<div class="math-block">\[
+W_L:=\{w_e:e\in E\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|W_L|\ge \left(\frac{m+1}{H}\right)^r.
+\]</div>
+<p>Also, if</p>
+<div class="math-block">\[
+Q:=5^m,
+\]</div>
+<p>then</p>
+<div class="math-block">\[
+Qw_e\in\mathcal O_L
+\]</div>
+<p>for every \(e\in E\), because every negative valuation of \(w_e\) at a prime over \(5\) has size at most \(m\).</p>
+<hr>
+<h1>5. Choosing constants</h1>
+<p>Choose \(m\) so large that, with</p>
+<div class="math-block">\[
+\mu:=\frac{m+1}{H},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\mu&gt;\frac{36\rho}{\pi}.
+\]</div>
+<p>Also choose \(m\) large enough that</p>
+<div class="math-block">\[
+\frac{\pi(3\cdot 5^m+1)^2}{2\rho}&gt;1.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+Q:=5^m,
+\qquad
+T:=2Q+1,
+\qquad
+R:=3Q+1.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+a_0:=\frac{\pi T^2}{2\rho},
+\qquad
+b_0:=(2R+1)^2.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+2R+1=6Q+3=3(2Q+1)=3T,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+b_0=9T^2.
+\]</div>
+<p>Therefore</p>
+<div class="math-block">\[
+\frac{b_0}{a_0}
+=
+\frac{9T^2}{\pi T^2/(2\rho)}
+=
+\frac{18\rho}{\pi}.
+\]</div>
+<p>Our choice of \(m\) gives</p>
+<div class="math-block">\[
+\frac{a_0\mu}{b_0}&gt;2.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\eta:=
+\frac{\log(a_0\mu/b_0)}{\log b_0}&gt;0.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+a_0\mu=b_0^{1+\eta}.
+\]</div>
+<p>Finally set</p>
+<div class="math-block">\[
+\delta:=\frac{\eta}{2}&gt;0.
+\]</div>
+<p>This \(\delta\) is an absolute constant: it depends only on the fixed tower construction and the fixed integer \(m\), not on \(j\).</p>
+<hr>
+<h1>6. The point sets</h1>
+<p>For \(L=L_j\), choose one complex embedding</p>
+<div class="math-block">\[
+\sigma_0:L\hookrightarrow\mathbb C.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+P_L
+:=
+\left\{
+\sigma_0\left(\frac{\alpha}{Q}\right):
+\alpha\in\mathcal C_L(R)
+\right\}
+\subset\mathbb C\cong\mathbb R^2.
+\]</div>
+<p>Because \(\sigma_0\) is injective,</p>
+<div class="math-block">\[
+|P_L|=|\mathcal C_L(R)|.
+\]</div>
+<p>By the upper lattice-counting bound,</p>
+<div class="math-block">\[
+|P_L|
+\le
+(2R+1)^{2r}
+=
+b_0^r.
+\]</div>
+<p>By the lower bound,</p>
+<div class="math-block">\[
+|\mathcal C_L(T)|
+\ge
+\left(\frac{\pi T^2}{2\rho}\right)^r
+=
+a_0^r.
+\]</div>
+<p>Also, since \(\pi R^2/(2\rho)&gt;1\), we have</p>
+<div class="math-block">\[
+|P_L|\ge
+\left(\frac{\pi R^2}{2\rho}\right)^r\to\infty
+\]</div>
+<p>as \(r=r_j\to\infty\).</p>
+<hr>
+<h1>7. Counting unit distances</h1>
+<p>Take</p>
+<div class="math-block">\[
+\alpha\in\mathcal C_L(T),
+\qquad
+w\in W_L.
+\]</div>
+<p>Since \(Qw\in\mathcal O_L\), the element</p>
+<div class="math-block">\[
+\beta:=\alpha+Qw
+\]</div>
+<p>lies in \(\mathcal O_L\). For every \(\sigma\in\Sigma\),</p>
+<div class="math-block">\[
+|\sigma(\beta)|
+\le
+|\sigma(\alpha)|+Q|\sigma(w)|
+\le
+T+Q
+=
+R.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+\beta\in\mathcal C_L(R).
+\]</div>
+<p>Therefore both</p>
+<div class="math-block">\[
+x:=\sigma_0\left(\frac{\alpha}{Q}\right)
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+y:=\sigma_0\left(\frac{\beta}{Q}\right)
+\]</div>
+<p>belong to \(P_L\). Moreover,</p>
+<div class="math-block">\[
+y-x
+=
+\sigma_0(w),
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|\sigma_0(w)|=1.
+\]</div>
+<p>So \((x,y)\) is an ordered unit-distance pair.</p>
+<p>The map</p>
+<div class="math-block">\[
+(\alpha,w)
+\mapsto
+\left(
+\sigma_0\left(\frac{\alpha}{Q}\right),
+\sigma_0\left(\frac{\alpha+Qw}{Q}\right)
+\right)
+\]</div>
+<p>is injective. Indeed, the first coordinate determines \(\alpha\), and then the difference determines \(w\).</p>
+<p>Hence the number of ordered unit-distance pairs in \(P_L\) is at least</p>
+<div class="math-block">\[
+|\mathcal C_L(T)|\,|W_L|.
+\]</div>
+<p>Since \(u(P_L)\) is half the number of ordered unit-distance pairs,</p>
+<div class="math-block">\[
+u(P_L)
+\ge
+\frac12 |\mathcal C_L(T)|\,|W_L|.
+\]</div>
+<p>Using the bounds above,</p>
+<div class="math-block">\[
+u(P_L)
+\ge
+\frac12 a_0^r\mu^r
+=
+\frac12(a_0\mu)^r
+=
+\frac12 b_0^{(1+\eta)r}.
+\]</div>
+<p>Since \(\delta=\eta/2\), for all sufficiently large \(r\),</p>
+<div class="math-block">\[
+\frac12 b_0^{(1+\eta)r}
+\ge
+b_0^{(1+\delta)r}.
+\]</div>
+<p>Thus, for all sufficiently large \(j\),</p>
+<div class="math-block">\[
+u(P_{L_j})
+\ge
+b_0^{(1+\delta)r_j}.
+\]</div>
+<p>But</p>
+<div class="math-block">\[
+|P_{L_j}|\le b_0^{r_j},
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+u(P_{L_j})
+\ge
+|P_{L_j}|^{1+\delta}.
+\]</div>
+<p>Discard finitely many initial fields and relabel the remaining point sets as</p>
+<div class="math-block">\[
+P_1,P_2,\dots.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|P_i|\to\infty
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for every \(i\). This proves the theorem. \(\square\)</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proof</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f7f4;
+      color: #1f2328;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+      background: #fff;
+      min-height: 100vh;
+      box-shadow: 0 0 0 1px #e4e4df;
+    }
+    h1, h2, h3 { line-height: 1.25; margin-top: 1.7em; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 24px; border-bottom: 1px solid #e5e5e0; padding-bottom: 4px; }
+    h3 { font-size: 19px; }
+    p { margin: 0 0 1em; }
+    blockquote {
+      border-left: 4px solid #b8c4d6;
+      margin: 1.2em 0;
+      padding: 0.2em 1em;
+      background: #f7f9fc;
+    }
+    pre {
+      overflow-x: auto;
+      background: #f2f2ee;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    code {
+      background: #f2f2ee;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+    }
+    .math-block {
+      overflow-x: auto;
+      margin: 1.1em 0;
+      padding: 0.2em 0;
+    }
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <p>Below I first point out the main gaps in the previous sketch, and then give a corrected proof.</p>
+<p>The previous proof had three places that needed real justification:</p>
+<ol>
+<li><strong>Regulators.</strong> I asserted too quickly that bounded root discriminant gives exponentially bounded regulators. One needs a standard Landau–Stark residue bound plus the analytic class number formula, and then a separate comparison between the ordinary regulator and the relative norm-one regulator.</li>
+<li><strong>Relative units.</strong> I used the fact that the relative norm-one unit group has rank proportional to the degree. This is true, but it needs a signature computation and a finite-index argument.</li>
+<li><strong>Sumsets.</strong> Exact sumsets \(kU\) are not literally nested as sets. They are only nondecreasing in cardinality because \(1\in U\), via the injection \(x\mapsto x+1\). The proof below uses only cardinality monotonicity.</li>
+</ol>
+<p>We now give the complete proof.</p>
+<hr>
+<h1>1. Arithmetic input</h1>
+<p>We use the following classical theorem of Martinet.</p>
+<blockquote><p><strong>Martinet tower theorem.</strong>   There exists an infinite sequence of totally real number fields</p>
+<div class="math-block">\[
+F_1,F_2,\dots
+\]</div>
+<p>with \([F_i:\mathbb Q]\to\infty\), and with uniformly bounded root discriminants:</p>
+<div class="math-block">\[
+|\operatorname{Disc}(F_i)|^{1/[F_i:\mathbb Q]}\le \Delta_F
+\]</div>
+<p>for some absolute constant \(\Delta_F\).</p></blockquote>
+<p>Fix such a tower. Choose a totally real base field \(F_0\) inside the tower, and choose an algebraic integer \(\theta\in \mathcal O_{F_0}\) with mixed signs at the real embeddings of \(F_0\): positive at at least one real embedding and negative at at least one real embedding. Such a \(\theta\) exists by weak approximation.</p>
+<p>For each \(i\), set</p>
+<div class="math-block">\[
+L_i:=F_i(\sqrt{\theta}).
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+d_i=[L_i:\mathbb Q].
+\]</div>
+<p>Since \(\theta\) is negative at some real embedding of \(F_i\), it is not a square in \(F_i\), so</p>
+<div class="math-block">\[
+[L_i:F_i]=2.
+\]</div>
+<p>Let \(\rho_i\) be the nontrivial \(F_i\)-automorphism of \(L_i\), so</p>
+<div class="math-block">\[
+\rho_i(\sqrt{\theta})=-\sqrt{\theta}.
+\]</div>
+<p>Because \(\theta\) has both positive and negative real signs, \(L_i\) has both real and complex places.</p>
+<p>Choose one real embedding of \(F_0\) at which \(\theta&lt;0\). For every \(i\), choose a complex embedding</p>
+<div class="math-block">\[
+\sigma_i:L_i\hookrightarrow \mathbb C
+\]</div>
+<p>lying over an extension of that real embedding. Then</p>
+<div class="math-block">\[
+\sigma_i\circ \rho_i=\overline{\sigma_i}.
+\]</div>
+<hr>
+<h1>2. Bounded root discriminants and relative regulators</h1>
+<p>Let</p>
+<div class="math-block">\[
+n_i=[F_i:\mathbb Q].
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+d_i=2n_i.
+\]</div>
+<p>The relative discriminant of \(L_i/F_i\) divides the extension of the fixed ideal \((4\theta)\subseteq \mathcal O_{F_0}\). Hence</p>
+<div class="math-block">\[
+|\operatorname{Disc}(L_i)|^{1/d_i}
+\]</div>
+<p>is uniformly bounded. Indeed,</p>
+<div class="math-block">\[
+\operatorname{Disc}(L_i)
+=
+\operatorname{Disc}(F_i)^2
+N_{F_i/\mathbb Q}(\mathfrak d_{L_i/F_i}),
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+\mathfrak d_{L_i/F_i}\mid (4\theta)\mathcal O_{F_i}.
+\]</div>
+<p>Therefore there is a constant \(\Delta_L\) such that</p>
+<div class="math-block">\[
+|\operatorname{Disc}(L_i)|^{1/d_i}\le \Delta_L
+\]</div>
+<p>for all \(i\).</p>
+<p>We need the following standard consequence of the analytic class number formula.</p>
+<blockquote><p><strong>Regulator bound.</strong>   For every \(\Delta&gt;0\), there exists \(C_\Delta&gt;0\) such that if \(K\) is a number field of degree \(m\) and root discriminant at most \(\Delta\), then its ordinary regulator satisfies</p>
+<div class="math-block">\[
+R_K\le C_\Delta^m.
+\]</div>
+<p>Also, by Friedman’s lower bound for regulators, there exists \(c&gt;0\) such that for every number field \(K\) of positive unit rank,</p>
+<div class="math-block">\[
+R_K\ge c^{[K:\mathbb Q]}.
+\]</div></blockquote>
+<p>The upper bound follows from Landau’s residue estimate</p>
+<div class="math-block">\[
+\operatorname{Res}_{s=1}\zeta_K(s)
+\le
+\left(C\frac{\log |\operatorname{Disc}(K)|}{[K:\mathbb Q]}\right)^{[K:\mathbb Q]}
+\]</div>
+<p>and the analytic class number formula.</p>
+<p>Now define the relative norm-one unit group</p>
+<div class="math-block">\[
+E_i^1
+:=
+\{u\in \mathcal O_{L_i}^{\times}:u\rho_i(u)=1\}.
+\]</div>
+<p>Let \(s_i\) be the number of real places of \(F_i\) at which \(\theta&gt;0\). Since \(\theta\) is positive at a fixed positive proportion of the real embeddings coming from \(F_0\), there is a constant \(\kappa&gt;0\) such that</p>
+<div class="math-block">\[
+s_i\ge \kappa d_i.
+\]</div>
+<p>At each such split real place \(v\), choose one of the two real embeddings</p>
+<div class="math-block">\[
+\tau_v:L_i\hookrightarrow \mathbb R
+\]</div>
+<p>above \(v\). Define</p>
+<div class="math-block">\[
+\ell_i:E_i^1\to \mathbb R^{s_i}
+\]</div>
+<p>by</p>
+<div class="math-block">\[
+\ell_i(u)=\bigl(\log|\tau_v(u)|\bigr)_v.
+\]</div>
+<p>The image \(\Lambda_i:=\ell_i(E_i^1)\) is a full-rank lattice in \(\mathbb R^{s_i}\). Its rank is \(s_i\). Indeed, \(L_i\) has signature</p>
+<div class="math-block">\[
+(r_1,r_2)=(2s_i,n_i-s_i),
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+\operatorname{rank}\mathcal O_{L_i}^{\times}
+=
+r_1+r_2-1
+=
+n_i+s_i-1,
+\]</div>
+<p>whereas</p>
+<div class="math-block">\[
+\operatorname{rank}\mathcal O_{F_i}^{\times}
+=
+n_i-1.
+\]</div>
+<p>The quotient of \(\mathcal O_{L_i}^{\times}\) by the subgroup generated by \(\mathcal O_{F_i}^{\times}\) and \(E_i^1\) is killed by \(2\), because for every unit \(u\),</p>
+<div class="math-block">\[
+u^2
+=
+N_{L_i/F_i}(u)\cdot \frac{u}{\rho_i(u)},
+\]</div>
+<p>with</p>
+<div class="math-block">\[
+N_{L_i/F_i}(u)\in \mathcal O_{F_i}^{\times},
+\qquad
+\frac{u}{\rho_i(u)}\in E_i^1.
+\]</div>
+<p>Thus \(E_i^1\) has rank \(s_i\).</p>
+<p>Let</p>
+<div class="math-block">\[
+R_i^1:=\operatorname{covol}(\Lambda_i).
+\]</div>
+<p>We claim that</p>
+<div class="math-block">\[
+R_i^1\le R_0^{d_i}
+\]</div>
+<p>for some constant \(R_0\) independent of \(i\).</p>
+<p>To see this, compare the full logarithmic lattice of \(\mathcal O_{L_i}^{\times}\) with the direct sum of the logarithmic lattice of \(\mathcal O_{F_i}^{\times}\) and that of \(E_i^1\). In the full logarithmic embedding, the base-field units contribute vectors of the form \((x,x)\) at split real places, while norm-one units contribute vectors of the form \((y,-y)\). These subspaces are orthogonal. The finite-index argument above gives index at most \(2^{O(d_i)}\). Therefore</p>
+<div class="math-block">\[
+R_i^1
+\le
+C^{d_i}\frac{R_{L_i}}{R_{F_i}}.
+\]</div>
+<p>Using the upper bound \(R_{L_i}\le C_1^{d_i}\) and the lower bound \(R_{F_i}\ge C_2^{-d_i}\), we obtain</p>
+<div class="math-block">\[
+R_i^1\le R_0^{d_i}.
+\]</div>
+<hr>
+<h1>3. Many bounded norm-one units</h1>
+<p>Fix \(T&gt;1\), to be chosen later. Consider the box</p>
+<div class="math-block">\[
+[-T,T]^{s_i}\subset \mathbb R^{s_i}.
+\]</div>
+<p>By Blichfeldt’s theorem, applied to the lattice \(\Lambda_i\), we have</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge
+\frac12\frac{T^{s_i}}{R_i^1}
+\]</div>
+<p>for all sufficiently large \(i\). Hence</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge
+\frac12
+\left(\frac{T^\kappa}{R_0}\right)^{d_i}.
+\]</div>
+<p>Choose \(T\) large enough so that</p>
+<div class="math-block">\[
+\frac{T^\kappa}{R_0}&gt;4.
+\]</div>
+<p>Then there exists \(\alpha&gt;1\) such that, for all large \(i\),</p>
+<div class="math-block">\[
+|\Lambda_i\cap [-T,T]^{s_i}|
+\ge \alpha^{d_i}.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+U_i
+:=
+\{u\in E_i^1:\|\ell_i(u)\|_\infty\le T\}.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i}.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+M:=e^T.
+\]</div>
+<p>For every \(u\in U_i\), we have</p>
+<div class="math-block">\[
+|\sigma_i(u)|=1,
+\]</div>
+<p>because</p>
+<div class="math-block">\[
+\sigma_i(u)\overline{\sigma_i(u)}
+=
+\sigma_i(u)\sigma_i(\rho_i(u))
+=
+\sigma_i(u\rho_i(u))
+=
+1.
+\]</div>
+<p>Moreover, for every embedding \(\tau:L_i\hookrightarrow \mathbb C\),</p>
+<div class="math-block">\[
+|\tau(u)|\le M.
+\]</div>
+<p>Indeed, at split real places this follows from \(\|\ell_i(u)\|_\infty\le T\), and at complex places above negative real places the norm-one condition gives modulus \(1\).</p>
+<p>Thus we have produced, for each large \(i\), a set \(U_i\) of algebraic units satisfying:</p>
+<ol>
+<li>\(|U_i|\ge \alpha^{d_i}\);</li>
+<li>\(|\sigma_i(u)|=1\) for all \(u\in U_i\);</li>
+<li>\(|\tau(u)|\le M\) for every embedding \(\tau\).</li>
+</ol>
+<p>Also \(1\in U_i\).</p>
+<hr>
+<h1>4. A packing bound for sumsets</h1>
+<p>For a positive integer \(k\), define</p>
+<div class="math-block">\[
+kU_i
+=
+\{u_1+\cdots+u_k:u_1,\dots,u_k\in U_i\}.
+\]</div>
+<p>We prove:</p>
+<blockquote><p><strong>Lemma.</strong> There is an absolute constant \(C_{\mathrm{pack}}\) such that, for all \(i\) and all \(k\ge 1\),</p>
+<div class="math-block">\[
+|kU_i|\le (C_{\mathrm{pack}}kM)^{d_i}.
+\]</div></blockquote>
+<p>Proof. Let \(x,y\in kU_i\) be distinct. Then</p>
+<div class="math-block">\[
+z:=x-y
+\]</div>
+<p>is a nonzero algebraic integer. Therefore</p>
+<div class="math-block">\[
+|N_{L_i/\mathbb Q}(z)|\ge 1.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+r:=|\sigma_i(z)|.
+\]</div>
+<p>The conjugate embedding \(\overline{\sigma_i}\) contributes the same absolute value \(r\). For every other embedding \(\tau\),</p>
+<div class="math-block">\[
+|\tau(z)|
+\le
+|\tau(x)|+|\tau(y)|
+\le
+2kM.
+\]</div>
+<p>Thus</p>
+<div class="math-block">\[
+1
+\le
+|N_{L_i/\mathbb Q}(z)|
+\le
+r^2(2kM)^{d_i-2}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+r\ge (2kM)^{-(d_i-2)/2}.
+\]</div>
+<p>So distinct points of \(\sigma_i(kU_i)\subset \mathbb C\) are separated by at least</p>
+<div class="math-block">\[
+\rho:=(2kM)^{-(d_i-2)/2}.
+\]</div>
+<p>On the other hand, since \(|\sigma_i(u)|=1\) for all \(u\in U_i\), every point of \(\sigma_i(kU_i)\) lies in the disk of radius \(k\). A planar packing bound gives</p>
+<div class="math-block">\[
+|kU_i|
+=
+|\sigma_i(kU_i)|
+\le
+\left(\frac{5k}{\rho}\right)^2
+\le
+(C_{\mathrm{pack}}kM)^{d_i}
+\]</div>
+<p>for an absolute constant \(C_{\mathrm{pack}}\). ∎</p>
+<hr>
+<h1>5. Choosing a sumset with small growth</h1>
+<p>Fix a large integer \(K\), to be chosen momentarily, and set</p>
+<div class="math-block">\[
+B:=C_{\mathrm{pack}}KM.
+\]</div>
+<p>Then</p>
+<div class="math-block">\[
+|KU_i|\le B^{d_i}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\frac{|KU_i|}{|U_i|}
+\le
+\left(\frac{B}{\alpha}\right)^{d_i}.
+\]</div>
+<p>Because \(1\in U_i\), the map</p>
+<div class="math-block">\[
+x\mapsto x+1
+\]</div>
+<p>is an injection \(jU_i\hookrightarrow (j+1)U_i\). Hence the cardinalities \(|jU_i|\) are nondecreasing, and</p>
+<div class="math-block">\[
+\prod_{j=2}^{K}
+\frac{|jU_i|}{|(j-1)U_i|}
+=
+\frac{|KU_i|}{|U_i|}
+\le
+\left(\frac{B}{\alpha}\right)^{d_i}.
+\]</div>
+<p>Therefore there exists some \(j_i\in\{2,\dots,K\}\) such that</p>
+<div class="math-block">\[
+\frac{|j_iU_i|}{|(j_i-1)U_i|}
+\le
+\exp(\varepsilon d_i),
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\varepsilon
+:=
+\frac{\log(B/\alpha)}{K-1}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+B=C_{\mathrm{pack}}KM,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+\varepsilon
+=
+\frac{\log K+O(1)}{K-1}\to 0
+\]</div>
+<p>as \(K\to\infty\). Choose \(K\) so large that</p>
+<div class="math-block">\[
+\varepsilon&lt;\frac12\log\alpha.
+\]</div>
+<p>Define</p>
+<div class="math-block">\[
+\lambda:=\log\alpha-\varepsilon&gt;0.
+\]</div>
+<hr>
+<h1>6. Constructing the point set</h1>
+<p>For each sufficiently large \(i\), put</p>
+<div class="math-block">\[
+A_i:=(j_i-1)U_i,
+\qquad
+B_i:=j_iU_i.
+\]</div>
+<p>Define the point set</p>
+<div class="math-block">\[
+P_i:=\sigma_i(A_i\cup B_i)\subset \mathbb C\cong \mathbb R^2.
+\]</div>
+<p>Let</p>
+<div class="math-block">\[
+n_i:=|P_i|.
+\]</div>
+<p>We first bound \(n_i\). Since</p>
+<div class="math-block">\[
+|B_i|\le e^{\varepsilon d_i}|A_i|,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+n_i
+\le
+|A_i|+|B_i|
+\le
+2e^{\varepsilon d_i}|A_i|.
+\]</div>
+<p>Also, because \(j_i\le K\) and \(1\in U_i\), both \(|A_i|\) and \(|B_i|\) are at most \(|KU_i|\). Indeed, one pads sums with copies of \(1\). Therefore</p>
+<div class="math-block">\[
+n_i
+\le
+2|KU_i|
+\le
+2B^{d_i}.
+\]</div>
+<p>Now count unit distances. For every pair</p>
+<div class="math-block">\[
+(a,u)\in A_i\times U_i,
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+a+u\in B_i.
+\]</div>
+<p>Therefore both</p>
+<div class="math-block">\[
+\sigma_i(a)
+\quad\text{and}\quad
+\sigma_i(a+u)
+\]</div>
+<p>belong to \(P_i\), and</p>
+<div class="math-block">\[
+|\sigma_i(a+u)-\sigma_i(a)|
+=
+|\sigma_i(u)|
+=
+1.
+\]</div>
+<p>The map</p>
+<div class="math-block">\[
+(a,u)
+\mapsto
+\bigl(\sigma_i(a),\sigma_i(a+u)\bigr)
+\]</div>
+<p>is injective. Indeed, if two such ordered pairs coincide, then \(\sigma_i(a)=\sigma_i(a')\), hence \(a=a'\), and then \(\sigma_i(u)=\sigma_i(u')\), hence \(u=u'\).</p>
+<p>Thus we obtain at least \(|A_i||U_i|\) ordered unit-distance pairs. Therefore</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac12 |A_i||U_i|.
+\]</div>
+<p>Using</p>
+<div class="math-block">\[
+|U_i|\ge \alpha^{d_i}
+\]</div>
+<p>and</p>
+<div class="math-block">\[
+|A_i|
+\ge
+\frac{n_i}{2e^{\varepsilon d_i}},
+\]</div>
+<p>we get</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+\frac14 n_i e^{-\varepsilon d_i}\alpha^{d_i}
+=
+\frac14 n_i e^{\lambda d_i}.
+\]</div>
+<p>Since</p>
+<div class="math-block">\[
+n_i\le 2B^{d_i},
+\]</div>
+<p>we have</p>
+<div class="math-block">\[
+e^{\lambda d_i}
+\ge
+\left(\frac{n_i}{2}\right)^{\lambda/\log B}.
+\]</div>
+<p>Hence</p>
+<div class="math-block">\[
+u(P_i)
+\ge
+c\, n_i^{1+\delta_0},
+\]</div>
+<p>where</p>
+<div class="math-block">\[
+\delta_0:=\frac{\lambda}{\log B}&gt;0
+\]</div>
+<p>and \(c&gt;0\) is an absolute constant.</p>
+<p>Finally, since \(1\in U_i\), we have</p>
+<div class="math-block">\[
+|A_i|\ge |U_i|\ge \alpha^{d_i},
+\]</div>
+<p>so</p>
+<div class="math-block">\[
+n_i\to\infty.
+\]</div>
+<p>Discarding finitely many initial terms, we may absorb the constant \(c\) into the exponent. Namely, for all sufficiently large \(i\),</p>
+<div class="math-block">\[
+c\, n_i^{1+\delta_0}
+\ge
+n_i^{1+\delta_0/2}.
+\]</div>
+<p>Set</p>
+<div class="math-block">\[
+\delta:=\frac{\delta_0}{2}&gt;0.
+\]</div>
+<p>Then, after relabeling the remaining infinite sequence,</p>
+<div class="math-block">\[
+u(P_i)\ge |P_i|^{1+\delta}
+\]</div>
+<p>for all \(i\), with \(|P_i|\to\infty\).</p>
+<p>This proves the theorem. ∎</p>
+</main>
+</body>
+</html>
