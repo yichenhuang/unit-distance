@@ -7,7 +7,7 @@ This repository contains the scripts and AI-generated transcripts/proofs that ac
 - `unit-distance.pdf`: The paper.
 - `run.py`: The core script that interacts with the GPT-5.5 Pro API. It uses a problem-agnostic, three-round prompting pipeline (brainstorm, execute, and review) to autonomously generate the proofs.
 - `md2html.py`: A utility script used to convert the math-heavy model outputs into readable HTML formats using MathJax.
-- `outputs/`: A directory containing 8 independent trials. Each trial includes:
+- `outputs/`: A directory containing 8 independent trials. Each trial with index `i = 1, 2, ..., 8` includes:
   - `transcript i.html`: The complete conversation log, including all prompts and the model's autonomous problem-solving process.
   - `proof i.html`: The model's final response containing the proof in its finalized form.
   
